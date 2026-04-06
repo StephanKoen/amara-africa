@@ -1,0 +1,4 @@
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+.title { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.4px; }
+.desc { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+.actions { display: flex; gap: 8px; flex-shrink: 0; }
