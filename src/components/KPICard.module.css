@@ -1,15 +1,15 @@
-.card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.15s; }
-.card:hover { border-color: var(--blue-primary); }
+.card { background: #ffffff; border: 1px solid #EDE9FE; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px; transition: box-shadow 0.15s, border-color 0.15s; }
+.card:hover { border-color: #C4B5FD; box-shadow: 0 4px 16px rgba(124,58,237,0.08); }
 .header { display: flex; align-items: center; justify-content: space-between; }
 .title { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; }
-.iconWrap { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-.blue .iconWrap { background: rgba(31,111,235,0.15); color: var(--blue-light); }
-.green .iconWrap { background: rgba(46,160,67,0.15); color: var(--green-light); }
-.red .iconWrap { background: rgba(218,54,51,0.15); color: var(--red-light); }
-.yellow .iconWrap { background: rgba(210,153,34,0.15); color: var(--yellow-light); }
-.purple .iconWrap { background: rgba(163,113,247,0.15); color: var(--purple-light); }
+.iconWrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.blue .iconWrap   { background: rgba(124,58,237,0.1);  color: #7C3AED; }
+.green .iconWrap  { background: rgba(16,185,129,0.1);  color: #10B981; }
+.red .iconWrap    { background: rgba(239,68,68,0.1);   color: #EF4444; }
+.yellow .iconWrap { background: rgba(245,158,11,0.1);  color: #F59E0B; }
+.purple .iconWrap { background: rgba(139,92,246,0.1);  color: #8B5CF6; }
 .value { font-size: 28px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; }
 .subtitle { font-size: 12px; color: var(--text-secondary); }
 .trend { font-size: 11px; font-weight: 500; margin-top: 2px; }
-.up { color: var(--green-light); }
-.down { color: var(--red-light); }
+.up   { color: #10B981; }
+.down { color: #EF4444; }

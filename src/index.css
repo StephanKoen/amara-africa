@@ -1,29 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-base: #0d1117;
-  --bg-surface: #161b22;
-  --bg-elevated: #1c2333;
-  --bg-hover: #21262d;
-  --border: #30363d;
-  --text-primary: #e6edf3;
-  --text-secondary: #8b949e;
-  --text-muted: #484f58;
-  --blue-primary: #1f6feb;
-  --blue-light: #388bfd;
-  --green: #2ea043;
-  --green-light: #3fb950;
-  --red: #da3633;
-  --red-light: #f85149;
-  --yellow-light: #d29922;
-  --purple-light: #a371f7;
+  --bg-base: #F5F4FF;
+  --bg-surface: #ffffff;
+  --bg-elevated: #F5F4FF;
+  --bg-hover: #EDE9FE;
+  --border: #EDE9FE;
+  --text-primary: #1a0533;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --blue-primary: #7C3AED;
+  --blue-light: #8B5CF6;
+  --green: #059669;
+  --green-light: #10B981;
+  --red: #DC2626;
+  --red-light: #EF4444;
+  --yellow-light: #F59E0B;
+  --purple-light: #8B5CF6;
   --radius: 8px;
-  --radius-lg: 12px;
+  --radius-lg: 14px;
   --sidebar-width: 240px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
   line-height: 1.5;
@@ -33,8 +35,8 @@ body {
 #root { display: flex; min-height: 100vh; }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-surface); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: #D8B4FE; border-radius: 3px; }
 
 button { cursor: pointer; font-family: inherit; }
 input, textarea { font-family: inherit; }
