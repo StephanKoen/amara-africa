@@ -1,32 +1,71 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { TravelDataProvider } from './context/TravelDataContext'
 import Sidebar from './components/Sidebar'
+import Topbar from './components/Topbar'
+import WelcomePopup from './components/WelcomePopup'
+import Login from './pages/Login'
+import Demo from './pages/Demo'
 import Overview from './pages/Overview'
 import FareDiscrepancies from './pages/FareDiscrepancies'
 import FraudCompliance from './pages/FraudCompliance'
 import SavingsOpportunities from './pages/SavingsOpportunities'
+import UnusedCredits from './pages/UnusedCredits'
+import ContractOpportunities from './pages/ContractOpportunities'
+import ReportsAnalytics from './pages/ReportsAnalytics'
 import PredictiveInsights from './pages/PredictiveInsights'
 import AIAnalyst from './pages/AIAnalyst'
-import { TravelDataProvider } from './context/TravelDataContext'
+import TMCPortal from './pages/TMCPortal'
 import styles from './App.module.css'
+
+function AppShell() {
+  const { user, showWelcome, setShowWelcome } = useAuth()
+
+  if (!user) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/demo" element={<Demo />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    )
+  }
+
+  return (
+    <div className={styles.layout}>
+      <Sidebar />
+      <div className={styles.body}>
+        <Topbar />
+        <main className={styles.main}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/overview" replace />} />
+            <Route path="/overview" element={<Overview />} />
+            <Route path="/fare-discrepancies" element={<FareDiscrepancies />} />
+            <Route path="/fraud-compliance" element={<FraudCompliance />} />
+            <Route path="/savings" element={<SavingsOpportunities />} />
+            <Route path="/unused-credits" element={<UnusedCredits />} />
+            <Route path="/contracts" element={<ContractOpportunities />} />
+            <Route path="/reports" element={<ReportsAnalytics />} />
+            <Route path="/predictive" element={<PredictiveInsights />} />
+            <Route path="/ai-analyst" element={<AIAnalyst />} />
+            <Route path="/tmc-portal" element={<TMCPortal />} />
+            <Route path="*" element={<Navigate to="/overview" replace />} />
+          </Routes>
+        </main>
+      </div>
+      {showWelcome && <WelcomePopup onClose={() => setShowWelcome(false)} />}
+    </div>
+  )
+}
+
 export default function App() {
   return (
-    <TravelDataProvider>
-      <BrowserRouter>
-        <div className={styles.layout}>
-          <Sidebar />
-          <main className={styles.main}>
-            <Routes>
-              <Route path="/" element={<Navigate to="/overview" replace />} />
-              <Route path="/overview" element={<Overview />} />
-              <Route path="/fare-discrepancies" element={<FareDiscrepancies />} />
-              <Route path="/fraud-compliance" element={<FraudCompliance />} />
-              <Route path="/savings" element={<SavingsOpportunities />} />
-              <Route path="/predictive" element={<PredictiveInsights />} />
-              <Route path="/ai-analyst" element={<AIAnalyst />} />
-            </Routes>
-          </main>
-        </div>
-      </BrowserRouter>
-    </TravelDataProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <TravelDataProvider>
+          <AppShell />
+        </TravelDataProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }

@@ -1,56 +1,76 @@
-import { ShieldAlert, ShieldCheck, AlertCircle } from 'lucide-react'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
+import { ShieldAlert, ShieldCheck, AlertCircle, TrendingDown } from 'lucide-react'
 import KPICard from '../components/KPICard'
+import DataTable from '../components/DataTable'
 import PageHeader from '../components/PageHeader'
+import FilterPills from '../components/FilterPills'
 import styles from './InnerPage.module.css'
 
 const flags = [
-  { id: 'F-001', type: 'Duplicate Receipt',     traveler: 'A. Brooks', amount: '$412',   date: '2026-03-14', risk: 'High' },
-  { id: 'F-002', type: 'Personal Expense',       traveler: 'J. Lin',    amount: '$89',    date: '2026-03-18', risk: 'Medium' },
-  { id: 'F-003', type: 'Unapproved Vendor',      traveler: 'P. Okafor', amount: '$670',   date: '2026-03-21', risk: 'High' },
-  { id: 'F-004', type: 'Policy Limit Exceeded',  traveler: 'C. Roy',    amount: '$285',   date: '2026-03-25', risk: 'Medium' },
-  { id: 'F-005', type: 'Missing Receipt',        traveler: 'S. Hassan', amount: '$156',   date: '2026-03-28', risk: 'Low' },
-  { id: 'F-006', type: 'Weekend Travel',         traveler: 'T. Park',   amount: '$1,100', date: '2026-03-30', risk: 'Medium' },
-  { id: 'F-007', type: 'Duplicate Claim',        traveler: 'M. Davis',  amount: '$220',   date: '2026-04-01', risk: 'High' },
-  { id: 'F-008', type: 'Unapproved Upgrade',     traveler: 'N. Reyes',  amount: '$480',   date: '2026-04-02', risk: 'Medium' },
-  { id: 'F-009', type: 'Blackout Period',        traveler: 'B. Mwangi', amount: '$940',   date: '2026-04-03', risk: 'Low' },
+  { id: 'F-001', type: 'Duplicate ticket',    traveler: 'A. Brooks', amount: '$412',   confidence: '96%', date: '2026-03-14', risk: 'High' },
+  { id: 'F-002', type: 'Personal expense',    traveler: 'J. Lin',    amount: '$89',    confidence: '88%', date: '2026-03-18', risk: 'High' },
+  { id: 'F-003', type: 'Unapproved vendor',   traveler: 'P. Okafor', amount: '$670',   confidence: '91%', date: '2026-03-21', risk: 'High' },
+  { id: 'F-004', type: 'Policy limit exceeded',traveler: 'C. Roy',   amount: '$285',   confidence: '79%', date: '2026-03-25', risk: 'Medium' },
+  { id: 'F-005', type: 'Missing receipt',     traveler: 'S. Hassan', amount: '$156',   confidence: '72%', date: '2026-03-28', risk: 'Medium' },
+  { id: 'F-006', type: 'Weekend travel',      traveler: 'T. Park',   amount: '$1,100', confidence: '65%', date: '2026-03-30', risk: 'Low' },
+  { id: 'F-007', type: 'Duplicate claim',     traveler: 'M. Davis',  amount: '$220',   confidence: '94%', date: '2026-04-01', risk: 'High' },
 ]
 
-const riskColor = { High: styles.diffTag, Medium: styles.warnTag, Low: styles.positiveTag }
+const violationChart = [
+  { type: 'Duplicate',     count: 8 },
+  { type: 'Personal',      count: 5 },
+  { type: 'Unapproved',    count: 4 },
+  { type: 'Limit exceeded',count: 7 },
+  { type: 'Missing docs',  count: 12 },
+]
+
+const riskColor = { High: 'var(--danger)', Medium: 'var(--warning)', Low: 'var(--success)' }
+const riskBg    = { High: 'var(--danger-dim)', Medium: 'var(--warning-dim)', Low: 'var(--success-dim)' }
 
 export default function FraudCompliance() {
   const high = flags.filter(f => f.risk === 'High').length
   return (
-    <div className={styles.page}>
-      <PageHeader
-        title="Fraud & Compliance"
-        description="Automated flagging of suspicious expenses and policy violations"
-      />
-      <div className={styles.kpiRow}>
-        <KPICard title="Total Flags"     value={flags.length} subtitle="Pending review"   icon={ShieldAlert} color="red"    />
-        <KPICard title="High Risk"       value={high}         subtitle="Immediate action" icon={AlertCircle} color="yellow" />
-        <KPICard title="Compliance Rate" value="81.4%"        subtitle="vs 90% target"    icon={ShieldCheck} color="green"  />
-      </div>
+    <div>
+      <FilterPills />
+      <div className={styles.page}>
+        <PageHeader title="Fraud & Compliance" description="Duplicate detection, policy violations, and risk flags" />
 
-      <div className={styles.card}>
-        <h2 className={styles.cardTitle}>Flagged Transactions</h2>
-        <div className={styles.tableWrap}>
-          <table className={styles.table}>
-            <thead>
-              <tr><th>ID</th><th>Type</th><th>Traveler</th><th>Amount</th><th>Date</th><th>Risk</th></tr>
-            </thead>
-            <tbody>
-              {flags.map(f => (
-                <tr key={f.id}>
-                  <td><code style={{ background: 'var(--bg-elevated)', padding: '2px 6px', borderRadius: 4, fontSize: 11 }}>{f.id}</code></td>
-                  <td>{f.type}</td>
-                  <td>{f.traveler}</td>
-                  <td>{f.amount}</td>
-                  <td style={{ color: 'var(--text-secondary)', fontSize: 12 }}>{f.date}</td>
-                  <td><span className={riskColor[f.risk]}>{f.risk}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className={styles.kpiRow}>
+          <KPICard title="Total Flags"      value={flags.length} subtitle="Pending review"   icon={ShieldAlert} color="danger"  trend={12} />
+          <KPICard title="High Risk"        value={high}         subtitle="Immediate action"  icon={AlertCircle} color="warning" />
+          <KPICard title="Compliance Rate"  value="78%"          subtitle="vs 90% target"     icon={ShieldCheck} color="success" trend={-2} />
+          <KPICard title="Amount at Risk"   value="$2,932"       subtitle="Flagged spend"      icon={TrendingDown}color="danger"  />
+        </div>
+
+        <div className={styles.card}>
+          <h3 className={styles.cardTitle}>Policy violations by type</h3>
+          <ResponsiveContainer width="100%" height={180}>
+            <BarChart data={violationChart} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDE9FE" vertical={false} />
+              <XAxis dataKey="type" tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ background: '#fff', border: '1px solid #EDE9FE', borderRadius: 8, fontSize: 13 }} />
+              <Bar dataKey="count" fill="#7C3AED" radius={[6,6,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className={styles.card}>
+          <h3 className={styles.cardTitle}>Flagged transactions</h3>
+          <DataTable
+            headers={['ID', 'Type', 'Traveler', 'Amount', 'AI Confidence', 'Date', 'Risk']}
+            rows={flags.map(f => ({
+              'ID': f.id, 'Type': f.type, 'Traveler': f.traveler,
+              'Amount': f.amount, 'AI Confidence': f.confidence,
+              'Date': f.date, 'Risk': f.risk,
+            }))}
+            renderCell={(h, v) => {
+              if (h === 'Risk') return <span className={styles.badge} style={{ background: riskBg[v], color: riskColor[v] }}>{v}</span>
+              if (h === 'ID') return <code style={{ background: '#F5F4FF', padding: '2px 7px', borderRadius: 5, fontSize: 11, color: '#7C3AED' }}>{v}</code>
+              if (h === 'AI Confidence') return <span style={{ fontWeight: 600, color: parseInt(v) > 85 ? 'var(--danger)' : 'var(--warning)' }}>{v}</span>
+              return v
+            }}
+          />
         </div>
       </div>
     </div>

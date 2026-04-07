@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, Loader, FileText, AlertCircle } from 'lucide-react'
+import { Send, Bot, User, Loader, FileText, AlertCircle, Sparkles } from 'lucide-react'
 import { useTravelData } from '../context/TravelDataContext'
 import PageHeader from '../components/PageHeader'
 import styles from './AIAnalyst.module.css'
@@ -7,14 +7,15 @@ import styles from './AIAnalyst.module.css'
 const SYSTEM_PROMPT = `You are Traivio AI, an expert corporate travel analyst. You analyze travel spend data, identify anomalies, fraud risks, policy violations, and cost-saving opportunities. When given CSV data, provide concise, data-driven insights in a professional tone. Format key figures as bullet points when helpful.`
 
 const SUGGESTED = [
-  'What are the top 3 cost-saving opportunities in this data?',
-  'Are there any suspicious or potentially fraudulent transactions?',
-  'Which travelers are most out of policy compliance?',
+  'What are the top 3 cost-saving opportunities?',
+  'Are there any suspicious or fraudulent transactions?',
+  'Which travelers are most out of policy?',
   'Summarize overall spend patterns and anomalies.',
+  'What hotel spend can be consolidated?',
 ]
 
 function csvPreview(data, maxRows = 50) {
-  if (!data || data.length === 0) return ''
+  if (!data?.length) return ''
   const headers = Object.keys(data[0])
   const rows = data.slice(0, maxRows).map(r => headers.map(h => r[h] ?? '').join(','))
   return [headers.join(','), ...rows].join('\n')
@@ -36,17 +37,14 @@ export default function AIAnalyst() {
   async function send(text) {
     const question = text || input.trim()
     if (!question) return
-    setInput('')
-    setError(null)
-
+    setInput(''); setError(null)
     const userMsg = { role: 'user', content: question }
     const history = [...messages, userMsg]
-    setMessages(history)
-    setLoading(true)
+    setMessages(history); setLoading(true)
 
     try {
       const contextContent = travelData
-        ? `The user has uploaded a travel data file: "${fileName}".\n\nHere is the CSV data (up to 50 rows):\n\`\`\`csv\n${csvPreview(travelData)}\n\`\`\`\n\nUser question: ${question}`
+        ? `Travel data file: "${fileName}"\n\nCSV data (first 50 rows):\n\`\`\`csv\n${csvPreview(travelData)}\n\`\`\`\n\nQuestion: ${question}`
         : question
 
       const requestMessages = travelData
@@ -73,10 +71,8 @@ export default function AIAnalyst() {
         const err = await res.json().catch(() => ({}))
         throw new Error(err?.error?.message || `API error ${res.status}`)
       }
-
       const data = await res.json()
-      const reply = data.content?.[0]?.text || 'No response.'
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+      setMessages(prev => [...prev, { role: 'assistant', content: data.content?.[0]?.text || 'No response.' }])
     } catch (e) {
       setError(e.message)
     } finally {
@@ -88,37 +84,27 @@ export default function AIAnalyst() {
 
   return (
     <div className={styles.page}>
-      <PageHeader
-        title="AI Analyst"
-        description="Chat with Traivio AI to uncover insights in your travel data"
-      />
+      <PageHeader title="AI Analyst" description="Claude-powered travel intelligence — ask anything about your data" />
 
       {noKey && (
         <div className={styles.keyWarning}>
-          <AlertCircle size={15} />
-          <span>Set <code>VITE_ANTHROPIC_API_KEY</code> in your <code>.env</code> file to enable AI analysis.</span>
+          <AlertCircle size={14} />
+          Set <code>VITE_ANTHROPIC_API_KEY</code> in your <code>.env</code> file to enable AI analysis.
         </div>
       )}
 
       <div className={styles.layout}>
-        <div className={styles.suggestions}>
-          <div className={styles.suggTitle}>Suggested questions</div>
+        <div className={styles.sidebar}>
+          <div className={styles.sideLabel}>Suggested questions</div>
           {SUGGESTED.map((s, i) => (
-            <button key={i} className={styles.suggItem} onClick={() => send(s)} disabled={loading || noKey}>
-              {s}
-            </button>
+            <button key={i} className={styles.chip} onClick={() => send(s)} disabled={loading || noKey}>{s}</button>
           ))}
-
-          {travelData && (
+          {travelData ? (
             <div className={styles.dataStatus}>
-              <FileText size={13} />
-              <span>{fileName} · {travelData.length} rows loaded</span>
+              <FileText size={12} /> {fileName} · {travelData.length} rows
             </div>
-          )}
-          {!travelData && (
-            <div className={styles.noData}>
-              No data uploaded. Visit <b>Overview</b> to upload a CSV for contextual analysis.
-            </div>
+          ) : (
+            <div className={styles.noData}>Upload a CSV on the Overview page for data-grounded analysis.</div>
           )}
         </div>
 
@@ -126,37 +112,31 @@ export default function AIAnalyst() {
           <div className={styles.messages}>
             {messages.length === 0 && (
               <div className={styles.empty}>
-                <Bot size={36} strokeWidth={1.5} />
-                <p>Ask me anything about your corporate travel data.</p>
+                <Bot size={40} strokeWidth={1.5} />
+                <p>Ask Traivio AI anything about your corporate travel data.</p>
               </div>
             )}
-
             {messages.map((m, i) => (
               <div key={i} className={`${styles.msg} ${m.role === 'user' ? styles.user : styles.assistant}`}>
                 <div className={styles.avatar}>
-                  {m.role === 'user' ? <User size={14} /> : <Bot size={14} />}
+                  {m.role === 'user' ? <User size={13} /> : <Sparkles size={13} />}
                 </div>
                 <div className={styles.bubble}>
-                  {m.content.split('\n').map((line, j) => (
-                    <span key={j}>{line}{j < m.content.split('\n').length - 1 && <br />}</span>
+                  {m.content.split('\n').map((line, j, arr) => (
+                    <span key={j}>{line}{j < arr.length - 1 && <br />}</span>
                   ))}
                 </div>
               </div>
             ))}
-
             {loading && (
               <div className={`${styles.msg} ${styles.assistant}`}>
-                <div className={styles.avatar}><Bot size={14} /></div>
+                <div className={styles.avatar}><Sparkles size={13} /></div>
                 <div className={styles.bubble}><Loader size={14} className={styles.spin} /></div>
               </div>
             )}
-
             {error && (
-              <div className={styles.errorMsg}>
-                <AlertCircle size={14} /> {error}
-              </div>
+              <div className={styles.errorMsg}><AlertCircle size={13} /> {error}</div>
             )}
-
             <div ref={bottomRef} />
           </div>
 
@@ -170,7 +150,7 @@ export default function AIAnalyst() {
               disabled={loading || noKey}
             />
             <button className={styles.sendBtn} onClick={() => send()} disabled={loading || noKey || !input.trim()}>
-              <Send size={16} />
+              <Send size={15} />
             </button>
           </div>
         </div>

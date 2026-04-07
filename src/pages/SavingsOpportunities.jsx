@@ -1,65 +1,63 @@
-import { TrendingDown, DollarSign, Zap } from 'lucide-react'
-import {
-  ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend
-} from 'recharts'
+import { ResponsiveContainer, FunnelChart, Funnel, LabelList, Tooltip } from 'recharts'
+import { DollarSign, Zap, TrendingDown, Target } from 'lucide-react'
 import KPICard from '../components/KPICard'
 import PageHeader from '../components/PageHeader'
+import FilterPills from '../components/FilterPills'
 import styles from './InnerPage.module.css'
+import savStyles from './SavingsOpportunities.module.css'
 
 const opportunities = [
-  { category: 'Advance Booking',  potential: 31200, description: 'Book 14+ days ahead to capture lowest fares' },
-  { category: 'Preferred Hotels', potential: 18500, description: 'Route to negotiated hotel rates vs open market' },
-  { category: 'Rail vs Air',      potential: 14800, description: 'Substitute air with rail on routes < 3 hrs' },
-  { category: 'Group Rates',      potential: 11200, description: 'Consolidate 3+ travelers on same routes' },
-  { category: 'Unused Credits',   potential: 8600,  description: 'Apply $8.6K in accumulated airline credits' },
+  { title: 'Advance booking',     impact: 18200, effort: 'Low',    detail: 'Book 14+ days ahead — capture 22% lower fares on 60% of routes', color: '#7C3AED' },
+  { title: 'Hotel consolidation', impact: 12400, effort: 'Medium', detail: 'Route to 3 preferred hotels; currently 14 vendors used', color: '#0EA5E9' },
+  { title: 'Rail substitution',   impact: 8600,  effort: 'Low',    detail: 'Replace air with rail on 8 routes under 3 hours', color: '#10B981' },
+  { title: 'Group rate pooling',  impact: 6800,  effort: 'High',   detail: 'Consolidate 4+ same-route travelers for negotiated fares', color: '#F59E0B' },
+  { title: 'Unused credits',      impact: 9800,  effort: 'Low',    detail: '$9.8K in airline credits expiring within 30 days', color: '#EC4899' },
 ]
 
-const COLORS = ['#1f6feb', '#388bfd', '#2ea043', '#3fb950', '#a371f7']
-const pieData = opportunities.map((o, i) => ({ name: o.category, value: o.potential, fill: COLORS[i] }))
+const effortColor = { Low: 'var(--success)', Medium: 'var(--warning)', High: 'var(--danger)' }
+const effortBg    = { Low: 'var(--success-dim)', Medium: 'var(--warning-dim)', High: 'var(--danger-dim)' }
+
+const total = opportunities.reduce((s, o) => s + o.impact, 0)
 
 export default function SavingsOpportunities() {
-  const total = opportunities.reduce((s, o) => s + o.potential, 0)
   return (
-    <div className={styles.page}>
-      <PageHeader
-        title="Savings Opportunities"
-        description="AI-identified gaps between current spend and optimized travel policy"
-      />
-      <div className={styles.kpiRow}>
-        <KPICard title="Total Potential Savings" value={`$${(total/1000).toFixed(1)}K`} subtitle="Next 12 months"    icon={DollarSign}   color="green"  />
-        <KPICard title="Quick Wins"              value="3"                               subtitle="Implement now"     icon={Zap}          color="blue"   />
-        <KPICard title="Avg ROI"                 value="4.2x"                            subtitle="On policy changes" icon={TrendingDown}  color="purple" />
-      </div>
+    <div>
+      <FilterPills />
+      <div className={styles.page}>
+        <PageHeader title="Savings Opportunities" description="AI-ranked cost reductions by impact and effort" />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        <div className={styles.card}>
-          <h2 className={styles.cardTitle}>Savings Breakdown</h2>
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90}
-                paddingAngle={3} dataKey="value">
-                {pieData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
-              </Pie>
-              <Tooltip contentStyle={{ background: '#1c2333', border: '1px solid #30363d', borderRadius: 8, fontSize: 13 }}
-                formatter={v => [`$${v.toLocaleString()}`, '']} />
-              <Legend wrapperStyle={{ fontSize: 12, color: '#8b949e' }} />
-            </PieChart>
-          </ResponsiveContainer>
+        <div className={styles.kpiRow}>
+          <KPICard title="Total Identified"  value={`$${(total/1000).toFixed(0)}K`} subtitle="Next 12 months"    icon={DollarSign}   color="success" trend={-15} />
+          <KPICard title="Quick Wins"        value="3"                               subtitle="Low effort"         icon={Zap}           color="primary" />
+          <KPICard title="Avg ROI"           value="4.2x"                            subtitle="On policy changes"  icon={TrendingDown}  color="info"    />
+          <KPICard title="Implementation"    value="2–4 wks"                         subtitle="To first savings"   icon={Target}        color="warning" />
         </div>
 
-        <div className={styles.card}>
-          <h2 className={styles.cardTitle}>Opportunities</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {opportunities.map((o, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{o.category}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>{o.description}</div>
+        <div className={savStyles.oppGrid}>
+          {opportunities.map((o, i) => (
+            <div key={i} className={savStyles.oppCard}>
+              <div className={savStyles.oppHeader}>
+                <div className={savStyles.oppRank} style={{ background: o.color + '20', color: o.color }}>
+                  #{i + 1}
                 </div>
-                <span className={styles.positiveTag} style={{ flexShrink: 0 }}>${o.potential.toLocaleString()}</span>
+                <span className={styles.badge} style={{ background: effortBg[o.effort], color: effortColor[o.effort] }}>
+                  {o.effort} effort
+                </span>
               </div>
-            ))}
-          </div>
+              <div className={savStyles.oppTitle}>{o.title}</div>
+              <div className={savStyles.oppDetail}>{o.detail}</div>
+              <div className={savStyles.oppFooter}>
+                <div className={savStyles.oppImpact} style={{ color: o.color }}>
+                  ${o.impact.toLocaleString()}
+                </div>
+                <span className={savStyles.oppLabel}>annual savings</span>
+              </div>
+              <div className={savStyles.oppBar}>
+                <div className={savStyles.oppBarFill}
+                  style={{ width: `${(o.impact / opportunities[0].impact) * 100}%`, background: o.color }} />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
