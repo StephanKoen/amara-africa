@@ -18,6 +18,16 @@ const presets = [
 const dimensions = ['Department', 'Traveler', 'Route', 'Vendor', 'Cost Centre', 'Booking Class', 'Date Range', 'Policy Status']
 const chartTypes  = ['Bar chart', 'Line chart', 'Pie chart', 'Table', 'Heatmap']
 
+const presetSystems = {
+  monthly:    'You are Traivio AI, a corporate travel analyst. Generate a professional Monthly Travel Summary report. Context: Q2 2025, $284,392 total spend, 312 trips, 48 travelers, 78% compliance rate. Include spend breakdown by category (Air $142K, Hotels $84K, Car rental $31K, Rail $27K).',
+  compliance: 'You are Traivio AI, a corporate travel analyst. Generate a Policy Compliance Scorecard. Current compliance: 78% vs 90% target. Top violations: late bookings 45%, class upgrades 28%, missing receipts 27%. Department breakdown available.',
+  savings:    'You are Traivio AI, a corporate travel analyst. Generate a Savings Opportunity Report. Identified savings: advance booking $18.2K, hotel consolidation $12.4K, car rental $6.8K, route optimisation $3.6K. Total pipeline: $41K.',
+  risk:       'You are Traivio AI, a corporate travel analyst. Generate a Risk & Fraud Flag Report. Active flags: 4 fraud incidents totalling $320 at risk, 3 high-confidence anomalies requiring immediate review, 1 duplicate booking detected.',
+  'ai-exec':  'You are Traivio AI, a corporate travel analyst. Generate an AI Executive Summary for the CFO. Cover Q2 2025 travel spend of $284K, compliance at 78% (below 90% target), $41K savings pipeline, and top 3 strategic recommendations.',
+  credits:    'You are Traivio AI, a corporate travel analyst. Generate an Unused Credits & Expiry Report. $9,800 in airline credits expiring within 8 days, $41K total savings opportunity identified across advance booking and vendor consolidation.',
+  vendor:     'You are Traivio AI, a corporate travel analyst. Generate a Vendor Performance Report. Top airlines: BA (42%), Delta (28%), SAA (18%). Hotel consolidation opportunity identified. Car rental rate variance 12% above contract.',
+}
+
 export default function ReportsAnalytics() {
   const [nlQuery, setNlQuery] = useState('')
   const [selectedDims, setSelectedDims] = useState(['Department'])
@@ -29,12 +39,78 @@ export default function ReportsAnalytics() {
     setSelectedDims(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
   }
 
-  function runReport(id) {
+  async function runReport(id) {
     setRunning(id)
-    setTimeout(() => {
+    setAiSummary(null)
+
+    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
+    if (!apiKey) {
+      setAiSummary('⚠️ No API key configured. Add VITE_ANTHROPIC_API_KEY to your .env file to enable AI reports.')
       setRunning(null)
-      setAiSummary(`AI Executive Summary: In Q2 2025, total travel spend was $284,392 across 312 trips and 48 travelers. Compliance rate sits at 78%, below the 90% target. Top savings opportunity is advance booking ($18.2K/yr). Three high-confidence fraud flags require immediate review. Recommended actions: enforce 14-day booking policy, consolidate hotel vendors, and apply $9.8K in expiring credits before April 15.`)
-    }, 1800)
+      return
+    }
+
+    const system = id === 'nl'
+      ? 'You are Traivio AI, a corporate travel analyst. Answer travel analytics queries with specific insights and data-driven recommendations. Context: Q2 2025, $284K total spend, 312 trips, 48 travelers, 78% compliance.'
+      : id === 'pivot'
+        ? `You are Traivio AI, a corporate travel analyst. Generate a custom report for dimensions: ${selectedDims.join(', ')}, visualised as a ${chartType}. Provide data insights and 3 actionable recommendations.`
+        : (presetSystems[id] || 'You are Traivio AI, a corporate travel analyst.')
+
+    const userMsg = id === 'nl'
+      ? nlQuery
+      : 'Generate this report now. Include key findings, data highlights, and 3 actionable recommendations. Keep it concise and professional (under 300 words).'
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1024,
+          system,
+          messages: [{ role: 'user', content: userMsg }],
+        }),
+      })
+
+      const data = await res.json()
+      if (data.content?.[0]?.text) {
+        setAiSummary(data.content[0].text)
+      } else {
+        setAiSummary('No response received. Please check your API key and try again.')
+      }
+    } catch (err) {
+      setAiSummary(`Error connecting to AI: ${err.message}`)
+    } finally {
+      setRunning(null)
+    }
+  }
+
+  function downloadCSV() {
+    const date = new Date().toISOString().slice(0, 10)
+    const rows = [
+      ['Traveler', 'Department', 'Route', 'Vendor', 'Amount', 'Date', 'Policy Status'],
+      ['Alice Chen', 'Sales', 'JNB → LHR', 'British Airways', '$4,200', '2025-04-01', 'Compliant'],
+      ['Bob Smith', 'Engineering', 'JNB → NYC', 'Delta', '$3,800', '2025-04-03', 'Non-compliant'],
+      ['Carol White', 'Marketing', 'JNB → CPT', 'Kulula', '$890', '2025-04-05', 'Compliant'],
+      ['David Park', 'Sales', 'JNB → LHR', 'BA', '$4,100', '2025-04-07', 'Compliant'],
+      ['Emma Davis', 'Executive', 'JNB → NYC', 'South African Airways', '$5,200', '2025-04-09', 'Non-compliant'],
+      ['Frank Lee', 'Operations', 'CPT → DUR', 'FlySafair', '$320', '2025-04-10', 'Compliant'],
+      ['Grace Kim', 'Engineering', 'JNB → CPT', 'Kulula', '$750', '2025-04-11', 'Compliant'],
+      ['Henry Brown', 'Sales', 'JNB → LHR', 'Virgin Atlantic', '$3,950', '2025-04-12', 'Non-compliant'],
+    ]
+    const csv = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n')
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `traivio-report-${date}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   return (
@@ -45,7 +121,12 @@ export default function ReportsAnalytics() {
 
         {/* Preset reports */}
         <div className={styles.card}>
-          <h3 className={styles.cardTitle}>Preset reports</h3>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <h3 className={styles.cardTitle} style={{ marginBottom: 0 }}>Preset reports</h3>
+            <button className={rStyles.csvBtn} onClick={downloadCSV}>
+              <Download size={13} /> Download CSV
+            </button>
+          </div>
           <div className={rStyles.presetGrid}>
             {presets.map(p => (
               <button
@@ -65,7 +146,7 @@ export default function ReportsAnalytics() {
           {aiSummary && (
             <div className={`${styles.aiBox} ${rStyles.aiResult}`}>
               <Sparkles size={14} style={{ flexShrink: 0, marginTop: 2 }} />
-              <p>{aiSummary}</p>
+              <p style={{ whiteSpace: 'pre-wrap' }}>{aiSummary}</p>
             </div>
           )}
         </div>
@@ -80,9 +161,10 @@ export default function ReportsAnalytics() {
               className={rStyles.nlInput}
               value={nlQuery}
               onChange={e => setNlQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && nlQuery.trim() && runReport('nl')}
               placeholder='e.g. "Show all business class flights over $2000 by sales team in Q3"'
             />
-            <button className={rStyles.nlBtn} onClick={() => runReport('nl')} disabled={!nlQuery.trim()}>
+            <button className={rStyles.nlBtn} onClick={() => runReport('nl')} disabled={!nlQuery.trim() || running === 'nl'}>
               {running === 'nl' ? <span className={rStyles.spinner} /> : 'Run'}
             </button>
           </div>
@@ -124,7 +206,7 @@ export default function ReportsAnalytics() {
           </div>
           <div className={rStyles.pivotActions}>
             <button className={rStyles.saveBtn}>Save as template</button>
-            <button className={rStyles.runBtn} onClick={() => runReport('pivot')}>
+            <button className={rStyles.runBtn} onClick={() => runReport('pivot')} disabled={!!running}>
               {running === 'pivot' ? <span className={rStyles.spinner} style={{ borderTopColor: '#fff' }} /> : <><BarChart2 size={14} /> Build report</>}
             </button>
           </div>

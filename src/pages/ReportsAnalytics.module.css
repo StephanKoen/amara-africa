@@ -1,4 +1,22 @@
+.csvBtn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 12px; font-weight: 600;
+  color: var(--text-secondary); background: var(--bg-elevated);
+  transition: all 0.15s;
+}
+.csvBtn:hover { border-color: var(--primary); color: var(--primary); }
+
 .presetGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 12px; }
+
+.csvBtn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 7px 14px;
+  font-size: 12px; font-weight: 600; color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.csvBtn:hover { border-color: var(--primary); color: var(--primary); }
 
 .presetBtn {
   display: flex; align-items: center; gap: 10px;

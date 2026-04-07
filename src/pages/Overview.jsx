@@ -1,8 +1,8 @@
 import {
   ResponsiveContainer, PieChart, Pie, Cell, Tooltip,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid
 } from 'recharts'
 import { Sparkles, ArrowRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import FilterPills from '../components/FilterPills'
 import AlertCard from '../components/AlertCard'
 import styles from './Overview.module.css'
@@ -30,15 +30,14 @@ const cityPairs = [
 ]
 
 const savingsPipeline = [
-  { label: 'Advance booking', value: 75, amount: '$18,200' },
-  { label: 'Hotel consolidation', value: 60, amount: '$12,400' },
-  { label: 'Car rental', value: 40, amount: '$6,800' },
+  { label: 'Advance booking',    value: 75, amount: '$18,200' },
+  { label: 'Hotel consolidation',value: 60, amount: '$12,400' },
+  { label: 'Car rental',         value: 40, amount: '$6,800' },
   { label: 'Route optimisation', value: 25, amount: '$3,600' },
 ]
 
 const maxDept = Math.max(...deptData.map(d => d.value))
 
-const RADIAN = Math.PI / 180
 function CustomLabel({ cx, cy }) {
   return (
     <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central">
@@ -49,6 +48,8 @@ function CustomLabel({ cx, cy }) {
 }
 
 export default function Overview() {
+  const navigate = useNavigate()
+
   return (
     <div className={styles.pageWrap}>
       <FilterPills />
@@ -144,6 +145,7 @@ export default function Overview() {
               cta="Investigate now"
               ctaAmount="$320"
               gradient="linear-gradient(135deg, #DC2626, #EF4444)"
+              onCtaClick={() => navigate('/fraud-compliance')}
             />
             <AlertCard
               tag="Quick win" tagColor="success"
@@ -152,6 +154,7 @@ export default function Overview() {
               cta="View opportunity"
               ctaAmount="$10.4K"
               gradient="linear-gradient(135deg, #059669, #10B981)"
+              onCtaClick={() => navigate('/savings')}
             />
             <AlertCard
               tag="8 days left" tagColor="warning"
@@ -160,6 +163,7 @@ export default function Overview() {
               cta="Use credits now"
               ctaAmount="$9.8K"
               gradient="linear-gradient(135deg, #D97706, #F59E0B)"
+              onCtaClick={() => navigate('/unused-credits')}
             />
           </div>
 

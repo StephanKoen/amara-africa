@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import styles from './AlertCard.module.css'
 
-export default function AlertCard({ tag, tagColor, title, value, subtitle, cta, ctaAmount, gradient }) {
+export default function AlertCard({ tag, tagColor, title, value, subtitle, cta, ctaAmount, gradient, onCtaClick }) {
   return (
     <div className={styles.card} style={{ background: gradient }}>
       <div className={styles.top}>
@@ -13,7 +13,9 @@ export default function AlertCard({ tag, tagColor, title, value, subtitle, cta, 
         {subtitle && <div className={styles.sub}>{subtitle}</div>}
       </div>
       <div className={styles.footer}>
-        <span className={styles.cta}>{cta} <ArrowRight size={12} /></span>
+        <button className={styles.cta} onClick={onCtaClick}>
+          {cta} <ArrowRight size={12} />
+        </button>
         {ctaAmount && <span className={styles.amount}>{ctaAmount}</span>}
       </div>
     </div>

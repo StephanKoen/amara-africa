@@ -39,8 +39,50 @@ export async function exportToPDF(title = 'Traivio Report', orgName = 'Acme Corp
   pdf.text(`Generated ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, 20, h - 20)
   pdf.text('Traivio · Confidential', w - 20, h - 20, { align: 'right' })
 
-  pdf.addPage()
-  return pdf
+  // Capture main content
+  const mainEl = document.querySelector('main')
+  if (mainEl) {
+    try {
+      const canvas = await html2canvas(mainEl, {
+        scale: 1.5,
+        useCORS: true,
+        backgroundColor: '#F5F4FF',
+        logging: false,
+      })
+      const imgData = canvas.toDataURL('image/png')
+      const margin = 12
+      const usableW = w - margin * 2
+      const ratio = canvas.height / canvas.width
+      const totalImgH = usableW * ratio
+      const pageH = h - margin * 2
+
+      pdf.addPage()
+
+      let yOffset = 0
+      while (yOffset < totalImgH) {
+        const sliceH = Math.min(pageH, totalImgH - yOffset)
+        // Clip to current page slice
+        const srcY = (yOffset / totalImgH) * canvas.height
+        const srcH = (sliceH / totalImgH) * canvas.height
+
+        const sliceCanvas = document.createElement('canvas')
+        sliceCanvas.width = canvas.width
+        sliceCanvas.height = srcH
+        const ctx = sliceCanvas.getContext('2d')
+        ctx.drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH)
+
+        const sliceData = sliceCanvas.toDataURL('image/png')
+        pdf.addImage(sliceData, 'PNG', margin, margin, usableW, sliceH)
+
+        yOffset += pageH
+        if (yOffset < totalImgH) pdf.addPage()
+      }
+    } catch (e) {
+      // If capture fails, still save the cover page
+    }
+  }
+
+  pdf.save('traivio-report.pdf')
 }
 
 export async function captureSection(elementId, pdf, title) {

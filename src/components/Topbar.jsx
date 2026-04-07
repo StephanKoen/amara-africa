@@ -3,6 +3,7 @@ import { Upload, FileDown, Sparkles } from 'lucide-react'
 import { useRef } from 'react'
 import { useTravelData } from '../context/TravelDataContext'
 import { parseFile } from '../utils/dataParser'
+import { exportToPDF } from '../utils/pdfExport'
 import styles from './Topbar.module.css'
 
 const pageInfo = {
@@ -43,7 +44,7 @@ export default function Topbar() {
           <input ref={inputRef} type="file" accept=".csv,.xlsx,.xls" hidden
             onChange={e => handleFile(e.target.files[0])} />
         </button>
-        <button className={styles.btnOutline}>
+        <button className={styles.btnOutline} onClick={() => exportToPDF(info.title)}>
           <FileDown size={14} /> Export PDF
         </button>
         <button className={styles.btnPrimary}>
