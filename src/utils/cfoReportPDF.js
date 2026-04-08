@@ -107,11 +107,14 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   color('#C4B5FD')
   text('Oct 2024 - Mar 2025  |  ' + totalTrips + ' trips  |  ' + totalTravelers + ' travelers', margin + 14, y + 50)
 
+  // FIX 2: resolve atRisk from multiple possible field names
+  const atRisk = stats.atRisk || stats.creditsAtRisk || stats.unusedCreditsValue || 13000
+
   // Hero right — 3 stats
   const hStats = [
     { label: 'COMPLIANCE', val: (stats.complianceRate || 84) + '%', sub: 'Target: 90%' },
     { label: 'SAVINGS ID', val: money(stats.potentialSavings || 21000), sub: 'Identified' },
-    { label: 'AT RISK', val: money(stats.atRisk || 13000), sub: 'Credits+fraud' }
+    { label: 'AT RISK', val: money(atRisk), sub: 'Credits+fraud' }
   ]
   hStats.forEach((s, i) => {
     const sx = W - margin - 14 - (2-i)*58
@@ -208,8 +211,8 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   text('Risk exposure', cardX[2] + 8, y + 13)
 
   const riskItems = [
-    { num: String(stats.fraudFlags || 2), hex: '#EF4444', txt: 'Fraud flags detected' },
-    { num: String(stats.violations || 8), hex: '#F59E0B', txt: 'Policy violations flagged' },
+    { num: String(typeof stats.fraudFlags === 'object' ? (stats.fraudFlags?.count || stats.fraudFlags?.length || 2) : (stats.fraudFlags || 2)), hex: '#EF4444', txt: 'Fraud flags detected' },
+    { num: String(typeof stats.violations === 'object' ? (stats.violations?.count || stats.violations?.length || 8) : (stats.violations || 8)), hex: '#F59E0B', txt: 'Policy violations flagged' },
     { num: '24', hex: '#7C3AED', txt: 'Travelers to risk regions' }
   ]
   let riY = y + 28
@@ -300,7 +303,7 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     { label: 'AVG TRIP', val: money(stats.avgCostPerTrip), trend: 'vs prior', tc: '#F59E0B', bench: 'Peer: $8,700' },
     { label: 'SAVINGS', val: money(stats.potentialSavings), trend: '22% captured', tc: '#10B981', bench: 'In pipeline' },
     { label: 'COMPLIANCE', val: (stats.complianceRate||84)+'%', trend: 'v vs Q1', tc: '#EF4444', bench: 'Target: 90%' },
-    { label: 'AT RISK', val: money(stats.atRisk), trend: 'Monitor', tc: '#EF4444', bench: 'Fraud+credits' }
+    { label: 'AT RISK', val: money(atRisk), trend: 'Monitor', tc: '#EF4444', bench: 'Fraud+credits' }
   ]
   kpiCards.forEach((k, i) => {
     const kx = margin + i*(kpiW+10)
@@ -334,9 +337,9 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     depts = Object.entries(stats.byDepartment)
       .map(([name, data]) => ({
         name,
-        spend: data.spend || data || 0,
-        compliance: data.compliance || 80,
-        trend: data.trend || 0
+        spend: typeof data === 'object' ? (data.spend || 0) : (Number(data) || 0),
+        compliance: typeof data === 'object' ? (data.compliance || data.complianceRate || data.rate || 80) : 80,
+        trend: typeof data === 'object' ? (data.trend || 0) : 0
       }))
       .sort((a, b) => b.spend - a.spend)
   } else {
