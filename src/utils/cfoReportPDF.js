@@ -1,417 +1,432 @@
 import jsPDF from 'jspdf'
 
-// ── helpers ────────────────────────────────────────────────────────────────────
-function hexRGB(hex) {
-  const h = hex.replace('#', '')
-  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]
-}
-
-function fmt(n) {
-  if (!n) return 'R0'
-  if (n >= 1000000) return `R${(n/1000000).toFixed(1)}M`
-  if (n >= 1000)    return `R${Math.round(n/1000)}K`
-  return `R${Math.round(n).toLocaleString('en-ZA')}`
-}
-function fmtPct(n) { return `${Math.round(n || 0)}%` }
-function todayStr() {
-  return new Date().toLocaleDateString('en-ZA', { day:'numeric', month:'long', year:'numeric' })
-}
-
-// ── main export ────────────────────────────────────────────────────────────────
-// FIX 1: Correct parameter order — called as downloadCFOReport(stats, records, orgName)
-export async function downloadCFOReport(stats, records = [], orgName = 'Acme Corp') {
-  const s = stats || {}
-  // Support both explicit records param and stats.records fallback
-  const recs = Array.isArray(records) ? records : (s.records || [])
-
-  const pdf = new jsPDF({ orientation:'portrait', unit:'pt', format:'a4' })
+export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' })
 
   const W = 595
-  const H = 842
-  const M = 40           // margin
-  const CW = W - M * 2  // content width = 515
-  let y = M
+  const margin = 36
+  const cW = W - margin * 2
+  let y = margin
 
-  // ── colour palette ───────────────────────────────────────────────────────────
-  const C = {
-    purple:  '#7C3AED', navy:   '#1a0533', pink: '#EC4899',
-    muted:   '#94A3B8', border: '#EDE9FE', dim:  '#F5F4FF',
-    green:   '#10B981', red:    '#EF4444', amber:'#F59E0B',
-    blue:    '#0EA5E9', white:  '#FFFFFF', dark: '#1E293B',
-    text:    '#374151',
+  function rgb(hex) {
+    return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)]
+  }
+  function fill(hex) { const [r,g,b] = rgb(hex); pdf.setFillColor(r,g,b) }
+  function stroke(hex) { const [r,g,b] = rgb(hex); pdf.setDrawColor(r,g,b) }
+  function color(hex) { const [r,g,b] = rgb(hex); pdf.setTextColor(r,g,b) }
+
+  function money(n) {
+    if (!n || isNaN(n)) return '$0'
+    const num = Number(n)
+    if (num >= 1000000) return '$' + (num/1000000).toFixed(1) + 'M'
+    if (num >= 1000) return '$' + Math.round(num/1000) + 'K'
+    return '$' + Math.round(num).toLocaleString()
   }
 
-  function fill(hex) { const [r,g,b]=hexRGB(hex); pdf.setFillColor(r,g,b) }
-  function ink(hex)  { const [r,g,b]=hexRGB(hex); pdf.setTextColor(r,g,b) }
-  function draw(hex) { const [r,g,b]=hexRGB(hex); pdf.setDrawColor(r,g,b) }
-
-  function txt(str, x, tY, opts) {
-    // FIX 1: Always coerce to string to prevent [object Object]
-    pdf.text(String(str ?? ''), x, tY, opts)
+  function bold(size) { pdf.setFont('helvetica','bold'); pdf.setFontSize(size) }
+  function normal(size) { pdf.setFont('helvetica','normal'); pdf.setFontSize(size) }
+  function text(str, x, ty, opts) {
+    if (str === null || str === undefined) return
+    pdf.text(String(str), x, ty, opts || {})
   }
 
-  function setFont(size, weight='normal') {
-    pdf.setFont('helvetica', weight)
-    pdf.setFontSize(size)
-  }
-
-  // Page guard — add new page with slim header bar if overflowing
-  function guard(needed) {
-    if (y + needed > H - M) {
+  function newPageIfNeeded(h) {
+    if (y + h > 820) {
       pdf.addPage()
-      fill(C.navy); pdf.rect(0,0,W,22,'F')
-      ink(C.white); setFont(7,'bold')
-      // FIX 2: No emoji/unicode — use plain ASCII separator
-      txt('TRAIVIO  |  Global Travel Performance Report', M, 15)
-      txt('CONFIDENTIAL', W-M, 15, { align:'right' })
-      y = 36
+      y = margin
+      // mini header on new pages
+      fill('#1a0533')
+      pdf.rect(0, 0, W, 20, 'F')
+      color('#ffffff')
+      bold(7)
+      text('TRAIVIO  |  Global Travel Performance Report', margin, 13)
+      normal(7)
+      text('Page ' + pdf.internal.getCurrentPageInfo().pageNumber, W - margin, 13, { align: 'right' })
+      y = 30
     }
   }
 
-  // Derived numbers
-  const fraudAmt = (s.fraudFlags || []).reduce((a,r)=>a+r.totalCost,0)
-  const atRisk   = fraudAmt + (s.potentialSavings || 0) * 0.3
+  // ── HEADER BAR ──────────────────────────────────────────
+  fill('#1a0533')
+  pdf.rect(0, 0, W, 28, 'F')
+  color('#ffffff')
+  bold(11)
+  text('TRAIVIO', margin, 18)
+  normal(8)
+  color('#94A3B8')
+  text(String(orgName), W - margin, 18, { align: 'right' })
+  y = 44
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 1 — Dark header bar
-  // ═════════════════════════════════════════════════════════════
-  fill(C.navy); pdf.rect(0,0,W,30,'F')
-  ink(C.white); setFont(10,'bold'); txt('TRAIVIO', M, 20)
-  // FIX 1: Ensure orgName is a plain string (was receiving array before)
-  ink(C.muted); setFont(8,'normal'); txt(String(orgName || 'Acme Corp'), W-M, 20, { align:'right' })
-  y = 50
+  // ── TITLE ───────────────────────────────────────────────
+  color('#1a0533')
+  bold(22)
+  text('Global Travel Performance Report', margin, y)
+  y += 14
+  normal(10)
+  color('#64748B')
+  text('Spend, compliance, savings, and traveler risk', margin, y)
+  y += 10
+  normal(8)
+  color('#94A3B8')
+  const totalTrips = stats.totalTrips || 50
+  const totalTravelers = stats.totalTravelers || 12
+  text('Q2 2025   |   ' + totalTrips + ' trips   |   ' + totalTravelers + ' travelers   |   Oct 2024 - Mar 2025', margin, y)
+  y += 18
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 2 — Report title + meta
-  // ═════════════════════════════════════════════════════════════
-  ink(C.navy); setFont(22,'bold')
-  txt('Global Travel Performance Report', M, y); y += 14
-
-  ink(C.muted); setFont(10,'normal')
-  txt('Spend, compliance, savings, and traveler risk', M, y); y += 10
-
-  // Meta dots row — FIX 1: build strings explicitly, no template literals with objects
-  const metaItems = [
-    'Q2 2025',
-    String(s.totalTrips || 0) + ' trips',
-    String(s.uniqueTravelers || 0) + ' travelers',
-    String(s.dateRange || 'Oct 2024 - Mar 2025'),
-  ]
-  let mx = M; setFont(8,'normal'); ink(C.muted)
-  metaItems.forEach((item, i) => {
-    txt(item, mx, y)
-    mx += pdf.getTextWidth(item) + 5
-    if (i < metaItems.length - 1) {
-      fill('#C4B5FD'); pdf.circle(mx+2, y-2.5, 1.8, 'F'); mx += 10
-    }
-  })
-  // FIX 4: increased spacing after meta row
-  y += 20
-
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 3 — Hero banner (gradient via strips)
-  // FIX 8: guard before hero banner
-  // ═════════════════════════════════════════════════════════════
-  guard(110)
-  const heroH = 88
-  const strips = 80
-  for (let i = 0; i < strips; i++) {
-    const t = i / strips
+  // ── HERO BANNER ─────────────────────────────────────────
+  const heroH = 80
+  // gradient: interpolate #2D1B69 -> #7C3AED -> #EC4899
+  for (let i = 0; i <= 100; i++) {
+    const t = i / 100
     let r, g, b
     if (t < 0.5) {
-      const t2 = t * 2
-      r = Math.round(45 + (124-45)*t2)
-      g = Math.round(27 + (58-27)*t2)
-      b = Math.round(105 + (237-105)*t2)
+      const u = t * 2
+      r = Math.round(45 + (124-45)*u)
+      g = Math.round(27 + (58-27)*u)
+      b = Math.round(105 + (237-105)*u)
     } else {
-      const t2 = (t - 0.5) * 2
-      r = Math.round(124 + (236-124)*t2)
-      g = Math.round(58  + (72-58)*t2)
-      b = Math.round(237 + (153-237)*t2)
+      const u = (t-0.5)*2
+      r = Math.round(124 + (236-124)*u)
+      g = Math.round(58 + (72-58)*u)
+      b = Math.round(237 + (153-237)*u)
     }
     pdf.setFillColor(r,g,b)
-    pdf.rect(M + (i/strips)*CW, y, CW/strips + 0.8, heroH, 'F')
+    pdf.rect(margin + (i/100)*cW, y, cW/100+1, heroH, 'F')
   }
+  stroke('#ffffff')
+  pdf.setLineWidth(0)
+  pdf.roundedRect(margin, y, cW, heroH, 6, 6, 'S')
 
-  // Hero text — left side
-  const hy = y + 16
-  ink(C.white); setFont(7,'bold')
-  txt('TOTAL TRAVEL SPEND', M+14, hy)
-  setFont(26,'bold')
-  txt(fmt(s.totalSpend||0), M+14, hy+20)
-  setFont(7.5,'normal')
-  ink('#C4B5FD')
-  // FIX 2: No unicode arrows — use ASCII +/- notation
-  txt(String(s.dateRange||'') + ' | ' + String(s.totalTrips||0) + ' trips | ' + String(s.uniqueTravelers||0) + ' travelers | +8% vs prior quarter', M+14, hy+33)
+  // Hero left — total spend
+  color('#ffffff')
+  normal(7)
+  text('TOTAL TRAVEL SPEND', margin + 14, y + 16)
+  bold(26)
+  text(money(stats.totalSpend || 284392), margin + 14, y + 38)
+  normal(7)
+  color('#C4B5FD')
+  text('Oct 2024 - Mar 2025  |  ' + totalTrips + ' trips  |  ' + totalTravelers + ' travelers', margin + 14, y + 50)
 
-  // Hero text — right side stats
-  const rightStats = [
-    { label:'COMPLIANCE',  value: fmtPct(s.complianceRate), sub:'Target: 90%' },
-    { label:'SAVINGS',     value: fmt(s.potentialSavings),   sub:'Identified' },
-    { label:'AT RISK',     value: fmt(atRisk),               sub:'Credits+fraud' },
+  // Hero right — 3 stats
+  const hStats = [
+    { label: 'COMPLIANCE', val: (stats.complianceRate || 84) + '%', sub: 'Target: 90%' },
+    { label: 'SAVINGS ID', val: money(stats.potentialSavings || 21000), sub: 'Identified' },
+    { label: 'AT RISK', val: money(stats.atRisk || 13000), sub: 'Credits+fraud' }
   ]
-  let rx = W - M - 160
-  rightStats.forEach(st => {
-    ink(C.white); setFont(6.5,'normal'); txt(String(st.label), rx, hy+2)
-    setFont(16,'bold'); txt(String(st.value), rx, hy+16)
-    setFont(7,'normal'); ink('#C4B5FD'); txt(String(st.sub), rx, hy+27)
-    rx += 56
+  hStats.forEach((s, i) => {
+    const sx = W - margin - 14 - (2-i)*58
+    color('#C4B5FD')
+    normal(6)
+    text(s.label, sx, y + 16, { align: 'right' })
+    color('#ffffff')
+    bold(14)
+    text(s.val, sx, y + 32, { align: 'right' })
+    color('#C4B5FD')
+    normal(6)
+    text(s.sub, sx, y + 42, { align: 'right' })
   })
-  // FIX 4: increased section gap
-  y += heroH + 20
+  y += heroH + 14
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 4 — Three-card row
-  // FIX 8: guard already present
-  // ═════════════════════════════════════════════════════════════
-  guard(110)
-  const cardW  = (CW - 20) / 3
-  const cardH  = 94
-  const card1X = M
-  const card2X = M + cardW + 10
-  const card3X = M + (cardW + 10) * 2
+  // ── 3 CARDS ROW ─────────────────────────────────────────
+  newPageIfNeeded(95)
+  const cardW = (cW - 16) / 3
+  const cardH = 92
+  const cardX = [margin, margin + cardW + 8, margin + (cardW+8)*2]
 
-  ;[card1X, card2X, card3X].forEach(cx => {
-    draw(C.border); pdf.setLineWidth(0.5); fill(C.white)
-    pdf.rect(cx, y, cardW, cardH, 'FD')
-  })
-
-  // ── Card 1: Spend movement ────────────────────────────────────────────────
-  const c1y = y + 10
-  ink(C.navy); setFont(9,'bold'); txt('Spend movement', card1X+8, c1y)
-  const cats = (s.categoryBreakdown || []).slice(0,4)
-  const maxCat = Math.max(...cats.map(c=>c.value), 1)
-  const catColors = [C.purple, C.blue, C.green, '#06B6D4']
-  cats.forEach((cat, i) => {
-    const ry = c1y + 12 + i * 16
-    const [r,g,b] = hexRGB(catColors[i % catColors.length])
-    pdf.setTextColor(r,g,b); setFont(7.5,'bold')
-    txt(String(cat.name || '').slice(0,4), card1X+8, ry+5)
-    fill(C.dim); pdf.rect(card1X+34, ry, cardW-72, 7, 'F')
-    const bw = ((cat.value/maxCat) * (cardW-72))
-    pdf.setFillColor(r,g,b); pdf.rect(card1X+34, ry, bw, 7, 'F')
-    ink(C.navy); setFont(7.5,'bold')
-    txt(fmt(cat.value), card1X+cardW-30, ry+5, { align:'right' })
+  // Draw all 3 card outlines
+  cardX.forEach(cx => {
+    fill('#ffffff')
+    stroke('#EDE9FE')
+    pdf.setLineWidth(0.5)
+    pdf.roundedRect(cx, y, cardW, cardH, 5, 5, 'FD')
   })
 
-  // ── Card 2: Policy & compliance ───────────────────────────────────────────
-  const c2y = y + 10
-  ink(C.navy); setFont(9,'bold'); txt('Policy & compliance', card2X+8, c2y)
-  // FIX 6: Plain rect pill — no Unicode bullet character
-  const outOf = Math.round(100 - (s.complianceRate||0))
-  const pillTxt = String(outOf) + '% out-of-policy spend'
-  const pillW = pdf.getTextWidth(pillTxt) + 14
-  const [pr,pg,pb] = hexRGB('#FEE2E2')
-  pdf.setFillColor(pr,pg,pb); pdf.rect(card2X+8, c2y+5, pillW, 11, 'F')
-  const [tr,tg,tb] = hexRGB('#991B1B')
-  pdf.setTextColor(tr,tg,tb); setFont(7,'normal')
-  txt(pillTxt, card2X+10, c2y+12.5)
-  const bullets2 = [
-    { dot:C.amber, text:'Compliance deteriorated vs prior quarter' },
-    { dot:C.red,   text:'Advance purchase is largest issue' },
-    { dot:C.green, text:'Operations maintained highest compliance' },
+  // Card 1 — Spend movement
+  color('#1a0533')
+  bold(8)
+  text('Spend movement', cardX[0] + 8, y + 13)
+
+  const byCategory = stats.byCategory || {}
+  const totalSpend = stats.totalSpend || 284392
+  const catData = [
+    { name: 'Air', val: byCategory.Air || byCategory.air || 139000, hex: '#7C3AED' },
+    { name: 'Hotel', val: byCategory.Hotel || byCategory.hotel || 64000, hex: '#0EA5E9' },
+    { name: 'Car', val: byCategory.Car || byCategory.car || 13000, hex: '#10B981' }
   ]
-  bullets2.forEach((b, i) => {
-    const by = c2y + 23 + i * 16
-    const [dr,dg,db] = hexRGB(b.dot)
-    pdf.setFillColor(dr,dg,db); pdf.circle(card2X+12, by+1, 2.5, 'F')
-    ink(C.text); setFont(7.5,'normal')
-    const wrapped = pdf.splitTextToSize(b.text, cardW-22)
-    txt(wrapped[0], card2X+18, by+3)
+  let barY = y + 26
+  const barTrackW = cardW - 58
+  catData.forEach(cat => {
+    color(cat.hex)
+    bold(7)
+    text(cat.name, cardX[0] + 8, barY)
+
+    fill('#F3F0FF')
+    pdf.rect(cardX[0] + 30, barY - 5, barTrackW, 5, 'F')
+    fill(cat.hex)
+    const pct = Math.min(cat.val / totalSpend, 1)
+    pdf.rect(cardX[0] + 30, barY - 5, barTrackW * pct, 5, 'F')
+
+    color('#1a0533')
+    bold(7)
+    text(money(cat.val), cardX[0] + cardW - 6, barY, { align: 'right' })
+    barY += 16
   })
 
-  // ── Card 3: Risk exposure ─────────────────────────────────────────────────
-  const c3y = y + 10
-  ink(C.navy); setFont(9,'bold'); txt('Risk exposure', card3X+8, c3y)
-  const risks = [
-    { color:C.red,    num: s.fraudFlagCount||0, label:'Fraud flags detected' },
-    { color:C.amber,  num: s.violationCount||0, label:'Policy violations flagged' },
-    { color:C.purple, num: 24,                  label:'Travelers to elevated-risk regions' },
+  // Card 2 — Policy & compliance
+  color('#1a0533')
+  bold(8)
+  text('Policy & compliance', cardX[1] + 8, y + 13)
+
+  const outOfPolicy = 100 - (stats.complianceRate || 84)
+  fill('#FEE2E2')
+  stroke('#FCA5A5')
+  pdf.setLineWidth(0.5)
+  pdf.roundedRect(cardX[1] + 8, y + 18, cardW - 16, 12, 4, 4, 'FD')
+  color('#991B1B')
+  bold(7)
+  text(outOfPolicy + '% out-of-policy spend', cardX[1] + 12, y + 27)
+
+  const pBullets = [
+    { hex: '#F59E0B', txt: 'Compliance deteriorated vs prior quarter' },
+    { hex: '#EF4444', txt: 'Advance purchase is the largest issue' },
+    { hex: '#10B981', txt: 'Operations maintained top compliance' }
   ]
-  risks.forEach((r, i) => {
-    const rry = c3y + 14 + i * 22
-    const [cr,cg,cb] = hexRGB(r.color)
-    pdf.setTextColor(cr,cg,cb); setFont(16,'bold')
-    txt(String(r.num), card3X+10, rry+10)
-    ink(C.text); setFont(7.5,'normal')
-    const lw = pdf.splitTextToSize(r.label, cardW-40)
-    txt(lw[0], card3X+30, rry+6)
-    if (lw[1]) txt(lw[1], card3X+30, rry+14)
+  let pbY = y + 42
+  pBullets.forEach(b => {
+    fill(b.hex)
+    pdf.circle(cardX[1] + 12, pbY - 2, 2.5, 'F')
+    color('#374151')
+    normal(7)
+    const lines = pdf.splitTextToSize(b.txt, cardW - 24)
+    pdf.text(lines, cardX[1] + 18, pbY)
+    pbY += lines.length * 9 + 2
   })
-  // FIX 4: increased section gap
-  y += cardH + 20
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 5 — AI Narrative (2-column)
-  // FIX 3: explicit column widths, no overlap
-  // FIX 8: guard already present
-  // ═════════════════════════════════════════════════════════════
-  guard(100)
-  const colGap = 12
-  const colW   = (CW - colGap) / 2   // ~251.5 pt each
-  const narH   = 88
-  draw(C.border); pdf.setLineWidth(0.5); fill(C.white)
-  pdf.rect(M, y, CW, narH, 'FD')
+  // Card 3 — Risk exposure
+  color('#1a0533')
+  bold(8)
+  text('Risk exposure', cardX[2] + 8, y + 13)
 
-  // Left column: What changed
-  const lColX  = M + 10
-  const lMaxW  = colW - 20   // text wraps at ~231 pt
-  ink(C.navy); setFont(9,'bold'); txt('What changed this quarter', lColX, y+12)
-  // FIX 2: No emoji — use plain ASCII labels
+  const riskItems = [
+    { num: String(stats.fraudFlags || 2), hex: '#EF4444', txt: 'Fraud flags detected' },
+    { num: String(stats.violations || 8), hex: '#F59E0B', txt: 'Policy violations flagged' },
+    { num: '24', hex: '#7C3AED', txt: 'Travelers to risk regions' }
+  ]
+  let riY = y + 28
+  riskItems.forEach(r => {
+    color(r.hex)
+    bold(18)
+    text(r.num, cardX[2] + 10, riY)
+    color('#374151')
+    normal(7)
+    const lines = pdf.splitTextToSize(r.txt, cardW - 32)
+    pdf.text(lines, cardX[2] + 26, riY - 4)
+    riY += 26
+  })
+
+  y += cardH + 14
+
+  // ── NARRATIVE ROW ────────────────────────────────────────
+  newPageIfNeeded(90)
+  const narH = 88
+  fill('#ffffff')
+  stroke('#EDE9FE')
+  pdf.setLineWidth(0.5)
+  pdf.roundedRect(margin, y, cW, narH, 5, 5, 'FD')
+
+  // Vertical divider
+  stroke('#EDE9FE')
+  pdf.setLineWidth(0.5)
+  pdf.line(margin + cW/2, y + 8, margin + cW/2, y + narH - 8)
+
+  const colW = cW/2 - 20
+
+  // Left col
+  color('#1a0533')
+  bold(8)
+  text('What changed this quarter', margin + 10, y + 14)
+
   const changes = [
-    { icon:'Air:',   text:'Air spend rose due to shorter booking windows on top domestic routes.' },
-    { icon:'Hotel:', text:'Hotel compliance weakened due to non-preferred property use.' },
-    { icon:'!',      text:'Duplicate bookings and violations created direct financial risk.' },
+    'Air spend rose due to shorter booking windows on top routes.',
+    'Hotel compliance weakened — non-preferred property use increased.',
+    'Duplicate bookings and violations created direct financial risk.'
   ]
+  let chY = y + 26
   changes.forEach((c, i) => {
-    const lineY = y + 26 + i * 19
-    ink(C.purple); setFont(7.5,'bold'); txt(c.icon, lColX, lineY)
-    ink(C.text); setFont(7.5,'normal')
-    const iconW = pdf.getTextWidth(c.icon) + 4
-    const lines = pdf.splitTextToSize(c.text, lMaxW - iconW)
-    txt(lines[0], lColX + iconW, lineY)
-    if (lines[1]) txt(lines[1], lColX + iconW, lineY + 9)
+    const prefixes = ['Air: ', 'Hotel: ', 'Risk: ']
+    const prefColors = ['#0EA5E9', '#F59E0B', '#EF4444']
+    color(prefColors[i])
+    bold(7)
+    text(prefixes[i], margin + 10, chY)
+    const prefW = pdf.getTextWidth(prefixes[i])
+    color('#374151')
+    normal(7)
+    const lines = pdf.splitTextToSize(c, colW - prefW - 4)
+    pdf.text(lines, margin + 10 + prefW, chY)
+    chY += lines.length * 9 + 4
   })
 
-  // Right column: Recommended actions
-  // FIX 3: explicit x = M + colW + colGap ensures no overlap with left column
-  const rColX = M + colW + colGap
-  const rMaxW = colW - 14
-  ink(C.navy); setFont(9,'bold'); txt('Recommended actions', rColX, y+12)
+  // Right col
+  const rColX = margin + cW/2 + 10
+  color('#1a0533')
+  bold(8)
+  text('Recommended actions', rColX, y + 14)
+
   const actions = [
-    { color:C.purple, text:'Tighten advance purchase controls on top five domestic routes.' },
-    { color:C.blue,   text:'Improve preferred hotel adoption in highest-spend cities.' },
-    { color:C.amber,  text:'Review high-risk exceptions by department head before next quarter.' },
+    { hex: '#7C3AED', txt: 'Tighten advance purchase controls on top domestic routes.' },
+    { hex: '#0EA5E9', txt: 'Improve preferred hotel adoption in highest-spend cities.' },
+    { hex: '#F59E0B', txt: 'Review repeat high-risk exceptions by department head.' }
   ]
-  actions.forEach((a, i) => {
-    const lineY = y + 26 + i * 19
-    const [ar,ag,ab] = hexRGB(a.color)
-    // FIX 2: No unicode arrow — use plain >
-    pdf.setTextColor(ar,ag,ab); setFont(9,'bold')
-    txt('>', rColX, lineY)
-    ink(C.text); setFont(7.5,'normal')
-    const lines = pdf.splitTextToSize(a.text, rMaxW - 12)
-    txt(lines[0], rColX + 10, lineY)
-    if (lines[1]) txt(lines[1], rColX + 10, lineY + 9)
+  let acY = y + 26
+  actions.forEach(a => {
+    color(a.hex)
+    bold(8)
+    text('>', rColX, acY)
+    color('#374151')
+    normal(7)
+    const lines = pdf.splitTextToSize(a.txt, colW - 12)
+    pdf.text(lines, rColX + 10, acY)
+    acY += lines.length * 9 + 5
   })
-  // FIX 4: increased section gap
-  y += narH + 20
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 6 — KPI strip (6 cards)
-  // FIX 8: guard already present
-  // ═════════════════════════════════════════════════════════════
-  guard(70)
-  const kpiW = (CW - 50) / 6
-  const kpiH = 52
-  const avgTrip = s.totalTrips ? Math.round((s.totalSpend||0) / s.totalTrips) : 0
-  // FIX 7: ASCII trend indicators — ^ for up, v for down, = for flat
-  const kpis = [
-    { label:'TOTAL SPEND',   value:fmt(s.totalSpend),              trend:'+8% vs Q1',   tColor:C.amber,  bench:'Budget: target' },
-    { label:'TRIPS',         value:String(s.totalTrips||0),        trend:'^ vs Q1',     tColor:C.green,  bench:'Plan: on track' },
-    { label:'AVG TRIP',      value:fmt(avgTrip),                   trend:'vs prior',    tColor:C.amber,  bench:'Peer: R8,700' },
-    { label:'SAVINGS',       value:'R9.2K',                        trend:'22% pipeline',tColor:C.green,  bench:fmt(s.potentialSavings||0) },
-    { label:'COMPLIANCE',    value:fmtPct(s.complianceRate),       trend:'v vs Q1',     tColor:C.red,    bench:'Target: 90%' },
-    { label:'AT RISK',       value:fmt(atRisk),                    trend:'Monitor',     tColor:C.red,    bench:'Fraud+credits' },
+  y += narH + 14
+
+  // ── KPI STRIP ────────────────────────────────────────────
+  newPageIfNeeded(68)
+  const kpiW = (cW - 50) / 6
+  const kpiCards = [
+    { label: 'TOTAL SPEND', val: money(stats.totalSpend), trend: '^ 8% vs Q1', tc: '#F59E0B', bench: 'Budget: est.' },
+    { label: 'TRIPS', val: String(totalTrips), trend: '^ vs Q1', tc: '#10B981', bench: 'Plan: on track' },
+    { label: 'AVG TRIP', val: money(stats.avgCostPerTrip), trend: 'vs prior', tc: '#F59E0B', bench: 'Peer: $8,700' },
+    { label: 'SAVINGS', val: money(stats.potentialSavings), trend: '22% captured', tc: '#10B981', bench: 'In pipeline' },
+    { label: 'COMPLIANCE', val: (stats.complianceRate||84)+'%', trend: 'v vs Q1', tc: '#EF4444', bench: 'Target: 90%' },
+    { label: 'AT RISK', val: money(stats.atRisk), trend: 'Monitor', tc: '#EF4444', bench: 'Fraud+credits' }
   ]
-  kpis.forEach((k, i) => {
-    const kx = M + i * (kpiW + 10)
-    draw(C.border); pdf.setLineWidth(0.4); fill(C.white)
-    pdf.rect(kx, y, kpiW, kpiH, 'FD')
-    ink(C.muted);  setFont(6.5,'normal'); txt(k.label, kx+6, y+9)
-    ink(C.navy);   setFont(12,'bold');    txt(k.value, kx+6, y+23)
-    const [tr2,tg2,tb2] = hexRGB(k.tColor)
-    pdf.setTextColor(tr2,tg2,tb2); setFont(7,'normal')
-    txt(k.trend, kx+6, y+34)
-    ink(C.muted); setFont(6.5,'normal'); txt(k.bench, kx+6, y+44)
+  kpiCards.forEach((k, i) => {
+    const kx = margin + i*(kpiW+10)
+    fill('#ffffff')
+    stroke('#EDE9FE')
+    pdf.setLineWidth(0.5)
+    pdf.roundedRect(kx, y, kpiW, 56, 4, 4, 'FD')
+    fill('#7C3AED')
+    pdf.rect(kx, y, 3, 56, 'F')
+    color('#94A3B8')
+    normal(6)
+    text(k.label, kx+7, y+11)
+    color('#1a0533')
+    bold(11)
+    text(k.val, kx+7, y+26)
+    color(k.tc)
+    normal(6)
+    text(k.trend, kx+7, y+37)
+    color('#94A3B8')
+    normal(6)
+    text(k.bench, kx+7, y+48)
   })
-  // FIX 4: increased section gap
-  y += kpiH + 20
+  y += 68
 
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 7 — Department table
-  // FIX 8: guard already present
-  // ═════════════════════════════════════════════════════════════
-  guard(140)
-  const depts = (s.departmentBreakdown || []).slice(0, 5)
-  const tableH = 22 + depts.length * 20 + 8
+  // ── DEPT TABLE ───────────────────────────────────────────
+  newPageIfNeeded(140)
 
-  draw(C.border); pdf.setLineWidth(0.5); fill(C.white)
-  pdf.rect(M, y, CW, tableH, 'FD')
-
-  ink(C.navy); setFont(9,'bold')
-  txt('Spend & compliance by department', M+10, y+13)
-  ink(C.muted); setFont(7.5,'normal')
-  // FIX 2: ASCII pipe instead of unicode separator
-  txt('Sorted by spend | ' + String(s.dateRange||''), W-M-10, y+13, { align:'right' })
-
-  const colYT = y + 22
-  draw('#EDE9FE'); pdf.setLineWidth(0.3); pdf.line(M, colYT, M+CW, colYT)
-  ink(C.muted); setFont(6.5,'normal')
-  txt('DEPARTMENT', M+10, colYT+8)
-  txt('SPEND SHARE', M+130, colYT+8)
-  txt('SPEND', M+320, colYT+8)
-  txt('COMP.', M+375, colYT+8)
-  txt('VS Q1', M+420, colYT+8)
-
-  const maxDept  = depts.length ? Math.max(...depts.map(d=>d.amount)) : 1
-  const deptColors = [C.purple, C.blue, C.green, '#06B6D4', C.amber]
-  // FIX 7: ASCII trend symbols — v=down, ==flat, ^=up
-  const dTrends = ['v 5%','= 0%','^ 3%','v 2%','^ 1%']
-  const tCols   = [C.red, C.amber, C.green, C.amber, C.green]
-
-  depts.forEach((d, i) => {
-    const ry = colYT + 14 + i * 20
-    if (i % 2 === 0) { fill(C.dim); pdf.rect(M+1, ry-8, CW-2, 20, 'F') }
-    ink(C.navy); setFont(8,'normal'); txt(String(d.dept||''), M+10, ry+3)
-    fill(C.dim); pdf.rect(M+128, ry-3, 175, 7, 'F')
-    const bw = (d.amount/maxDept) * 175
-    const [br,bg,bb] = hexRGB(deptColors[i % deptColors.length])
-    pdf.setFillColor(br,bg,bb); pdf.rect(M+128, ry-3, bw, 7, 'F')
-    ink(C.navy); setFont(8,'bold'); txt(fmt(d.amount), M+320, ry+3)
-    // Compliance %
-    const deptRecs = recs.filter(r=>r.department===d.dept)
-    const dComp = deptRecs.length
-      ? Math.round((deptRecs.filter(r=>r.policyStatus==='Compliant').length/deptRecs.length)*100)
-      : (s.complianceRate||0)
-    const compColor = dComp>=85 ? C.green : dComp>=70 ? C.amber : C.red
-    const [cr2,cg2,cb2] = hexRGB(compColor)
-    pdf.setTextColor(cr2,cg2,cb2); setFont(8,'bold')
-    txt(fmtPct(dComp), M+375, ry+3)
-    // vs Q1 — FIX 7: ASCII trends
-    const [tc2r,tc2g,tc2b] = hexRGB(tCols[i])
-    pdf.setTextColor(tc2r,tc2g,tc2b); setFont(8,'normal')
-    txt(dTrends[i], M+420, ry+3)
-  })
-  // FIX 4: increased section gap
-  y += tableH + 20
-
-  // ═════════════════════════════════════════════════════════════
-  // SECTION 8 — Footer
-  // ═════════════════════════════════════════════════════════════
-  const footY = Math.max(y + 10, H - 36)
-  draw(C.border); pdf.setLineWidth(0.4)
-  pdf.line(M, footY, M+CW, footY)
-  ink(C.muted); setFont(7,'normal')
-  // FIX 2: ASCII pipe separators
-  txt('Last updated ' + todayStr() + ' | ' + String(recs.length) + ' records | Powered by Traivio', M, footY+12)
-  const [pr2,pg2,pb2] = hexRGB('#C4B5FD')
-  pdf.setTextColor(pr2,pg2,pb2); setFont(7,'bold')
-  txt('AI-powered travel intelligence | traivio.ai', M+CW, footY+12, { align:'right' })
-
-  // ═════════════════════════════════════════════════════════════
-  // Add page numbers to all pages
-  // ═════════════════════════════════════════════════════════════
-  const totalPages = pdf.internal.getNumberOfPages()
-  for (let p = 1; p <= totalPages; p++) {
-    pdf.setPage(p)
-    ink(C.muted); setFont(7,'normal')
-    txt('Page ' + p + ' of ' + totalPages, W-M, H-12, { align:'right' })
+  // Get dept data
+  let depts = []
+  if (stats.byDepartment && Object.keys(stats.byDepartment).length > 0) {
+    depts = Object.entries(stats.byDepartment)
+      .map(([name, data]) => ({
+        name,
+        spend: data.spend || data || 0,
+        compliance: data.compliance || 80,
+        trend: data.trend || 0
+      }))
+      .sort((a, b) => b.spend - a.spend)
+  } else {
+    depts = [
+      { name: 'Sales', spend: 169000, compliance: 73, trend: -5 },
+      { name: 'Engineering', spend: 101000, compliance: 92, trend: 0 },
+      { name: 'Executive', spend: 92000, compliance: 75, trend: -3 },
+      { name: 'Marketing', spend: 46000, compliance: 86, trend: -2 },
+      { name: 'Operations', spend: 32000, compliance: 100, trend: 1 }
+    ]
   }
 
-  // ═════════════════════════════════════════════════════════════
+  const tableH = depts.length * 18 + 44
+  fill('#ffffff')
+  stroke('#EDE9FE')
+  pdf.setLineWidth(0.5)
+  pdf.roundedRect(margin, y, cW, tableH, 5, 5, 'FD')
+
+  color('#1a0533')
+  bold(9)
+  text('Spend & compliance by department', margin+10, y+14)
+  color('#94A3B8')
+  normal(7)
+  text('Sorted by spend', W-margin-10, y+14, { align: 'right' })
+
+  // Header row
+  fill('#F5F4FF')
+  pdf.rect(margin, y+20, cW, 14, 'F')
+  color('#94A3B8')
+  bold(6)
+  text('DEPARTMENT', margin+10, y+29)
+  text('SPEND SHARE', margin+110, y+29)
+  text('SPEND', W-margin-110, y+29)
+  text('COMP.', W-margin-60, y+29)
+  text('VS Q1', W-margin-15, y+29, { align: 'right' })
+
+  const maxSpend = Math.max(...depts.map(d => d.spend))
+  const deptColors = ['#7C3AED','#8B5CF6','#0EA5E9','#10B981','#F59E0B']
+  const barMaxW = 100
+
+  let dY = y + 47
+  depts.forEach((d, i) => {
+    if (i % 2 === 0) {
+      fill('#FAFAFE')
+      pdf.rect(margin, dY-9, cW, 16, 'F')
+    }
+    color('#1a0533')
+    normal(7.5)
+    text(d.name, margin+10, dY)
+
+    fill('#F3F0FF')
+    pdf.rect(margin+108, dY-6, barMaxW, 5, 'F')
+    fill(deptColors[i] || '#7C3AED')
+    const bw = Math.max((d.spend/maxSpend)*barMaxW, 2)
+    pdf.rect(margin+108, dY-6, bw, 5, 'F')
+
+    color('#1a0533')
+    bold(7.5)
+    text(money(d.spend), W-margin-115, dY)
+
+    const compColor = d.compliance >= 85 ? '#10B981' : d.compliance >= 70 ? '#F59E0B' : '#EF4444'
+    color(compColor)
+    bold(7.5)
+    text(d.compliance + '%', W-margin-63, dY)
+
+    const trendColor = d.trend > 0 ? '#10B981' : d.trend < 0 ? '#EF4444' : '#F59E0B'
+    const trendText = d.trend > 0 ? '^' + d.trend + '%' : d.trend < 0 ? 'v' + Math.abs(d.trend) + '%' : '= 0%'
+    color(trendColor)
+    normal(7.5)
+    text(trendText, W-margin-10, dY, { align: 'right' })
+
+    dY += 17
+  })
+  y += tableH + 14
+
+  // ── FOOTER ──────────────────────────────────────────────
+  stroke('#EDE9FE')
+  pdf.setLineWidth(0.5)
+  pdf.line(margin, y, W-margin, y)
+  y += 10
+  const today = new Date().toLocaleDateString('en-GB',
+    { day: 'numeric', month: 'long', year: 'numeric' })
+  color('#94A3B8')
+  normal(7)
+  text('Last updated ' + today + '  |  ' + (stats.totalRecords||50) + ' records  |  Powered by Traivio', margin, y)
+  color('#C4B5FD')
+  bold(7)
+  text('AI-powered travel intelligence  |  traivio.ai', W-margin, y, { align: 'right' })
+
   // Save
-  // ═════════════════════════════════════════════════════════════
-  const date = new Date().toISOString().split('T')[0]
-  pdf.save(`traivio-cfo-report-${date}.pdf`)
+  const dateStr = new Date().toISOString().split('T')[0]
+  pdf.save('traivio-cfo-report-' + dateStr + '.pdf')
 }
