@@ -3,10 +3,39 @@ import {
 } from 'recharts'
 import { Sparkles, ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
+import { MapContainer, TileLayer, Circle, Marker } from 'react-leaflet'
+import L from 'leaflet'
+import icon from 'leaflet/dist/images/marker-icon.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import FilterPills from '../components/FilterPills'
 import AlertCard from '../components/AlertCard'
 import { useTravelData } from '../context/TravelDataContext'
+import { riskEvents } from '../data/riskData'
+import { matchRisksToTravelers, getTravelerLocations } from '../utils/riskMatcher'
 import styles from './Overview.module.css'
+
+// Fix Leaflet default icons
+const DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow })
+L.Marker.prototype.options.icon = DefaultIcon
+
+const SEVERITY_STYLES = {
+  critical: { fillColor: '#EF4444', color: '#EF4444', fillOpacity: 0.2,  opacity: 0.8 },
+  high:     { fillColor: '#F59E0B', color: '#F59E0B', fillOpacity: 0.15, opacity: 0.7 },
+  medium:   { fillColor: '#3B82F6', color: '#3B82F6', fillOpacity: 0.1,  opacity: 0.6 },
+  low:      { fillColor: '#10B981', color: '#10B981', fillOpacity: 0.08, opacity: 0.5 },
+}
+
+function miniTravelerIcon(isAtRisk) {
+  const color = isAtRisk ? '#EF4444' : '#3B82F6'
+  const glow = isAtRisk ? '239,68,68' : '59,130,246'
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 0 6px rgba(${glow},0.8);"></div>`,
+    iconSize: [10, 10],
+    iconAnchor: [5, 5],
+  })
+}
 
 const PIE_COLORS = {
   Air:   '#7C3AED',
@@ -40,8 +69,19 @@ function CustomLabel({ cx, cy, total }) {
 
 export default function Overview() {
   const navigate = useNavigate()
-  const { filteredStats } = useTravelData()
+  const { filteredStats, filteredRecords } = useTravelData()
   const s = filteredStats
+  const records = filteredRecords || []
+
+  const travelerLocations = useMemo(() => getTravelerLocations(records), [records])
+  const matchedRisks      = useMemo(() => matchRisksToTravelers(riskEvents, records), [records])
+  const atRiskNames = useMemo(() => {
+    const set = new Set()
+    matchedRisks.forEach(r => r.affectedTravelers?.forEach(t => set.add(t.traveler)))
+    return set
+  }, [matchedRisks])
+  const totalAtRisk = matchedRisks.reduce((n, r) => n + r.affectedCount, 0)
+  const topAlerts   = matchedRisks.slice(0, 3)
 
   // Pie chart from real category breakdown
   const pieData = s?.categoryBreakdown?.map(c => ({
@@ -227,6 +267,99 @@ export default function Overview() {
                 <div className={styles.barAmt}>{s.amount}</div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Risk Intelligence Widget */}
+        <div className={styles.card} style={{ marginTop: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className={styles.cardTitle} style={{ margin: 0 }}>Live traveler risk intelligence</div>
+              <span style={{
+                width: 8, height: 8, borderRadius: '50%', background: '#EF4444', display: 'inline-block',
+                animation: 'pulse 2s infinite'
+              }} />
+              {totalAtRisk > 0 && (
+                <span style={{ background: '#FEE2E2', color: '#991B1B', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 12 }}>
+                  {totalAtRisk} travelers at risk
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => navigate('/risk-intelligence')}
+              style={{ background: 'none', border: 'none', color: '#7C3AED', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+            >
+              View full map <ArrowRight size={12} />
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16 }}>
+            {/* Mini map */}
+            <div
+              style={{ borderRadius: 10, overflow: 'hidden', height: 220, border: '1px solid #EDE9FE', cursor: 'pointer' }}
+              onClick={() => navigate('/risk-intelligence')}
+            >
+              <MapContainer
+                center={[20, 15]}
+                zoom={2}
+                style={{ height: '100%', width: '100%' }}
+                scrollWheelZoom={false}
+                dragging={false}
+                zoomControl={false}
+                doubleClickZoom={false}
+                attributionControl={false}
+              >
+                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+                {riskEvents.map(ev => (
+                  <Circle
+                    key={ev.id}
+                    center={[ev.lat, ev.lng]}
+                    radius={ev.radius * 1000}
+                    pathOptions={SEVERITY_STYLES[ev.severity]}
+                  />
+                ))}
+                {travelerLocations.map((loc, i) => (
+                  <Marker
+                    key={i}
+                    position={[loc.lat, loc.lng]}
+                    icon={miniTravelerIcon(atRiskNames.has(loc.traveler))}
+                  />
+                ))}
+              </MapContainer>
+            </div>
+
+            {/* Top 3 alerts */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {topAlerts.length === 0 ? (
+                <div style={{ color: '#94A3B8', fontSize: 13, paddingTop: 20 }}>No alerts affecting your travelers</div>
+              ) : (
+                topAlerts.map(risk => {
+                  const sevBg = { critical: '#FEE2E2', high: '#FEF3C7', medium: '#DBEAFE', low: '#D1FAE5' }[risk.severity]
+                  const sevTx = { critical: '#991B1B', high: '#92400E', medium: '#1E40AF', low: '#065F46' }[risk.severity]
+                  return (
+                    <div key={risk.id} style={{ background: '#FAFAFE', border: '1px solid #EDE9FE', borderRadius: 8, padding: '10px 12px', cursor: 'pointer' }}
+                      onClick={() => navigate('/risk-intelligence')}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                        <span style={{ background: sevBg, color: sevTx, fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 4, textTransform: 'uppercase' }}>
+                          {risk.severity}
+                        </span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#1a0533' }}>{risk.title}</span>
+                      </div>
+                      <div style={{ fontSize: 11, color: '#EF4444', fontWeight: 600 }}>
+                        {risk.affectedCount} traveler{risk.affectedCount !== 1 ? 's' : ''} affected
+                      </div>
+                    </div>
+                  )
+                })
+              )}
+              <button
+                onClick={() => navigate('/risk-intelligence')}
+                className={styles.link}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0, marginTop: 4 }}
+              >
+                View all {riskEvents.length} alerts <ArrowRight size={12} />
+              </button>
+            </div>
           </div>
         </div>
 

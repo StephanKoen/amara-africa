@@ -20,6 +20,7 @@ import ReportsAnalytics    from './pages/ReportsAnalytics'
 import PredictiveInsights  from './pages/PredictiveInsights'
 import AIAnalyst           from './pages/AIAnalyst'
 import TMCPortal           from './pages/TMCPortal'
+import RiskIntelligence    from './pages/RiskIntelligence'
 import styles from './App.module.css'
 
 function AppShell() {
@@ -61,7 +62,8 @@ function AppShell() {
             <Route path="/reports"            element={<ReportsAnalytics />} />
             <Route path="/predictive"         element={<PredictiveInsights />} />
             <Route path="/ai-analyst"         element={<AIAnalyst />} />
-            <Route path="/tmc-portal"         element={<TMCPortal />} />
+            <Route path="/tmc-portal"          element={<TMCPortal />} />
+            <Route path="/risk-intelligence"  element={<RiskIntelligence />} />
             <Route path="*"                   element={<Navigate to="/overview" replace />} />
           </Routes>
         </main>
