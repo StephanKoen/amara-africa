@@ -302,12 +302,16 @@ export default function Overview() {
               <MapContainer
                 center={[20, 15]}
                 zoom={2}
+                minZoom={2}
                 style={{ height: '100%', width: '100%' }}
                 scrollWheelZoom={false}
                 dragging={false}
                 zoomControl={false}
                 doubleClickZoom={false}
                 attributionControl={false}
+                worldCopyJump={true}
+                maxBounds={[[-90, -180], [90, 180]]}
+                maxBoundsViscosity={0.5}
               >
                 <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
                 {riskEvents.map(ev => (

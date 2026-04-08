@@ -205,8 +205,12 @@ export default function RiskIntelligence() {
             <MapContainer
               center={[20, 15]}
               zoom={2}
+              minZoom={2}
               style={{ height: '100%', width: '100%' }}
               scrollWheelZoom
+              worldCopyJump={true}
+              maxBounds={[[-90, -180], [90, 180]]}
+              maxBoundsViscosity={0.5}
             >
               <MapController target={flyTarget} />
               <TileLayer
