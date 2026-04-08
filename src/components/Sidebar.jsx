@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, AlertTriangle, ShieldAlert, TrendingUp,
   CreditCard, FileText, BarChart2, Brain, MessageSquareText,
-  Building2, Menu, X, LogOut, ChevronRight
+  Building2, Upload as UploadIcon, X, LogOut, ChevronRight, Menu
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
@@ -13,6 +13,7 @@ const nav = [
     group: 'MAIN',
     items: [
       { to: '/overview',           icon: LayoutDashboard,   label: 'Overview' },
+      { to: '/upload',             icon: UploadIcon,         label: 'Upload data' },
       { to: '/fare-discrepancies', icon: AlertTriangle,      label: 'Fare discrepancies' },
       { to: '/fraud-compliance',   icon: ShieldAlert,        label: 'Fraud & compliance', badge: '3', badgeColor: 'danger' },
       { to: '/savings',            icon: TrendingUp,         label: 'Savings' },

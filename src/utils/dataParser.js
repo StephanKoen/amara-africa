@@ -1,94 +1,242 @@
 import Papa from 'papaparse'
 import * as XLSX from 'xlsx'
 
-const FIELD_ALIASES = {
-  date:        ['travel date', 'date', 'trip date', 'departure date', 'booking date'],
-  origin:      ['origin', 'from', 'departure city', 'origin city', 'from city'],
-  destination: ['destination', 'to', 'arrival city', 'dest', 'to city'],
-  cost:        ['cost', 'amount', 'fare', 'price', 'total', 'spend', 'total cost', 'ticket cost'],
-  traveler:    ['traveler', 'traveller', 'passenger', 'employee', 'name', 'traveler name'],
-  department:  ['department', 'dept', 'team', 'division', 'cost centre', 'cost center'],
-  vendor:      ['vendor', 'airline', 'hotel', 'supplier', 'carrier'],
-  category:    ['category', 'type', 'travel type', 'expense type'],
+// ── field definitions ──────────────────────────────────────────────────────────
+const FIELD_DEFS = [
+  { key:'travelDate',      label:'Travel Date',        matchers:['travel date','travel_date','traveldate','date','trip date','departure date','flight date','when'] },
+  { key:'bookingDate',     label:'Booking Date',       matchers:['booking date','booking_date','booked date','booked on','purchase date','book date'] },
+  { key:'travelerName',    label:'Traveler Name',      matchers:['traveler name','traveler','traveller','passenger','employee','name','emp name','passenger name','person'] },
+  { key:'travelerEmail',   label:'Traveler Email',     matchers:['email','traveler email','emp email','e-mail'] },
+  { key:'department',      label:'Department',         matchers:['department','dept','team','division','group','business unit','cost department'] },
+  { key:'costCentre',      label:'Cost Centre',        matchers:['cost centre','cost center','cost_centre','cc','cost code','project code','cost_center'] },
+  { key:'origin',          label:'Origin',             matchers:['origin','from','departure','origin city','from city','source','departure city'] },
+  { key:'originCode',      label:'Origin Code',        matchers:['origin code','from code','departure code','iata from','origin_code'] },
+  { key:'destination',     label:'Destination',        matchers:['destination','to','arrival','dest','destination city','to city','arrival city'] },
+  { key:'destinationCode', label:'Destination Code',   matchers:['destination code','to code','arrival code','iata to','dest_code','destination_code'] },
+  { key:'vendor',          label:'Vendor',             matchers:['vendor','airline','hotel','supplier','carrier','company','provider'] },
+  { key:'bookingRef',      label:'Booking Reference',  matchers:['booking ref','booking reference','booking id','pnr','reference','booking_ref','confirmation'] },
+  { key:'ticketNumber',    label:'Ticket Number',      matchers:['ticket number','ticket','ticket no','ticket_number','eticket','e-ticket'] },
+  { key:'classOfTravel',   label:'Class of Travel',    matchers:['class of travel','class','cabin class','travel class','service class','cabin'] },
+  { key:'category',        label:'Travel Category',    matchers:['category','type','travel type','expense type','travel category','mode'] },
+  { key:'totalCost',       label:'Total Cost',         matchers:['total cost','total','cost','amount','fare','price','spend','total amount','ticket amount','ticket cost','total_cost','value'] },
+  { key:'currency',        label:'Currency',           matchers:['currency','curr','ccy','currency code'] },
+  { key:'policyStatus',    label:'Policy Status',      matchers:['policy status','policy','compliance','status','approval status','compliant'] },
+  { key:'approvedBy',      label:'Approved By',        matchers:['approved by','approver','manager','approval','approved_by'] },
+  { key:'marketRate',      label:'Market Rate',        matchers:['market rate','ota rate','benchmark','market fare','standard rate','market_rate'] },
+  { key:'notes',           label:'Notes',              matchers:['notes','note','comments','comment','remarks','description'] },
+]
+
+// Traivio template headers (exact match = skip mapper)
+const TRAIVIO_HEADERS = [
+  'Travel Date','Booking Date','Traveler Name','Traveler Email','Department',
+  'Cost Centre','Origin City','Origin Code','Destination City','Destination Code',
+  'Vendor','Booking Reference','Ticket Number','Class of Travel','Travel Category',
+  'Total Cost','Currency','Policy Status','Approved By','Notes',
+]
+
+// Template header → field key mapping (for direct load)
+const TEMPLATE_MAP = {
+  'Travel Date':'travelDate','Booking Date':'bookingDate','Traveler Name':'travelerName',
+  'Traveler Email':'travelerEmail','Department':'department','Cost Centre':'costCentre',
+  'Origin City':'origin','Origin Code':'originCode','Destination City':'destination',
+  'Destination Code':'destinationCode','Vendor':'vendor','Booking Reference':'bookingRef',
+  'Ticket Number':'ticketNumber','Class of Travel':'classOfTravel','Travel Category':'category',
+  'Total Cost':'totalCost','Currency':'currency','Policy Status':'policyStatus',
+  'Approved By':'approvedBy','Notes':'notes',
 }
 
-function mapHeaders(raw) {
-  const mapped = {}
-  const lower = Object.fromEntries(
-    Object.entries(raw[0] || {}).map(([k]) => [k.toLowerCase().trim(), k])
+// ── detect columns ─────────────────────────────────────────────────────────────
+export function detectColumns(rawRows) {
+  if (!rawRows?.length) return { headers:[], mapping:{}, isTraivioTemplate:false, currency:null, dateFormat:null }
+  const headers = Object.keys(rawRows[0])
+
+  // check traivio template
+  const isTraivioTemplate = TRAIVIO_HEADERS.every(th =>
+    headers.some(h => h.trim().toLowerCase() === th.toLowerCase())
   )
-  for (const [field, aliases] of Object.entries(FIELD_ALIASES)) {
-    for (const alias of aliases) {
-      if (lower[alias]) { mapped[field] = lower[alias]; break }
+
+  const usedKeys = new Set()
+  const mapping  = {}
+
+  headers.forEach(header => {
+    const h = header.toLowerCase().replace(/[_\-]/g, ' ').trim()
+    let matched = null, confidence = 'unmapped'
+
+    for (const def of FIELD_DEFS) {
+      if (usedKeys.has(def.key)) continue
+      const idx = def.matchers.indexOf(h)
+      if (idx === 0)                                          { matched = def; confidence = 'high';   break }
+      if (idx > 0)                                            { matched = def; confidence = 'medium'; break }
+      if (!matched && def.matchers.some(m => h.includes(m) || m.includes(h))) {
+                                                                matched = def; confidence = 'low'
+      }
     }
+    if (matched) usedKeys.add(matched.key)
+    mapping[header] = matched
+      ? { detectedAs: matched.key, label: matched.label, confidence }
+      : { detectedAs: null, label: 'Unmapped', confidence: 'unmapped' }
+  })
+
+  // currency detection
+  const costHeader = Object.entries(mapping).find(([, v]) => v.detectedAs === 'totalCost')?.[0]
+  let currency = null
+  if (costHeader) {
+    const sample = String(rawRows[0][costHeader] || '')
+    if (/R|ZAR/i.test(sample))     currency = 'ZAR'
+    else if (/\$|USD/i.test(sample)) currency = 'USD'
+    else if (/£|GBP/i.test(sample)) currency = 'GBP'
+    else if (/€|EUR/i.test(sample)) currency = 'EUR'
   }
-  return mapped
+
+  // date format detection
+  const dateHeader = Object.entries(mapping).find(([, v]) => v.detectedAs === 'travelDate')?.[0]
+  let dateFormat = null
+  if (dateHeader) {
+    const sample = String(rawRows[0][dateHeader] || '')
+    if (/^\d{4}-\d{2}-\d{2}/.test(sample))   dateFormat = 'YYYY-MM-DD'
+    else if (/^\d{2}\/\d{2}\/\d{4}/.test(sample)) dateFormat = 'DD/MM/YYYY'
+    else if (/^\d{2}-\d{2}-\d{4}/.test(sample))   dateFormat = 'MM/DD/YYYY'
+  }
+
+  return { headers, mapping, isTraivioTemplate, currency, dateFormat }
 }
 
-function normaliseRows(raw, mapping) {
-  return raw.map(r => {
-    const row = {}
-    for (const [field, orig] of Object.entries(mapping)) {
-      row[field] = r[orig]
-    }
-    // Keep all original keys too
-    Object.assign(row, r)
-    return row
+// ── apply confirmed mapping → normalized records ───────────────────────────────
+export function applyMapping(rawRows, confirmedMapping) {
+  return rawRows.map((row, idx) => {
+    const out = { id: idx + 1, policyStatus: 'Compliant', fraudFlag: false, currency: 'USD', category: 'Air' }
+    Object.entries(confirmedMapping).forEach(([header, fieldDef]) => {
+      const key = fieldDef?.detectedAs
+      if (!key || key === 'ignore') return
+      const val = row[header]
+      if (key === 'totalCost' || key === 'marketRate') {
+        out[key] = parseFloat(String(val || '').replace(/[^0-9.\-]/g, '')) || 0
+      } else {
+        out[key] = val ?? ''
+      }
+    })
+    return out
   })
 }
 
-export async function parseFile(file) {
-  const ext = file.name.split('.').pop().toLowerCase()
+// ── parse template rows directly ───────────────────────────────────────────────
+function applyTemplateMapping(rawRows) {
+  return rawRows.map((row, idx) => {
+    const out = { id: idx + 1, fraudFlag: false }
+    Object.entries(TEMPLATE_MAP).forEach(([header, key]) => {
+      const val = row[header]
+      if (key === 'totalCost' || key === 'marketRate') {
+        out[key] = parseFloat(String(val || '').replace(/[^0-9.\-]/g, '')) || 0
+      } else {
+        out[key] = val ?? ''
+      }
+    })
+    return out
+  })
+}
 
+// ── parse raw bytes ────────────────────────────────────────────────────────────
+async function parseRaw(file) {
+  const ext = file.name.split('.').pop().toLowerCase()
   if (ext === 'csv') {
     return new Promise((resolve, reject) => {
       Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
+        header: true, skipEmptyLines: true,
         complete: ({ data, errors }) => {
-          if (errors.length && !data.length) return reject(new Error('CSV parse error'))
-          const mapping = mapHeaders(data)
-          resolve(normaliseRows(data, mapping))
+          if (errors.length && !data.length) reject(new Error('CSV parse error'))
+          else resolve(data)
         },
         error: reject,
       })
     })
   }
-
-  if (['xlsx', 'xls'].includes(ext)) {
+  if (['xlsx','xls'].includes(ext)) {
     const buf = await file.arrayBuffer()
-    const wb = XLSX.read(buf, { type: 'array' })
-    const ws = wb.Sheets[wb.SheetNames[0]]
-    const raw = XLSX.utils.sheet_to_json(ws, { defval: '' })
-    const mapping = mapHeaders(raw)
-    return normaliseRows(raw, mapping)
+    const wb  = XLSX.read(buf, { type: 'array' })
+    const ws  = wb.Sheets[wb.SheetNames[0]]
+    return XLSX.utils.sheet_to_json(ws, { defval: '' })
   }
-
-  throw new Error('Unsupported file type. Please upload CSV or Excel (.xlsx/.xls)')
+  throw new Error('Unsupported file type. Use CSV or Excel (.xlsx / .xls)')
 }
 
+// ── detectAndParse: returns detection result for mapper ────────────────────────
+export async function detectAndParse(file) {
+  const rawRows   = await parseRaw(file)
+  const detection = detectColumns(rawRows)
+  return { fileName: file.name, rawRows, ...detection }
+}
+
+// ── parseFile: legacy API (used by old Demo page) ─────────────────────────────
+export async function parseFile(file) {
+  const result = await detectAndParse(file)
+  if (result.isTraivioTemplate) return applyTemplateMapping(result.rawRows)
+  // fall back: apply best-guess mapping without user confirmation
+  return applyMapping(result.rawRows, result.mapping)
+}
+
+// ── validate / summarise (legacy, used by Demo.jsx) ───────────────────────────
 export function validateData(rows) {
-  const required = ['date', 'cost']
-  const missing = required.filter(f => !rows[0]?.[f])
+  const required = ['travelDate','totalCost']
+  const keys = Object.keys(rows[0] || {})
+  const missing = required.filter(f => !keys.includes(f))
   return { valid: missing.length === 0, missing }
 }
 
 export function summarise(rows) {
-  const totalSpend = rows.reduce((s, r) => s + (parseFloat(r.cost) || 0), 0)
-  const trips = rows.length
-  const travelers = new Set(rows.map(r => r.traveler).filter(Boolean)).size
+  const totalSpend = rows.reduce((s, r) => s + (parseFloat(r.totalCost) || 0), 0)
+  const trips      = rows.length
+  const travelers  = new Set(rows.map(r => r.travelerName).filter(Boolean)).size
+  return { totalSpend, trips, travelers }
+}
 
-  const byCategory = {}
-  rows.forEach(r => {
-    const cat = r.category || 'Other'
-    byCategory[cat] = (byCategory[cat] || 0) + (parseFloat(r.cost) || 0)
-  })
+// ── template downloads ─────────────────────────────────────────────────────────
+export const CSV_TEMPLATE_HEADERS = TRAIVIO_HEADERS
 
-  const byDept = {}
-  rows.forEach(r => {
-    const d = r.department || 'Unknown'
-    byDept[d] = (byDept[d] || 0) + (parseFloat(r.cost) || 0)
-  })
+export function downloadCSVTemplate() {
+  const header = CSV_TEMPLATE_HEADERS.join(',')
+  const example = [
+    '2025-01-15','2025-01-03','Sarah Johnson','sarah.j@company.com','Sales',
+    'CC-SALES-001','Johannesburg','JNB','Cape Town','CPT',
+    'South African Airways','SAA-2025-0001','SA083456789','Economy','Air',
+    '4200','ZAR','Compliant','Michael Peters','',
+  ].map(v => `"${v}"`).join(',')
+  const csv = `${header}\n${example}\n`
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob)
+  a.download = 'traivio-template.csv'; a.click()
+}
 
-  return { totalSpend, trips, travelers, byCategory, byDept }
+export function downloadExcelTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([
+    CSV_TEMPLATE_HEADERS,
+    ['2025-01-15','2025-01-03','Sarah Johnson','sarah.j@company.com','Sales','CC-SALES-001','Johannesburg','JNB','Cape Town','CPT','South African Airways','SAA-2025-0001','SA083456789','Economy','Air',4200,'ZAR','Compliant','Michael Peters',''],
+  ])
+  const instructions = [
+    ['Column','Description','Example'],
+    ['Travel Date','Date of travel (YYYY-MM-DD)','2025-01-15'],
+    ['Booking Date','Date booking was made','2025-01-03'],
+    ['Traveler Name','Full name of traveler','Sarah Johnson'],
+    ['Traveler Email','Work email address','sarah.j@company.com'],
+    ['Department','Business department','Sales'],
+    ['Cost Centre','Internal cost centre code','CC-SALES-001'],
+    ['Origin City','City of departure','Johannesburg'],
+    ['Origin Code','IATA airport code','JNB'],
+    ['Destination City','City of arrival','Cape Town'],
+    ['Destination Code','IATA airport code','CPT'],
+    ['Vendor','Airline, hotel, or car rental company','South African Airways'],
+    ['Booking Reference','PNR or booking ID','SAA-2025-0001'],
+    ['Ticket Number','E-ticket number','SA083456789'],
+    ['Class of Travel','Economy / Business / Standard','Economy'],
+    ['Travel Category','Air / Hotel / Car','Air'],
+    ['Total Cost','Total amount charged (no currency symbol)','4200'],
+    ['Currency','ISO currency code','ZAR'],
+    ['Policy Status','Compliant or Violation','Compliant'],
+    ['Approved By','Manager who approved','Michael Peters'],
+    ['Notes','Any additional notes',''],
+  ]
+  const ws2 = XLSX.utils.aoa_to_sheet(instructions)
+  const wb  = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws,  'Travel Data')
+  XLSX.utils.book_append_sheet(wb, ws2, 'Instructions')
+  XLSX.writeFile(wb, 'traivio-template.xlsx')
 }

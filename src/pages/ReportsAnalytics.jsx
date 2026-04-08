@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { FileText, Download, Sparkles, BarChart2, Search } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import FilterPills from '../components/FilterPills'
+import { useTravelData } from '../context/TravelDataContext'
+import { generateReport, downloadCSV } from '../utils/pdfExport'
 import styles from './InnerPage.module.css'
 import rStyles from './ReportsAnalytics.module.css'
 
@@ -29,11 +31,30 @@ const presetSystems = {
 }
 
 export default function ReportsAnalytics() {
+  const { stats, isDemo, fileName } = useTravelData()
   const [nlQuery, setNlQuery] = useState('')
   const [selectedDims, setSelectedDims] = useState(['Department'])
   const [chartType, setChartType] = useState('Bar chart')
   const [running, setRunning] = useState(null)
   const [aiSummary, setAiSummary] = useState(null)
+  const [lastAiReport, setLastAiReport] = useState({ id: null, text: null })
+
+  function handleDownloadPDF(e, presetId) {
+    e.stopPropagation()
+    const aiText = lastAiReport.id === presetId ? lastAiReport.text : null
+    generateReport(presetId, stats, isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation'), !isDemo, aiText)
+  }
+
+  function handleDownloadCSV() {
+    if (!stats?.records) return
+    const headers = ['Travel Date', 'Traveler', 'Department', 'Route', 'Vendor', 'Category', 'Amount (ZAR)', 'Policy Status', 'Fraud Flag']
+    const rows = stats.records.map(r => [
+      r.travelDate, r.travelerName, r.department,
+      `${r.originCode}→${r.destinationCode}`, r.vendor, r.category,
+      r.totalCost, r.policyStatus, r.fraudFlag ? 'Yes' : 'No',
+    ])
+    downloadCSV('Travel Records', headers, rows)
+  }
 
   function toggleDim(d) {
     setSelectedDims(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
@@ -79,7 +100,9 @@ export default function ReportsAnalytics() {
 
       const data = await res.json()
       if (data.content?.[0]?.text) {
-        setAiSummary(data.content[0].text)
+        const text = data.content[0].text
+        setAiSummary(text)
+        setLastAiReport({ id, text })
       } else {
         setAiSummary('No response received. Please check your API key and try again.')
       }
@@ -88,29 +111,6 @@ export default function ReportsAnalytics() {
     } finally {
       setRunning(null)
     }
-  }
-
-  function downloadCSV() {
-    const date = new Date().toISOString().slice(0, 10)
-    const rows = [
-      ['Traveler', 'Department', 'Route', 'Vendor', 'Amount', 'Date', 'Policy Status'],
-      ['Alice Chen', 'Sales', 'JNB → LHR', 'British Airways', '$4,200', '2025-04-01', 'Compliant'],
-      ['Bob Smith', 'Engineering', 'JNB → NYC', 'Delta', '$3,800', '2025-04-03', 'Non-compliant'],
-      ['Carol White', 'Marketing', 'JNB → CPT', 'Kulula', '$890', '2025-04-05', 'Compliant'],
-      ['David Park', 'Sales', 'JNB → LHR', 'BA', '$4,100', '2025-04-07', 'Compliant'],
-      ['Emma Davis', 'Executive', 'JNB → NYC', 'South African Airways', '$5,200', '2025-04-09', 'Non-compliant'],
-      ['Frank Lee', 'Operations', 'CPT → DUR', 'FlySafair', '$320', '2025-04-10', 'Compliant'],
-      ['Grace Kim', 'Engineering', 'JNB → CPT', 'Kulula', '$750', '2025-04-11', 'Compliant'],
-      ['Henry Brown', 'Sales', 'JNB → LHR', 'Virgin Atlantic', '$3,950', '2025-04-12', 'Non-compliant'],
-    ]
-    const csv = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n')
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `traivio-report-${date}.csv`
-    a.click()
-    URL.revokeObjectURL(url)
   }
 
   return (
@@ -123,7 +123,7 @@ export default function ReportsAnalytics() {
         <div className={styles.card}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <h3 className={styles.cardTitle} style={{ marginBottom: 0 }}>Preset reports</h3>
-            <button className={rStyles.csvBtn} onClick={downloadCSV}>
+            <button className={rStyles.csvBtn} onClick={handleDownloadCSV}>
               <Download size={13} /> Download CSV
             </button>
           </div>
@@ -138,7 +138,7 @@ export default function ReportsAnalytics() {
                 <span>{p.label}</span>
                 {running === p.id
                   ? <span className={rStyles.spinner} />
-                  : <Download size={13} className={rStyles.dlIcon} />
+                  : <Download size={13} className={rStyles.dlIcon} onClick={e => handleDownloadPDF(e, p.id)} title="Download PDF" />
                 }
               </button>
             ))}
