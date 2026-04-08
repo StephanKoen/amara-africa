@@ -313,7 +313,7 @@ export default function Overview() {
                 maxBounds={[[-90, -180], [90, 180]]}
                 maxBoundsViscosity={0.5}
               >
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
                 {riskEvents.map(ev => (
                   <Circle
                     key={ev.id}
