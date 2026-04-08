@@ -93,6 +93,16 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     pdf.setFillColor(r,g,b)
     pdf.rect(margin + (i/100)*cW, y, cW/100+1, heroH, 'F')
   }
+  // Round the corners by covering them with white
+  fill('#ffffff')
+  pdf.rect(margin, y, 6, 6, 'F')
+  pdf.rect(margin + cW - 6, y, 6, 6, 'F')
+  pdf.rect(margin, y + heroH - 6, 6, 6, 'F')
+  pdf.rect(margin + cW - 6, y + heroH - 6, 6, 6, 'F')
+  // Draw rounded border on top
+  stroke('#7C3AED')
+  pdf.setLineWidth(1)
+  pdf.roundedRect(margin, y, cW, heroH, 6, 6, 'S')
 
   // Hero left — total spend
   color('#ffffff')
@@ -113,17 +123,22 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     { label: 'SAVINGS ID', val: money(stats.potentialSavings || 21000), sub: 'Identified' },
     { label: 'AT RISK', val: money(atRisk), sub: 'Credits+fraud' }
   ]
+  const statPositions = [
+    W - margin - 180,
+    W - margin - 110,
+    W - margin - 40
+  ]
   hStats.forEach((s, i) => {
-    const sx = W - margin - 14 - (2-i)*58
+    const sx = statPositions[i]
     color('#C4B5FD')
     normal(6)
-    text(s.label, sx, y + 16, { align: 'right' })
+    text(s.label, sx, y + 18, { align: 'center' })
     color('#ffffff')
-    bold(14)
-    text(s.val, sx, y + 32, { align: 'right' })
+    bold(15)
+    text(s.val, sx, y + 34, { align: 'center' })
     color('#C4B5FD')
     normal(6)
-    text(s.sub, sx, y + 42, { align: 'right' })
+    text(s.sub, sx, y + 44, { align: 'center' })
   })
   y += heroH + 14
 
@@ -212,16 +227,18 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     { num: String(typeof stats.violations === 'object' ? (stats.violations?.count || stats.violations?.length || 8) : (stats.violations || 8)), hex: '#F59E0B', txt: 'Policy violations flagged' },
     { num: '24', hex: '#7C3AED', txt: 'Travelers to risk regions' }
   ]
-  let riY = y + 28
+  let riY = y + 30
   riskItems.forEach(r => {
     color(r.hex)
-    bold(18)
+    bold(16)
     text(r.num, cardX[2] + 10, riY)
+    const numWidth = pdf.getTextWidth(r.num) + 6
     color('#374151')
     normal(7)
-    const lines = pdf.splitTextToSize(r.txt, cardW - 32)
-    pdf.text(lines, cardX[2] + 26, riY - 4)
-    riY += 26
+    const lines = pdf.splitTextToSize(r.txt, cardW - 20 - numWidth)
+    const textStartY = riY - (lines.length - 1) * 4
+    pdf.text(lines, cardX[2] + 10 + numWidth, textStartY)
+    riY += 28
   })
 
   y += cardH + 14
