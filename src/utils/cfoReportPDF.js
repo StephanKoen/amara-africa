@@ -93,9 +93,6 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     pdf.setFillColor(r,g,b)
     pdf.rect(margin + (i/100)*cW, y, cW/100+1, heroH, 'F')
   }
-  stroke('#ffffff')
-  pdf.setLineWidth(0)
-  pdf.roundedRect(margin, y, cW, heroH, 6, 6, 'S')
 
   // Hero left — total spend
   color('#ffffff')
@@ -331,26 +328,41 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   // ── DEPT TABLE ───────────────────────────────────────────
   newPageIfNeeded(140)
 
-  // Get dept data
-  let depts = []
-  if (stats.byDepartment && Object.keys(stats.byDepartment).length > 0) {
-    depts = Object.entries(stats.byDepartment)
-      .map(([name, data]) => ({
-        name,
-        spend: typeof data === 'object' ? (data.spend || 0) : (Number(data) || 0),
-        compliance: typeof data === 'object' ? (data.compliance || data.complianceRate || data.rate || 80) : 80,
-        trend: typeof data === 'object' ? (data.trend || 0) : 0
-      }))
-      .sort((a, b) => b.spend - a.spend)
-  } else {
-    depts = [
+  // Get dept data — prefer computing from raw records for accurate compliance
+  const depts = (() => {
+    // Try to compute from records directly
+    if (records && records.length > 0) {
+      const deptMap = {}
+      records.forEach(r => {
+        const dept = r.department || r.Department || r.dept || 'Unknown'
+        const cost = parseFloat(r.totalCost || r.cost || r.amount || r.fare || 0)
+        const compliant = (r.policyStatus || r.policy_status || '').toLowerCase().includes('compliant')
+        if (!deptMap[dept]) deptMap[dept] = { spend: 0, total: 0, compliant: 0 }
+        deptMap[dept].spend += cost
+        deptMap[dept].total += 1
+        if (compliant) deptMap[dept].compliant += 1
+      })
+      const result = Object.entries(deptMap)
+        .map(([name, d]) => ({
+          name,
+          spend: d.spend,
+          compliance: d.total > 0 ? Math.round((d.compliant/d.total)*100) : 80,
+          trend: 0
+        }))
+        .filter(d => d.spend > 0)
+        .sort((a,b) => b.spend - a.spend)
+        .slice(0, 6)
+      if (result.length > 0) return result
+    }
+    // Fallback with varied compliance
+    return [
       { name: 'Sales', spend: 169000, compliance: 73, trend: -5 },
       { name: 'Engineering', spend: 101000, compliance: 92, trend: 0 },
       { name: 'Executive', spend: 92000, compliance: 75, trend: -3 },
       { name: 'Marketing', spend: 46000, compliance: 86, trend: -2 },
       { name: 'Operations', spend: 32000, compliance: 100, trend: 1 }
     ]
-  }
+  })()
 
   const tableH = depts.length * 18 + 44
   fill('#ffffff')
