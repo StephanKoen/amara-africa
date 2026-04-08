@@ -1,8 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import { Upload, Sparkles } from 'lucide-react'
-import { useRef } from 'react'
+import { Upload, Sparkles, FileDown } from 'lucide-react'
+import { useRef, useState } from 'react'
 import { useTravelData } from '../context/TravelDataContext'
 import { detectAndParse } from '../utils/dataParser'
+import { downloadCFOReport } from '../utils/generateCFOReport'
 import styles from './Topbar.module.css'
 
 const pageInfo = {
@@ -20,9 +21,10 @@ const pageInfo = {
 }
 
 export default function Topbar() {
-  const location = useLocation()
-  const { setPendingFile } = useTravelData()
-  const inputRef = useRef()
+  const location  = useLocation()
+  const { setPendingFile, filteredStats, isDemo, fileName } = useTravelData()
+  const inputRef  = useRef()
+  const [cfoLoading, setCfoLoading] = useState(false)
   const info = pageInfo[location.pathname] || { title:'Traivio', subtitle:'' }
 
   async function handleFile(file) {
@@ -35,6 +37,16 @@ export default function Topbar() {
     }
   }
 
+  async function handleCFO() {
+    setCfoLoading(true)
+    const orgName = isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation')
+    try {
+      await downloadCFOReport(filteredStats, orgName)
+    } finally {
+      setCfoLoading(false)
+    }
+  }
+
   return (
     <header className={styles.topbar}>
       <div className={styles.left}>
@@ -42,6 +54,9 @@ export default function Topbar() {
         <p className={styles.subtitle}>{info.subtitle}</p>
       </div>
       <div className={styles.actions}>
+        <button className={styles.btnOutline} onClick={handleCFO} disabled={cfoLoading} title="Download CFO executive PDF report">
+          <FileDown size={14} /> {cfoLoading ? 'Generating…' : 'CFO Report'}
+        </button>
         <button className={styles.btnOutline} onClick={() => inputRef.current.click()}>
           <Upload size={14} /> Upload data
           <input ref={inputRef} type="file" accept=".csv,.xlsx,.xls" hidden

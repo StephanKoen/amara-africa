@@ -5,6 +5,7 @@ import FilterPills from '../components/FilterPills'
 import { useTravelData } from '../context/TravelDataContext'
 import { generateReport, downloadCSV } from '../utils/pdfExport'
 import { generatePPTX } from '../utils/pptxExport'
+import { downloadCFOReport } from '../utils/generateCFOReport'
 import { callAnthropic } from '../utils/anthropicClient'
 import styles from './InnerPage.module.css'
 import rStyles from './ReportsAnalytics.module.css'
@@ -35,15 +36,25 @@ const presetSystems = {
 export default function ReportsAnalytics() {
   const { filteredStats, isDemo, fileName } = useTravelData()
   const stats = filteredStats
-  const [nlQuery,      setNlQuery]      = useState('')
-  const [selectedDims, setSelectedDims] = useState(['Department'])
-  const [chartType,    setChartType]    = useState('Bar chart')
-  const [running,      setRunning]      = useState(null)
-  const [aiSummary,    setAiSummary]    = useState(null)
-  const [retryStatus,  setRetryStatus]  = useState(null)
-  const [lastAiReport, setLastAiReport] = useState({ id: null, text: null })
+  const [nlQuery,        setNlQuery]        = useState('')
+  const [selectedDims,   setSelectedDims]   = useState(['Department'])
+  const [chartType,      setChartType]      = useState('Bar chart')
+  const [running,        setRunning]        = useState(null)
+  const [aiSummary,      setAiSummary]      = useState(null)
+  const [retryStatus,    setRetryStatus]    = useState(null)
+  const [lastAiReport,   setLastAiReport]   = useState({ id: null, text: null })
+  const [cfoGenerating,  setCfoGenerating]  = useState(false)
 
   const orgName = isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation')
+
+  async function handleCFOReport() {
+    setCfoGenerating(true)
+    try {
+      await downloadCFOReport(stats, orgName)
+    } finally {
+      setCfoGenerating(false)
+    }
+  }
 
   function handleDownloadPDF(e, presetId) {
     e.stopPropagation()
@@ -123,6 +134,30 @@ export default function ReportsAnalytics() {
       <FilterPills />
       <div className={styles.page}>
         <PageHeader title="Reports & Analytics" description="Preset reports, custom pivot builder, and natural language queries" />
+
+        {/* CFO Executive Report — premium HTML-to-PDF */}
+        <div className={rStyles.cfoCard}>
+          <div className={rStyles.cfoLeft}>
+            <div className={rStyles.cfoLogo}>
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <polyline points="2,15 6,9 10,12 15,5 18,3"
+                  stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div className={rStyles.cfoTitle}>CFO Executive Report</div>
+              <div className={rStyles.cfoSub}>
+                Premium A4 PDF — spend, compliance, risk & savings with visual charts
+              </div>
+            </div>
+          </div>
+          <button className={rStyles.cfoBtn} onClick={handleCFOReport} disabled={cfoGenerating}>
+            {cfoGenerating
+              ? <><span className={rStyles.spinner} /> Generating report…</>
+              : <><Download size={14} /> Download CFO Report</>
+            }
+          </button>
+        </div>
 
         {/* Preset reports */}
         <div className={styles.card}>
