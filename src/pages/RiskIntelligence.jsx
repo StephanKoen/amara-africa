@@ -28,9 +28,9 @@ function travelerIcon(isAtRisk) {
 
 // Severity colours for circles
 const SEVERITY_STYLES = {
-  critical: { fillColor: '#EF4444', color: '#EF4444', fillOpacity: 0.2,  opacity: 0.8 },
-  high:     { fillColor: '#F59E0B', color: '#F59E0B', fillOpacity: 0.15, opacity: 0.7 },
-  medium:   { fillColor: '#3B82F6', color: '#3B82F6', fillOpacity: 0.1,  opacity: 0.6 },
+  critical: { fillColor: '#EF4444', color: '#EF4444', fillOpacity: 0.25, opacity: 0.8 },
+  high:     { fillColor: '#F59E0B', color: '#F59E0B', fillOpacity: 0.2,  opacity: 0.7 },
+  medium:   { fillColor: '#3B82F6', color: '#3B82F6', fillOpacity: 0.15, opacity: 0.6 },
   low:      { fillColor: '#10B981', color: '#10B981', fillOpacity: 0.08, opacity: 0.5 },
 }
 
@@ -210,7 +210,7 @@ export default function RiskIntelligence() {
             >
               <MapController target={flyTarget} />
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
 

@@ -20,9 +20,9 @@ const DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow })
 L.Marker.prototype.options.icon = DefaultIcon
 
 const SEVERITY_STYLES = {
-  critical: { fillColor: '#EF4444', color: '#EF4444', fillOpacity: 0.2,  opacity: 0.8 },
-  high:     { fillColor: '#F59E0B', color: '#F59E0B', fillOpacity: 0.15, opacity: 0.7 },
-  medium:   { fillColor: '#3B82F6', color: '#3B82F6', fillOpacity: 0.1,  opacity: 0.6 },
+  critical: { fillColor: '#EF4444', color: '#EF4444', fillOpacity: 0.25, opacity: 0.8 },
+  high:     { fillColor: '#F59E0B', color: '#F59E0B', fillOpacity: 0.2,  opacity: 0.7 },
+  medium:   { fillColor: '#3B82F6', color: '#3B82F6', fillOpacity: 0.15, opacity: 0.6 },
   low:      { fillColor: '#10B981', color: '#10B981', fillOpacity: 0.08, opacity: 0.5 },
 }
 
@@ -309,7 +309,7 @@ export default function Overview() {
                 doubleClickZoom={false}
                 attributionControl={false}
               >
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+                <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
                 {riskEvents.map(ev => (
                   <Circle
                     key={ev.id}
