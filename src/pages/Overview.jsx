@@ -24,9 +24,9 @@ const DEPT_COLORS = [
 
 function fmt(n) {
   if (n == null) return '—'
-  if (n >= 1000000) return `R${(n/1000000).toFixed(1)}M`
-  if (n >= 1000)    return `R${(n/1000).toFixed(0)}K`
-  return `R${Math.round(n).toLocaleString()}`
+  if (n >= 1000000) return `$${(n/1000000).toFixed(1)}M`
+  if (n >= 1000)    return `$${(n/1000).toFixed(0)}K`
+  return `$${Math.round(n).toLocaleString()}`
 }
 
 function CustomLabel({ cx, cy, total }) {

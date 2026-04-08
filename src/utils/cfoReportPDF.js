@@ -74,7 +74,7 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   y += 18
 
   // ── HERO BANNER ─────────────────────────────────────────
-  const heroH = 80
+  const heroH = 88
   // gradient: interpolate #2D1B69 -> #7C3AED -> #EC4899
   for (let i = 0; i <= 100; i++) {
     const t = i / 100
@@ -93,16 +93,6 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
     pdf.setFillColor(r,g,b)
     pdf.rect(margin + (i/100)*cW, y, cW/100+1, heroH, 'F')
   }
-  // Round the corners by covering them with white
-  fill('#ffffff')
-  pdf.rect(margin, y, 6, 6, 'F')
-  pdf.rect(margin + cW - 6, y, 6, 6, 'F')
-  pdf.rect(margin, y + heroH - 6, 6, 6, 'F')
-  pdf.rect(margin + cW - 6, y + heroH - 6, 6, 6, 'F')
-  // Draw rounded border on top
-  stroke('#7C3AED')
-  pdf.setLineWidth(1)
-  pdf.roundedRect(margin, y, cW, heroH, 6, 6, 'S')
 
   // Hero left — total spend
   color('#ffffff')

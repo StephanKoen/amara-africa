@@ -72,7 +72,7 @@ export default function ReportsAnalytics() {
 
   function handleDownloadCSV() {
     if (!stats?.records) return
-    const headers = ['Travel Date', 'Traveler', 'Department', 'Route', 'Vendor', 'Category', 'Amount (ZAR)', 'Policy Status', 'Fraud Flag']
+    const headers = ['Travel Date', 'Traveler', 'Department', 'Route', 'Vendor', 'Category', 'Amount (USD)', 'Policy Status', 'Fraud Flag']
     const rows = stats.records.map(r => [
       r.travelDate, r.travelerName, r.department,
       `${r.originCode}→${r.destinationCode}`, r.vendor, r.category,

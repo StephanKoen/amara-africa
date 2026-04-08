@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo, useCallback } from 'react'
-import { demoRecords, computeStats } from '../data/demoData'
+import { demoRecords, computeStats, demoCurrency } from '../data/demoData'
 
 const TravelDataContext = createContext(null)
 
@@ -135,6 +135,8 @@ export function TravelDataProvider({ children }) {
       columnMapping, setColumnMapping,
       pendingFile,   setPendingFile,
       clearUpload,
+      currency: isDemo ? demoCurrency : (uploadedData?.[0]?.currency || 'USD'),
+      currencySymbol: isDemo ? '$' : '$',
     }}>
       {children}
     </TravelDataContext.Provider>
