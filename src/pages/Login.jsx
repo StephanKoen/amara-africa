@@ -33,12 +33,14 @@ export default function Login() {
           <span className={styles.cardCta}>Sign in →</span>
         </button>
 
+        {/* TMC LOGIN — hidden for now, re-enable for TMC launch
         <button className={styles.card} onClick={() => handleLogin('tmc')}>
           <div className={`${styles.cardIcon} ${styles.accent}`}><Globe size={28} /></div>
           <h2 className={styles.cardTitle}>I'm a TMC</h2>
           <p className={styles.cardDesc}>Access your client portfolio dashboard, analytics, and AI audit tools</p>
           <span className={styles.cardCta}>Sign in →</span>
         </button>
+        */}
       </div>
 
       <button className={styles.demoBtn} onClick={() => navigate('/demo')}>
@@ -46,6 +48,7 @@ export default function Login() {
       </button>
 
       <p className={styles.footer}>AI-powered · SOC 2 compliant · GDPR ready</p>
+      <p className={styles.tmcLink}>Are you a TMC? Contact us at <a href="mailto:hello@traivio.ai">hello@traivio.ai</a></p>
     </div>
   )
 }

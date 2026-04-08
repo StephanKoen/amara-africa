@@ -33,7 +33,8 @@ const nav = [
       { to: '/risk-intelligence', icon: ShieldAlert, label: 'Risk intelligence', badge: '3', badgeColor: 'danger' },
       { to: '/predictive',  icon: Brain,              label: 'Predictive insights' },
       { to: '/ai-analyst',  icon: MessageSquareText,  label: 'AI analyst' },
-      { to: '/tmc-portal',  icon: Building2,          label: 'TMC portal' },
+      // TMC PORTAL — hidden for now, re-enable for TMC launch
+      // { to: '/tmc-portal', icon: Building2, label: 'TMC portal' },
     ]
   },
 ]

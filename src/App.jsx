@@ -62,7 +62,8 @@ function AppShell() {
             <Route path="/reports"            element={<ReportsAnalytics />} />
             <Route path="/predictive"         element={<PredictiveInsights />} />
             <Route path="/ai-analyst"         element={<AIAnalyst />} />
-            <Route path="/tmc-portal"          element={<TMCPortal />} />
+            {/* TMC PORTAL — hidden for now, re-enable for TMC launch */}
+            {/* <Route path="/tmc-portal" element={<TMCPortal />} /> */}
             <Route path="/risk-intelligence"  element={<RiskIntelligence />} />
             <Route path="*"                   element={<Navigate to="/overview" replace />} />
           </Routes>
