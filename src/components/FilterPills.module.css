@@ -59,10 +59,12 @@
 }
 
 .dropItem {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   text-align: left;
-  padding: 8px 12px;
+  padding: 8px 10px;
   font-size: 13px;
   color: var(--text-primary);
   border-radius: 6px;
@@ -81,4 +83,167 @@
   background: var(--primary-dim);
   color: var(--primary);
   font-weight: 600;
+}
+
+/* Checkbox for multi-select */
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  background: #fff;
+  flex-shrink: 0;
+  transition: all 0.1s;
+}
+
+.checkboxChecked {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+/* Wide dropdown */
+.dropdownWide {
+  min-width: 220px;
+}
+
+/* Search field in multi-select */
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+  color: var(--text-muted);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.noResults {
+  padding: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Custom date range section */
+.customRange {
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.customRange label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dateInput {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 12.5px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  color: var(--text-primary);
+  background: var(--bg-base);
+}
+
+.dateInput:focus {
+  border-color: var(--primary);
+}
+
+.applyBtn {
+  margin-top: 4px;
+  padding: 7px 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.applyBtn:hover {
+  opacity: 0.88;
+}
+
+/* More pill groups */
+.moreGroup {
+  padding: 4px 0;
+}
+
+.moreLabel {
+  padding: 4px 10px 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.moreDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 6px;
+}
+
+/* Filter indicator bar */
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 28px;
+  background: #F5F4FF;
+  border-bottom: 1px solid #DDD6FE;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.indicatorText {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.indicatorText strong {
+  color: var(--primary);
+}
+
+.indicatorClear {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.indicatorClear:hover {
+  background: #EDE9FE;
 }

@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { FileText, Download, Sparkles, BarChart2, Search } from 'lucide-react'
+import { FileText, Download, Sparkles, BarChart2, Search, Presentation } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import FilterPills from '../components/FilterPills'
 import { useTravelData } from '../context/TravelDataContext'
 import { generateReport, downloadCSV } from '../utils/pdfExport'
+import { generatePPTX } from '../utils/pptxExport'
 import styles from './InnerPage.module.css'
 import rStyles from './ReportsAnalytics.module.css'
 
@@ -31,7 +32,8 @@ const presetSystems = {
 }
 
 export default function ReportsAnalytics() {
-  const { stats, isDemo, fileName } = useTravelData()
+  const { filteredStats, isDemo, fileName } = useTravelData()
+  const stats = filteredStats
   const [nlQuery, setNlQuery] = useState('')
   const [selectedDims, setSelectedDims] = useState(['Department'])
   const [chartType, setChartType] = useState('Bar chart')
@@ -39,10 +41,18 @@ export default function ReportsAnalytics() {
   const [aiSummary, setAiSummary] = useState(null)
   const [lastAiReport, setLastAiReport] = useState({ id: null, text: null })
 
+  const orgName = isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation')
+
   function handleDownloadPDF(e, presetId) {
     e.stopPropagation()
     const aiText = lastAiReport.id === presetId ? lastAiReport.text : null
-    generateReport(presetId, stats, isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation'), !isDemo, aiText)
+    generateReport(presetId, stats, orgName, !isDemo, aiText)
+  }
+
+  async function handleDownloadPPTX(e, presetId) {
+    e.stopPropagation()
+    const aiText = lastAiReport.id === presetId ? lastAiReport.text : null
+    await generatePPTX(presetId, stats, orgName, !isDemo, aiText)
   }
 
   function handleDownloadCSV() {
@@ -136,10 +146,15 @@ export default function ReportsAnalytics() {
               >
                 <p.icon size={16} style={{ color: p.color, flexShrink: 0 }} />
                 <span>{p.label}</span>
-                {running === p.id
-                  ? <span className={rStyles.spinner} />
-                  : <Download size={13} className={rStyles.dlIcon} onClick={e => handleDownloadPDF(e, p.id)} title="Download PDF" />
-                }
+                <div className={rStyles.presetActions} onClick={e => e.stopPropagation()}>
+                  {running === p.id
+                    ? <span className={rStyles.spinner} />
+                    : <>
+                        <Download    size={13} className={rStyles.dlIcon} onClick={e => handleDownloadPDF(e, p.id)}  title="Download PDF" />
+                        <Presentation size={13} className={rStyles.dlIcon} onClick={e => handleDownloadPPTX(e, p.id)} title="Download PowerPoint" />
+                      </>
+                  }
+                </div>
               </button>
             ))}
           </div>
