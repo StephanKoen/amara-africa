@@ -3,6 +3,7 @@ import { Send, Bot, User, Loader, FileText, AlertCircle, Sparkles } from 'lucide
 import { useTravelData } from '../context/TravelDataContext'
 import PageHeader from '../components/PageHeader'
 import FilterPills from '../components/FilterPills'
+import { callAnthropic } from '../utils/anthropicClient'
 import styles from './AIAnalyst.module.css'
 import innerStyles from './InnerPage.module.css'
 
@@ -61,10 +62,11 @@ Keep responses concise and professional.`
 
 export default function AIAnalyst() {
   const { travelData, stats, isDemo, fileName } = useTravelData()
-  const [messages, setMessages] = useState([])
-  const [input,    setInput]    = useState('')
-  const [loading,  setLoading]  = useState(false)
-  const [error,    setError]    = useState(null)
+  const [messages,    setMessages]    = useState([])
+  const [input,       setInput]       = useState('')
+  const [loading,     setLoading]     = useState(false)
+  const [error,       setError]       = useState(null)
+  const [retryStatus, setRetryStatus] = useState(null)
   const bottomRef = useRef()
   const apiKey    = import.meta.env.VITE_ANTHROPIC_API_KEY
 
@@ -73,7 +75,7 @@ export default function AIAnalyst() {
   async function send(text) {
     const question = text || input.trim()
     if (!question) return
-    setInput(''); setError(null)
+    setInput(''); setError(null); setRetryStatus(null)
     const userMsg = { role: 'user', content: question }
     const history = [...messages, userMsg]
     setMessages(history); setLoading(true)
@@ -87,29 +89,18 @@ export default function AIAnalyst() {
         ? [{ role: 'user', content: contextualMsg }]
         : [...history.slice(0, -1).map(m => ({ role: m.role, content: m.content })), { role: 'user', content: question }]
 
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
+      const text = await callAnthropic({
+        apiKey,
+        system:   systemPrompt,
+        messages: requestMessages,
+        onRetry: (attempt, delayMs) => {
+          setRetryStatus(`AI is busy — retrying in ${delayMs / 1000}s... (attempt ${attempt}/3)`)
         },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1024,
-          system: systemPrompt,
-          messages: requestMessages,
-        }),
       })
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err?.error?.message || `API error ${res.status}`)
-      }
-      const data = await res.json()
-      setMessages(prev => [...prev, { role: 'assistant', content: data.content?.[0]?.text || 'No response.' }])
+      setRetryStatus(null)
+      setMessages(prev => [...prev, { role: 'assistant', content: text || 'No response.' }])
     } catch (e) {
+      setRetryStatus(null)
       setError(e.message)
     } finally {
       setLoading(false)
@@ -168,7 +159,12 @@ export default function AIAnalyst() {
                   </div>
                 </div>
               ))}
-              {loading && (
+              {retryStatus && (
+                <div className={styles.retryMsg}>
+                  <Loader size={12} className={styles.spin} /> {retryStatus}
+                </div>
+              )}
+              {loading && !retryStatus && (
                 <div className={`${styles.msg} ${styles.assistant}`}>
                   <div className={styles.avatar}><Sparkles size={13} /></div>
                   <div className={styles.bubble}><Loader size={14} className={styles.spin} /></div>

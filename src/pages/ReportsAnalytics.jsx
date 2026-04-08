@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { FileText, Download, Sparkles, BarChart2, Search, Presentation } from 'lucide-react'
+import { FileText, Download, Sparkles, BarChart2, Search, Presentation, Loader } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import FilterPills from '../components/FilterPills'
 import { useTravelData } from '../context/TravelDataContext'
 import { generateReport, downloadCSV } from '../utils/pdfExport'
 import { generatePPTX } from '../utils/pptxExport'
+import { callAnthropic } from '../utils/anthropicClient'
 import styles from './InnerPage.module.css'
 import rStyles from './ReportsAnalytics.module.css'
 
@@ -34,11 +35,12 @@ const presetSystems = {
 export default function ReportsAnalytics() {
   const { filteredStats, isDemo, fileName } = useTravelData()
   const stats = filteredStats
-  const [nlQuery, setNlQuery] = useState('')
+  const [nlQuery,      setNlQuery]      = useState('')
   const [selectedDims, setSelectedDims] = useState(['Department'])
-  const [chartType, setChartType] = useState('Bar chart')
-  const [running, setRunning] = useState(null)
-  const [aiSummary, setAiSummary] = useState(null)
+  const [chartType,    setChartType]    = useState('Bar chart')
+  const [running,      setRunning]      = useState(null)
+  const [aiSummary,    setAiSummary]    = useState(null)
+  const [retryStatus,  setRetryStatus]  = useState(null)
   const [lastAiReport, setLastAiReport] = useState({ id: null, text: null })
 
   const orgName = isDemo ? 'Acme Corp (Demo)' : (fileName || 'Your Organisation')
@@ -73,6 +75,7 @@ export default function ReportsAnalytics() {
   async function runReport(id) {
     setRunning(id)
     setAiSummary(null)
+    setRetryStatus(null)
 
     const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
     if (!apiKey) {
@@ -92,31 +95,23 @@ export default function ReportsAnalytics() {
       : 'Generate this report now. Include key findings, data highlights, and 3 actionable recommendations. Keep it concise and professional (under 300 words).'
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
+      const text = await callAnthropic({
+        apiKey,
+        system,
+        messages: [{ role: 'user', content: userMsg }],
+        onRetry: (attempt, delayMs) => {
+          setRetryStatus(`AI is busy — retrying in ${delayMs / 1000}s... (attempt ${attempt}/3)`)
         },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1024,
-          system,
-          messages: [{ role: 'user', content: userMsg }],
-        }),
       })
-
-      const data = await res.json()
-      if (data.content?.[0]?.text) {
-        const text = data.content[0].text
+      setRetryStatus(null)
+      if (text) {
         setAiSummary(text)
         setLastAiReport({ id, text })
       } else {
         setAiSummary('No response received. Please check your API key and try again.')
       }
     } catch (err) {
+      setRetryStatus(null)
       setAiSummary(`Error connecting to AI: ${err.message}`)
     } finally {
       setRunning(null)
@@ -158,6 +153,11 @@ export default function ReportsAnalytics() {
               </button>
             ))}
           </div>
+          {retryStatus && (
+            <div className={rStyles.retryMsg}>
+              <Loader size={12} className={rStyles.spin} /> {retryStatus}
+            </div>
+          )}
           {aiSummary && (
             <div className={`${styles.aiBox} ${rStyles.aiResult}`}>
               <Sparkles size={14} style={{ flexShrink: 0, marginTop: 2 }} />
