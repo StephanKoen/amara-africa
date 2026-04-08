@@ -5,7 +5,7 @@ import FilterPills from '../components/FilterPills'
 import { useTravelData } from '../context/TravelDataContext'
 import { generateReport, downloadCSV } from '../utils/pdfExport'
 import { generatePPTX } from '../utils/pptxExport'
-import { downloadCFOReport } from '../utils/generateCFOReport'
+import { downloadCFOReport } from '../utils/cfoReportPDF'
 import { callAnthropic } from '../utils/anthropicClient'
 import styles from './InnerPage.module.css'
 import rStyles from './ReportsAnalytics.module.css'
@@ -34,7 +34,7 @@ const presetSystems = {
 }
 
 export default function ReportsAnalytics() {
-  const { filteredStats, isDemo, fileName } = useTravelData()
+  const { filteredStats, filteredRecords, isDemo, fileName } = useTravelData()
   const stats = filteredStats
   const [nlQuery,        setNlQuery]        = useState('')
   const [selectedDims,   setSelectedDims]   = useState(['Department'])
@@ -50,7 +50,9 @@ export default function ReportsAnalytics() {
   async function handleCFOReport() {
     setCfoGenerating(true)
     try {
-      await downloadCFOReport(stats, orgName)
+      await downloadCFOReport(stats, filteredRecords || [], orgName)
+    } catch (e) {
+      console.error('CFO report error:', e)
     } finally {
       setCfoGenerating(false)
     }
@@ -135,27 +137,43 @@ export default function ReportsAnalytics() {
       <div className={styles.page}>
         <PageHeader title="Reports & Analytics" description="Preset reports, custom pivot builder, and natural language queries" />
 
-        {/* CFO Executive Report — premium HTML-to-PDF */}
-        <div className={rStyles.cfoCard}>
-          <div className={rStyles.cfoLeft}>
-            <div className={rStyles.cfoLogo}>
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                <polyline points="2,15 6,9 10,12 15,5 18,3"
-                  stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+        {/* CFO Executive Report */}
+        <div style={{
+          background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+          borderRadius: '12px',
+          padding: '20px 24px',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <div style={{ color: 'white', fontSize: '16px', fontWeight: '700' }}>
+              CFO Executive Report
             </div>
-            <div>
-              <div className={rStyles.cfoTitle}>CFO Executive Report</div>
-              <div className={rStyles.cfoSub}>
-                Premium A4 PDF — spend, compliance, risk & savings with visual charts
-              </div>
+            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', marginTop: '4px' }}>
+              Board-ready PDF with spend, compliance, risk and recommendations
             </div>
           </div>
-          <button className={rStyles.cfoBtn} onClick={handleCFOReport} disabled={cfoGenerating}>
-            {cfoGenerating
-              ? <><span className={rStyles.spinner} /> Generating report…</>
-              : <><Download size={14} /> Download CFO Report</>
-            }
+          <button
+            onClick={handleCFOReport}
+            disabled={cfoGenerating}
+            style={{
+              background: 'white',
+              color: '#7C3AED',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 20px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: cfoGenerating ? 'not-allowed' : 'pointer',
+              opacity: cfoGenerating ? 0.7 : 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            {cfoGenerating ? '⏳ Generating...' : '⬇ Download CFO Report'}
           </button>
         </div>
 
