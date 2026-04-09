@@ -9,7 +9,7 @@ export default function Login() {
 
   function handleLogin(type) {
     login({
-      name: type === 'company' ? 'Alex Johnson' : 'Sarah Chen',
+      name: type === 'company' ? 'Ristine' : 'Sarah Chen',
       role: type === 'company' ? 'Travel Manager' : 'TMC Analyst',
       type,
     })

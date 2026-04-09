@@ -1,6 +1,6 @@
 import styles from './DataTable.module.css'
 
-export default function DataTable({ headers, rows, renderCell }) {
+export default function DataTable({ headers, rows, renderCell, onRowClick, rowStyle }) {
   return (
     <div className={styles.wrap}>
       <table className={styles.table}>
@@ -9,7 +9,7 @@ export default function DataTable({ headers, rows, renderCell }) {
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i}>
+            <tr key={i} onClick={onRowClick ? () => onRowClick(row) : undefined} style={rowStyle}>
               {headers.map(h => (
                 <td key={h}>
                   {renderCell ? renderCell(h, row[h], row) : (row[h] ?? '—')}

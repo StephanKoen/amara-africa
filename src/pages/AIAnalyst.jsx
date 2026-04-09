@@ -32,24 +32,24 @@ Organisation: ${isDemo ? 'Acme Corp (Demo Data)' : 'Uploaded Organisation'}
 Data file: ${fileName || 'demo data'}
 Period: ${s.dateRange}
 Total records: ${s.totalTrips}
-Total spend: R${Math.round(s.totalSpend).toLocaleString('en-ZA')}
-Avg cost per trip: R${Math.round(s.avgCostPerTrip).toLocaleString('en-ZA')}
+Total spend: $${Math.round(s.totalSpend).toLocaleString('en-US')}
+Avg cost per trip: $${Math.round(s.avgCostPerTrip).toLocaleString('en-US')}
 Unique travelers: ${s.uniqueTravelers}
 Unique vendors: ${s.uniqueVendors}
 Compliance rate: ${s.complianceRate}% (target 90%)
 Policy violations: ${s.violationCount}
 Fraud flags: ${s.fraudFlagCount}
 Fare discrepancies (>15% over market): ${s.fareDiscrepancies?.length || 0}
-Potential savings identified: R${Math.round((s.potentialSavings || 0) + 41000).toLocaleString('en-ZA')}
+Potential savings identified: $${Math.round((s.potentialSavings || 0) + 41000).toLocaleString('en-US')}
 
 Spend by category:
-${Object.entries(s.byCategory || {}).map(([k, v]) => `  ${k}: R${Math.round(v).toLocaleString('en-ZA')}`).join('\n')}
+${Object.entries(s.byCategory || {}).map(([k, v]) => `  ${k}: $${Math.round(v).toLocaleString('en-US')}`).join('\n')}
 
 Spend by department:
-${Object.entries(s.byDepartment || {}).map(([k, v]) => `  ${k}: R${Math.round(v).toLocaleString('en-ZA')}`).join('\n')}
+${Object.entries(s.byDepartment || {}).map(([k, v]) => `  ${k}: $${Math.round(v).toLocaleString('en-US')}`).join('\n')}
 
 Top 5 travelers by spend:
-${(s.topTravelers || []).map(t => `  ${t.name} (${t.department}): R${Math.round(t.amount).toLocaleString('en-ZA')} across ${t.trips} trips`).join('\n')}
+${(s.topTravelers || []).map(t => `  ${t.name} (${t.department}): $${Math.round(t.amount).toLocaleString('en-US')} across ${t.trips} trips`).join('\n')}
 
 Top routes:
 ${(s.topRoutes || []).map(r => `  ${r.route}: ${r.count} bookings`).join('\n')}

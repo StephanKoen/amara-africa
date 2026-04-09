@@ -159,8 +159,135 @@ async function parseRaw(file) {
   throw new Error('Unsupported file type. Use CSV or Excel (.xlsx / .xls)')
 }
 
+// ── Spotnana: check if raw-array xlsx looks like a Spotnana export ─────────────
+function detectSpotnanaFile(rawArr) {
+  const top = rawArr.slice(0, 12)
+  const flat = top.flat().filter(Boolean).map(c => String(c))
+  const joined = flat.join(' ')
+  const hasBrand = joined.includes('Spotnana') || joined.includes('Bespoke Travel Manager')
+  const hasHeaders = top.some(row =>
+    Array.isArray(row) &&
+    row.includes('Traveler Name') &&
+    row.includes('Policy Compliance') &&
+    row.includes('Gross Spend (Billing Currency)')
+  )
+  return hasBrand || hasHeaders
+}
+
+// ── Spotnana: parse raw 2D array into Traivio records ─────────────────────────
+function parseSpotnanaFromRaw(rawArr) {
+  let headerRowIndex = -1
+  for (let i = 0; i < Math.min(rawArr.length, 15); i++) {
+    if (rawArr[i] && rawArr[i].includes('Traveler Name')) { headerRowIndex = i; break }
+  }
+  if (headerRowIndex === -1)
+    throw new Error('Could not find Spotnana header row. Please ensure this is a Spotnana All Transactions Report.')
+
+  const headers  = rawArr[headerRowIndex]
+  const dataRows = rawArr.slice(headerRowIndex + 1)
+
+  function parseDate(val) {
+    if (!val) return null
+    if (val instanceof Date) return val.toISOString().split('T')[0]
+    if (typeof val === 'string') return val.split('T')[0].split(' ')[0]
+    if (typeof val === 'number') return new Date((val - 25569) * 86400 * 1000).toISOString().split('T')[0]
+    return null
+  }
+
+  const policyMap = {
+    'In Policy': 'Compliant', 'Out of Policy': 'Violation', 'Exception': 'Exception',
+    'in_policy': 'Compliant', 'out_of_policy': 'Violation',
+  }
+
+  const records = dataRows
+    .filter(row => row && row.some(cell => cell !== null && cell !== ''))
+    .map((row, index) => {
+      const r = {}
+      headers.forEach((h, i) => { if (h) r[h] = row[i] })
+
+      const isVoided    = r['Transaction Type'] === 'Ticket Voided'
+      const isCancelled = r['Transaction Type'] === 'Ticket Cancelled'
+      const rawActive   = r['Active']
+      const isActive    = rawActive !== false && rawActive !== 'false' && rawActive !== 0
+
+      return {
+        id:              `spotnana-${index + 1}`,
+        travelDate:      parseDate(r['Travel Begin Date UTC']),
+        travelEndDate:   parseDate(r['Travel End Date UTC']),
+        bookingDate:     parseDate(r['PNR Creation Date']),
+        transactionDate: parseDate(r['Transaction Date UTC']),
+        travelerName:    r['Traveler Name']           || 'Unknown',
+        travelerEmail:   r['Traveler Email']          || '',
+        department:      r['Traveler Department']     || 'Unknown',
+        costCentre:      r['Traveler Cost Center']    || '',
+        employeeId:      r['Traveler Employee ID']    || '',
+        organizationName:r['Organization Name']       || '',
+        vendor:          r['Vendor Name']             || '',
+        bookingRef:      r['Source Reference']        || r['Confirmation Number'] || '',
+        ticketNumber:    r['Spotnana PNR ID'] ? String(r['Spotnana PNR ID']) : '',
+        category:        r['Booking Type']            || 'Air',
+        transactionType: r['Transaction Type']        || '',
+        classOfTravel:   r['Traveler Tier']           || 'Standard',
+        totalCost:       parseFloat(r['Gross Spend (Billing Currency)'])     || 0,
+        baseSpend:       parseFloat(r['Base Spend (Billing Currency)'])      || 0,
+        taxesAndFees:    parseFloat(r['Taxes & Fees Spend (Billing Currency)']) || 0,
+        currency:        r['Billing Currency']        || 'USD',
+        marketRate:      parseFloat(r['Published Price (Billing Currency)']) || 0,
+        policyStatus:    policyMap[r['Policy Compliance']] || 'Compliant',
+        violationType:   r['OOP Reason Code']         || null,
+        policyNote:      r['OOP Reason Description']  || null,
+        policiesViolated:r['List of Policies Violated']|| null,
+        approvedBy:      r['Approver Name']           || '',
+        approvalStatus:  r['Approval Status']         || 'N/A',
+        bookingMode:     r['Booking Mode']            || '',
+        bookingSource:   r['Booking Source']          || '',
+        policyGroup:     r['Policy Group']            || '',
+        creditCardLabel: r['Credit Card Labels']      || '',
+        tripId:          r['Trip ID'] ? String(r['Trip ID']) : '',
+        tripName:        r['Trip Name']               || '',
+        isActive,
+        isVoided,
+        isCancelled,
+        fraudFlag:       isVoided,
+        dataSource:      'spotnana',
+      }
+    })
+    .filter(r => r.travelDate || r.transactionDate)
+
+  return {
+    records,
+    isSpotnana:   true,
+    voidedCount:  records.filter(r => r.isVoided).length,
+    cancelledCount: records.filter(r => r.isCancelled).length,
+    totalRecords: records.length,
+    activeCount:  records.filter(r => r.isActive).length,
+  }
+}
+
+// ── parseSpotnanaExport: public API for dedicated Spotnana upload ──────────────
+export async function parseSpotnanaExport(file) {
+  const buf  = await file.arrayBuffer()
+  const wb   = XLSX.read(buf, { type: 'array' })
+  const ws   = wb.Sheets[wb.SheetNames[0]]
+  const raw  = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null })
+  return { fileName: file.name, ...parseSpotnanaFromRaw(raw) }
+}
+
 // ── detectAndParse: returns detection result for mapper ────────────────────────
 export async function detectAndParse(file) {
+  const ext = file.name.split('.').pop().toLowerCase()
+
+  // For Excel files, check for Spotnana format before standard parsing
+  if (['xlsx', 'xls'].includes(ext)) {
+    const buf = await file.arrayBuffer()
+    const wb  = XLSX.read(buf, { type: 'array' })
+    const ws  = wb.Sheets[wb.SheetNames[0]]
+    const rawArr = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null })
+    if (detectSpotnanaFile(rawArr)) {
+      return { fileName: file.name, ...parseSpotnanaFromRaw(rawArr) }
+    }
+  }
+
   const rawRows   = await parseRaw(file)
   const detection = detectColumns(rawRows)
   return { fileName: file.name, rawRows, ...detection }

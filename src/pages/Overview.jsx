@@ -126,7 +126,7 @@ export default function Overview() {
                   {fraudCount} fraud flag{fraudCount > 1 ? 's' : ''}
                 </span>
               )}
-              <span className={styles.pill} style={{ background: 'rgba(245,158,11,0.25)', color: '#FCD34D' }}>$9.8K expiring</span>
+              <span className={styles.pill} style={{ background: 'rgba(245,158,11,0.25)', color: '#FCD34D' }}>$9.8K credits expiring</span>
               {savings > 0 && (
                 <span className={styles.pill} style={{ background: 'rgba(16,185,129,0.25)', color: '#6EE7B7' }}>
                   {fmt(savings)} savings found
@@ -226,9 +226,9 @@ export default function Overview() {
             <AlertCard
               tag="8 days left" tagColor="warning"
               title="Credits expiring"
-              value="R9,800 at risk"
+              value="$9,800 at risk"
               cta="Use credits now"
-              ctaAmount="R9.8K"
+              ctaAmount="$9.8K"
               gradient="linear-gradient(135deg, #D97706, #F59E0B)"
               onCtaClick={() => navigate('/unused-credits')}
             />
@@ -254,10 +254,10 @@ export default function Overview() {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Savings pipeline</div>
             {[
-              { label: 'Advance booking',    pct: 75, amount: 'R18,200' },
-              { label: 'Hotel consolidation',pct: 60, amount: 'R12,400' },
-              { label: 'Car rental',         pct: 40, amount: 'R6,800' },
-              { label: 'Route optimisation', pct: 25, amount: 'R3,600' },
+              { label: 'Advance booking',    pct: 75, amount: '$18,200' },
+              { label: 'Hotel consolidation',pct: 60, amount: '$12,400' },
+              { label: 'Car rental',         pct: 40, amount: '$6,800' },
+              { label: 'Route optimisation', pct: 25, amount: '$3,600' },
             ].map(s => (
               <div key={s.label} className={styles.barRow}>
                 <div className={styles.barLabel}>{s.label}</div>

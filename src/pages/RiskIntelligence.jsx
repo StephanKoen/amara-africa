@@ -7,6 +7,7 @@ import jsPDF from 'jspdf'
 import { riskEvents } from '../data/riskData'
 import { matchRisksToTravelers, getTravelerLocations } from '../utils/riskMatcher'
 import { useTravelData } from '../context/TravelDataContext'
+import TransactionModal from '../components/TransactionModal'
 import styles from './RiskIntelligence.module.css'
 
 // Fix default Leaflet marker icons in React/Vite
@@ -131,9 +132,10 @@ export default function RiskIntelligence() {
   const { filteredRecords } = useTravelData()
   const records = filteredRecords || []
 
-  const [activeFilter, setActiveFilter] = useState('all')
-  const [expandedId, setExpandedId]     = useState(null)
-  const [flyTarget, setFlyTarget]       = useState(null)
+  const [activeFilter, setActiveFilter]   = useState('all')
+  const [expandedId, setExpandedId]       = useState(null)
+  const [flyTarget, setFlyTarget]         = useState(null)
+  const [selectedRecord, setSelectedRecord] = useState(null)
 
   const travelerLocations = useMemo(() => getTravelerLocations(records), [records])
   const matchedRisks      = useMemo(() => matchRisksToTravelers(riskEvents, records), [records])
@@ -399,8 +401,15 @@ export default function RiskIntelligence() {
                       <td>{t.date || '—'}</td>
                       <td style={{ fontFamily: 'monospace', fontSize: 11 }}>{t.bookingRef}</td>
                       <td>
+                        <button
+                          className={styles.actionBtn}
+                          onClick={() => {
+                            const rec = records.find(r => r.travelerName === t.traveler && r.bookingRef === t.bookingRef)
+                              || records.find(r => r.travelerName === t.traveler)
+                            if (rec) setSelectedRecord(rec)
+                          }}
+                        >View booking</button>
                         <button className={styles.actionBtn}>Contact</button>
-                        <button className={styles.actionBtn}>Rebook</button>
                         <button className={`${styles.actionBtn} ${styles.actionBtnSuccess}`}>Mark safe</button>
                       </td>
                     </tr>
@@ -425,6 +434,10 @@ export default function RiskIntelligence() {
           Download Risk Report
         </button>
       </div>
+
+      {selectedRecord && (
+        <TransactionModal record={selectedRecord} onClose={() => setSelectedRecord(null)} />
+      )}
     </div>
   )
 }
