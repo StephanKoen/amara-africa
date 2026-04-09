@@ -311,9 +311,9 @@ export default function Overview() {
                 attributionControl={false}
                 worldCopyJump={true}
                 maxBounds={[[-90, -180], [90, 180]]}
-                maxBoundsViscosity={0.5}
+                maxBoundsViscosity={0.8}
               >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
+                <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
                 {riskEvents.map(ev => (
                   <Circle
                     key={ev.id}
