@@ -159,6 +159,20 @@ async function parseRaw(file) {
   throw new Error('Unsupported file type. Use CSV or Excel (.xlsx / .xls)')
 }
 
+// ── Spotnana: extract origin/destination from Trip Name for Air bookings ───────
+function extractRoute(tripName, vendor, category) {
+  if (category !== 'Air' && category !== 'Rail')
+    return { origin: '', originCode: '', destination: '', destinationCode: '' }
+  if (!tripName)
+    return { origin: vendor || '', originCode: '', destination: '', destinationCode: '' }
+  // Match patterns like "JNB-LHR", "NYC→LAX", "ORD > DFW", "BOS to MIA"
+  const codeMatch = tripName.match(/\b([A-Z]{3})\s*[-→>\/]\s*([A-Z]{3})\b/)
+  if (codeMatch) {
+    return { originCode: codeMatch[1], destinationCode: codeMatch[2], origin: codeMatch[1], destination: codeMatch[2] }
+  }
+  return { origin: vendor || '', originCode: '', destination: '', destinationCode: '' }
+}
+
 // ── Spotnana: check if raw-array xlsx looks like a Spotnana export ─────────────
 function detectSpotnanaFile(rawArr) {
   const top = rawArr.slice(0, 12)
@@ -209,6 +223,17 @@ function parseSpotnanaFromRaw(rawArr) {
       const isCancelled = r['Transaction Type'] === 'Ticket Cancelled'
       const rawActive   = r['Active']
       const isActive    = rawActive !== false && rawActive !== 'false' && rawActive !== 0
+      const category    = r['Booking Type'] || 'Air'
+      const vendor      = r['Vendor Name'] || ''
+      const tripName    = r['Trip Name'] || ''
+
+      // FIX 1: Voided/cancelled transactions contribute $0 to spend analytics
+      // but are kept in the dataset so they appear in fraud/audit views
+      const grossSpend = parseFloat(r['Gross Spend (Billing Currency)']) || 0
+      const totalCost  = (isVoided || isCancelled) ? 0 : grossSpend
+
+      // FIX 2: Extract route from Trip Name for Air/Rail (Spotnana has no origin/dest cols)
+      const route = extractRoute(tripName, vendor, category)
 
       return {
         id:              `spotnana-${index + 1}`,
@@ -222,17 +247,18 @@ function parseSpotnanaFromRaw(rawArr) {
         costCentre:      r['Traveler Cost Center']    || '',
         employeeId:      r['Traveler Employee ID']    || '',
         organizationName:r['Organization Name']       || '',
-        vendor:          r['Vendor Name']             || '',
+        vendor,
         bookingRef:      r['Source Reference']        || r['Confirmation Number'] || '',
         ticketNumber:    r['Spotnana PNR ID'] ? String(r['Spotnana PNR ID']) : '',
-        category:        r['Booking Type']            || 'Air',
+        category,
         transactionType: r['Transaction Type']        || '',
         classOfTravel:   r['Traveler Tier']           || 'Standard',
-        totalCost:       parseFloat(r['Gross Spend (Billing Currency)'])     || 0,
-        baseSpend:       parseFloat(r['Base Spend (Billing Currency)'])      || 0,
-        taxesAndFees:    parseFloat(r['Taxes & Fees Spend (Billing Currency)']) || 0,
-        currency:        r['Billing Currency']        || 'USD',
-        marketRate:      parseFloat(r['Published Price (Billing Currency)']) || 0,
+        // FIX 1: totalCost is ONLY Gross Spend (Billing Currency); zero for voided/cancelled
+        totalCost,
+        baseSpend:       parseFloat(r['Base Spend (Billing Currency)'])         || 0,
+        taxesAndFees:    parseFloat(r['Taxes & Fees Spend (Billing Currency)'])  || 0,
+        currency:        r['Billing Currency']                                   || 'USD',
+        marketRate:      parseFloat(r['Published Price (Billing Currency)'])     || 0,
         policyStatus:    policyMap[r['Policy Compliance']] || 'Compliant',
         violationType:   r['OOP Reason Code']         || null,
         policyNote:      r['OOP Reason Description']  || null,
@@ -244,7 +270,12 @@ function parseSpotnanaFromRaw(rawArr) {
         policyGroup:     r['Policy Group']            || '',
         creditCardLabel: r['Credit Card Labels']      || '',
         tripId:          r['Trip ID'] ? String(r['Trip ID']) : '',
-        tripName:        r['Trip Name']               || '',
+        tripName,
+        // FIX 2: route fields from Trip Name extraction
+        origin:          route.origin,
+        originCode:      route.originCode,
+        destination:     route.destination,
+        destinationCode: route.destinationCode,
         isActive,
         isVoided,
         isCancelled,

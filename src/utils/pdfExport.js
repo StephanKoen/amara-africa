@@ -22,7 +22,7 @@ function trunc(text, maxMM) {
   const max = Math.max(3, Math.floor(maxMM * 0.88))
   return t.length > max ? t.slice(0, max - 1) + '…' : t
 }
-function fmtZAR(n)  { return `R${Math.round(n).toLocaleString('en-ZA')}` }
+function fmtMoney(n, sym) { return `${sym}${Math.round(n || 0).toLocaleString('en-US')}` }
 function fmtPct(n)  { return `${Math.round(n)}%` }
 function todayStr() { return new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) }
 
@@ -291,6 +291,11 @@ export async function generateReport(type, stats, orgName = 'Acme Corp (Demo)', 
   const records  = s.records || []
   const dr       = s.dateRange || ''
   const count    = records.length
+
+  // FIX 4: detect currency from stats or records for all money formatting
+  const currency = s.currency || records[0]?.currency || 'USD'
+  const currSym  = currency === 'ZAR' ? 'R' : currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : '$'
+  function fmtZAR(n) { return fmtMoney(n, currSym) }
 
   const titleMap = {
     monthly:    'Monthly Travel Summary',

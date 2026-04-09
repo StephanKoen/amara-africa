@@ -171,6 +171,12 @@ export function computeStats(records) {
   const uniqueTravelers = new Set(records.map(r => r.travelerName)).size
   const uniqueVendors   = new Set(records.map(r => r.vendor)).size
 
+  // detect primary currency from records
+  const allCurrencies = records.map(r => r.currency).filter(Boolean)
+  const currCounts = {}
+  allCurrencies.forEach(c => { currCounts[c] = (currCounts[c] || 0) + 1 })
+  const currency = Object.entries(currCounts).sort((a,b) => b[1]-a[1])[0]?.[0] || 'USD'
+
   return {
     totalSpend, totalTrips, avgCostPerTrip, dateRange,
     complianceRate, violationCount, fraudFlagCount,
@@ -179,6 +185,7 @@ export function computeStats(records) {
     monthlySpend, categoryBreakdown, departmentBreakdown,
     topRoutes, topTravelers,
     uniqueTravelers, uniqueVendors,
+    currency,
     records,
   }
 }

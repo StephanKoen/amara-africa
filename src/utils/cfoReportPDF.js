@@ -8,6 +8,15 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   const cW = W - margin * 2
   let y = margin
 
+  // FIX 3: detect currency from records or stats, default USD
+  const detectedCurrency = stats?.currency
+    || (records && records.length > 0 ? records[0]?.currency : null)
+    || 'USD'
+  const currSym = detectedCurrency === 'ZAR' ? 'R'
+    : detectedCurrency === 'GBP' ? '£'
+    : detectedCurrency === 'EUR' ? '€'
+    : '$'
+
   function rgb(hex) {
     return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)]
   }
@@ -16,11 +25,11 @@ export async function downloadCFOReport(stats, records, orgName = 'Acme Corp') {
   function color(hex) { const [r,g,b] = rgb(hex); pdf.setTextColor(r,g,b) }
 
   function money(n) {
-    if (!n || isNaN(n)) return '$0'
+    if (!n || isNaN(n)) return currSym + '0'
     const num = Number(n)
-    if (num >= 1000000) return '$' + (num/1000000).toFixed(1) + 'M'
-    if (num >= 1000) return '$' + Math.round(num/1000) + 'K'
-    return '$' + Math.round(num).toLocaleString()
+    if (num >= 1000000) return currSym + (num/1000000).toFixed(1) + 'M'
+    if (num >= 1000) return currSym + Math.round(num/1000) + 'K'
+    return currSym + Math.round(num).toLocaleString()
   }
 
   function bold(size) { pdf.setFont('helvetica','bold'); pdf.setFontSize(size) }
