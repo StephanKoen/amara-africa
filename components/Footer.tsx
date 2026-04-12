@@ -5,8 +5,8 @@ const JOURNEY_LINKS = [
   { href: "/journeys/the-migration", label: "The Migration" },
   { href: "/journeys/the-grand-circuit", label: "The Grand Circuit" },
   { href: "/journeys/the-family-legacy", label: "The Family Legacy" },
-  { href: "/journeys/the-cape-kruger", label: "The Cape & Kruger" },
-  { href: "/journeys/the-falls-delta", label: "The Falls & Delta" },
+  { href: "/journeys/the-cape-and-kruger", label: "The Cape & Kruger" },
+  { href: "/journeys/the-falls-and-delta", label: "The Falls & Delta" },
   { href: "/journeys/the-coastal-escape", label: "The Coastal Escape" },
 ];
 

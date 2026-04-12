@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JourneyCard from "@/components/JourneyCard";
-import { getJourney, journeys } from "@/lib/journeys";
+import { getJourney, journeys, splitTitle } from "@/lib/journeys";
 
 type Props = {
   params: { slug: string };
@@ -17,12 +17,12 @@ export function generateMetadata({ params }: Props): Metadata {
   const journey = getJourney(params.slug);
   if (!journey) return { title: "Journey" };
   return {
-    title: `${journey.name} — ${journey.tag}`,
-    description: journey.descriptor,
+    title: `${journey.title} — ${journey.territory}`,
+    description: journey.oneliner,
     openGraph: {
-      title: `${journey.name} · Dune & Delta`,
-      description: journey.descriptor,
-      images: [{ url: journey.heroImage, alt: journey.name }],
+      title: `${journey.title} · Dune & Delta`,
+      description: journey.oneliner,
+      images: [{ url: journey.heroImage, alt: journey.title }],
     },
   };
 }
@@ -32,6 +32,7 @@ export default function JourneyDetailPage({ params }: Props) {
   if (!journey) notFound();
 
   const related = journeys.filter((j) => j.slug !== journey.slug).slice(0, 2);
+  const heroParts = splitTitle(journey);
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function JourneyDetailPage({ params }: Props) {
       >
         <Image
           src={journey.heroImage}
-          alt={`${journey.name} — ${journey.tag}`}
+          alt={`${journey.title} — ${journey.territory}`}
           fill
           priority
           sizes="100vw"
@@ -60,13 +61,15 @@ export default function JourneyDetailPage({ params }: Props) {
           <div className="max-w-container mx-auto w-full">
             <p className="label mb-7">{journey.tag}</p>
             <h1 className="h1-display max-w-[860px]">
-              {journey.name}
+              {heroParts.lead}
+              <span className="gold-italic">{heroParts.italic}</span>
+              {heroParts.tail}
             </h1>
             <p
-              className="mt-8 font-serif italic text-[22px] md:text-[26px] leading-snug max-w-[680px]"
+              className="mt-8 font-serif italic text-[22px] md:text-[26px] leading-snug max-w-[720px]"
               style={{ color: "rgba(240,235,224,0.78)" }}
             >
-              {journey.descriptor}
+              {journey.oneliner}
             </p>
           </div>
         </div>
@@ -79,16 +82,29 @@ export default function JourneyDetailPage({ params }: Props) {
             <div className="md:col-span-7">
               <p className="label mb-7">The Journey</p>
               <h2 className="h2-section">
-                A journey{" "}
-                <span className="gold-italic">held in one voice</span>, from
-                first call to last goodbye.
+                A journey held in{" "}
+                <span className="gold-italic">one voice</span>, from first call
+                to last goodbye.
               </h2>
               <div className="mt-12 flex flex-col gap-7">
-                {journey.body.map((p, i) => (
-                  <p key={i} className="body-copy">
-                    {p}
-                  </p>
-                ))}
+                <p className="body-copy">
+                  Every Dune &amp; Delta journey is a starting point, not a
+                  package. We take the temperament of {journey.title} and
+                  re-write it for your household — the pace, the table, the
+                  hours in the vehicle, the hours in between.
+                </p>
+                <p className="body-copy">
+                  A single senior consultant in our Dubai office holds your
+                  file. On the ground, a single senior guide holds the pace.
+                  The lodges we hold are briefed in advance for Halal-aware
+                  menus and Arabic-speaking hosts, offered quietly and without
+                  further discussion.
+                </p>
+                <p className="body-copy">
+                  Your itinerary will be written by hand — each day, each
+                  transfer, each early morning, in plain language — by the
+                  person who actually planned it.
+                </p>
               </div>
             </div>
 
@@ -105,21 +121,7 @@ export default function JourneyDetailPage({ params }: Props) {
                 <div className="flex flex-col gap-7">
                   <SidebarRow label="Duration" value={journey.duration} />
                   <SidebarRow label="Territory" value={journey.territory} />
-                </div>
-
-                <div className="mt-10 hairline pt-8">
-                  <p className="label mb-5">Highlights</p>
-                  <ul className="flex flex-col gap-4">
-                    {journey.highlights.map((h) => (
-                      <li
-                        key={h}
-                        className="font-serif italic text-[18px] leading-snug"
-                        style={{ color: "var(--color-cream)" }}
-                      >
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
+                  <SidebarRow label="Temperament" value={journey.tag} />
                 </div>
 
                 <div className="mt-10 hairline pt-8">
@@ -135,15 +137,15 @@ export default function JourneyDetailPage({ params }: Props) {
 
       {/* Photo strip */}
       <section className="grid grid-cols-1 md:grid-cols-3">
-        {journey.galleryImages.map((img, i) => (
+        {journey.galleryImages.map((src, i) => (
           <div
-            key={i}
+            key={src}
             className="relative w-full"
             style={{ aspectRatio: "1 / 1" }}
           >
             <Image
-              src={img.src}
-              alt={img.alt}
+              src={src}
+              alt={`${journey.title} — photograph ${i + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
               style={{ objectFit: "cover" }}

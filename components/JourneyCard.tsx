@@ -27,7 +27,7 @@ export default function JourneyCard({
       >
         <Image
           src={journey.cardImage}
-          alt={`${journey.name} — ${journey.tag}`}
+          alt={`${journey.title} — ${journey.territory}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="journey-card-image"
@@ -47,13 +47,13 @@ export default function JourneyCard({
           className="font-serif italic text-[28px] md:text-[32px] leading-[1.08]"
           style={{ color: "var(--color-cream)" }}
         >
-          {journey.name}
+          {journey.title}
         </h3>
         <p
           className="mt-5 text-[14.5px] leading-[1.75]"
           style={{ color: "rgba(240,235,224,0.7)" }}
         >
-          {journey.oneLiner}
+          {journey.oneliner}
         </p>
         <span className="mt-8 inline-block text-link">Explore &rarr;</span>
       </div>

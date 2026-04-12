@@ -8,7 +8,11 @@ import NewsletterSection from "@/components/NewsletterSection";
 import { images } from "@/lib/images";
 import { journeys } from "@/lib/journeys";
 
-const HOME_JOURNEYS = ["the-migration", "the-cape-kruger", "the-family-legacy"];
+const HOME_JOURNEYS = [
+  "the-migration",
+  "the-cape-and-kruger",
+  "the-family-legacy",
+];
 
 export default function HomePage() {
   const featured = HOME_JOURNEYS.map(
