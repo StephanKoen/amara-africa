@@ -1,16 +1,69 @@
-# React + Vite
+# Dune & Delta
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Private African journeys. Crafted for the Gulf.
 
-Currently, two official plugins are available:
+A small, editorial marketing site for Dune & Delta — a luxury African safari
+house founded in Dubai in 2025, with offices in Dubai, Cape Town and Lusaka.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS, with CSS custom properties for brand colour tokens
+- Google Fonts (Playfair Display) loaded via `<link>` in the document head
+- `next/image` with the `images.ctfassets.net` remote pattern allow-listed in
+  `next.config.js`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+```bash
+npm run dev        # start the dev server
+npm run build      # production build
+npm run start      # run the built app
+npm run typecheck  # tsc --noEmit
+npm run lint       # next lint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Site map
+
+| Route                    | Page                                     |
+| ------------------------ | ---------------------------------------- |
+| `/`                      | Homepage                                 |
+| `/journeys`              | The Collection — six journey archetypes  |
+| `/journeys/[slug]`       | Individual journey page                  |
+| `/the-experience`        | The Dune & Delta Way                     |
+| `/about`                 | About, team, philosophy                  |
+| `/enquire`               | Enquiry form                             |
+
+## File structure
+
+```
+app/
+  globals.css            CSS custom properties + base styles
+  layout.tsx             Shared nav + footer, fonts, metadata
+  page.tsx               Homepage
+  journeys/page.tsx      Journeys index
+  journeys/[slug]/page.tsx
+  the-experience/page.tsx
+  about/page.tsx
+  enquire/page.tsx
+components/
+  Nav.tsx
+  Footer.tsx
+  Logo.tsx
+  HeroSection.tsx
+  JourneyCard.tsx
+  FeatureSplit.tsx
+  FullbleedFeature.tsx
+  PrinciplesGrid.tsx
+  NewsletterSection.tsx
+  EnquireForm.tsx
+lib/
+  journeys.ts            Journey data
+  images.ts              Image URL map
+```
+
+## Deployment
+
+This project is ready to deploy to Vercel as-is — no environment variables are
+required for the marketing site.
