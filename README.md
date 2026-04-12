@@ -17,11 +17,10 @@ house founded in Dubai in 2025, with offices in Dubai, Cape Town and Lusaka.
 ## Scripts
 
 ```bash
-npm run dev        # start the dev server
-npm run build      # production build
-npm run start      # run the built app
-npm run typecheck  # tsc --noEmit
-npm run lint       # next lint
+npm run dev    # start the dev server
+npm run build  # production build
+npm run start  # run the built app
+npm run lint   # next lint
 ```
 
 ## Site map
