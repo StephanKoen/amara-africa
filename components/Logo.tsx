@@ -82,33 +82,50 @@ function NavVariant({ theme }: { theme: "dark" | "light" }) {
       className="inline-flex items-center gap-[10px]"
       aria-label="Dune & Delta"
     >
-      <IconMark width={36} height={20} />
+      <IconMark width={48} height={26} />
       <span
         className="block"
         style={{
           width: "0.5px",
-          height: 24,
+          height: 32,
           background: "rgba(200,185,150,0.4)",
         }}
         aria-hidden
       />
-      <span className="font-serif leading-none flex items-baseline">
-        <span
-          className="italic"
-          style={{ color: c.dune, fontSize: 15, letterSpacing: "-0.005em" }}
-        >
-          Dune
+      <span className="inline-flex flex-col items-start">
+        {/* English wordmark */}
+        <span className="font-serif leading-none flex items-baseline">
+          <span
+            className="italic"
+            style={{ color: c.dune, fontSize: 18, letterSpacing: "-0.005em" }}
+          >
+            Dune
+          </span>
+          <span
+            className="italic mx-[0.3em]"
+            style={{ color: c.amp, fontSize: 12 }}
+          >
+            &amp;
+          </span>
+          <span
+            style={{ color: c.delta, fontSize: 18, letterSpacing: "-0.005em" }}
+          >
+            Delta
+          </span>
         </span>
+        {/* Arabic line, flush left beneath the wordmark */}
         <span
-          className="italic mx-[0.3em]"
-          style={{ color: c.amp, fontSize: 10 }}
+          className="mt-[2px] leading-[1.2]"
+          dir="rtl"
+          lang="ar"
+          style={{
+            ...arabicFont,
+            fontSize: 11,
+            fontWeight: 500,
+            color: "#C8A84A",
+          }}
         >
-          &amp;
-        </span>
-        <span
-          style={{ color: c.delta, fontSize: 15, letterSpacing: "-0.005em" }}
-        >
-          Delta
+          {ARABIC}
         </span>
       </span>
     </span>
