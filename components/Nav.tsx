@@ -13,6 +13,7 @@ const NAV_LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [enquireHover, setEnquireHover] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -35,13 +36,19 @@ export default function Nav() {
   // Link colour by state
   const linkColor = scrolled
     ? "rgba(200,192,170,0.7)" // cream @ 0.7
-    : "rgba(26,22,16,0.65)"; // ink @ 0.65
+    : "#FFFFFF";
 
   // Outline enquire button by state
   const enquireBorder = scrolled
     ? "rgba(200,185,150,0.4)"
-    : "var(--dd-gold-antique)";
-  const enquireColor = scrolled ? "var(--dd-linen)" : "var(--dd-gold-antique)";
+    : enquireHover
+    ? "#D4AA68"
+    : "rgba(255,255,255,0.6)";
+  const enquireColor = scrolled
+    ? "var(--dd-linen)"
+    : enquireHover
+    ? "#D4AA68"
+    : "#FFFFFF";
 
   // Hamburger bar colour
   const barColor = scrolled ? "var(--dd-linen)" : "var(--dd-ink)";
@@ -71,7 +78,9 @@ export default function Nav() {
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="text-[12px] uppercase tracking-[0.3em] transition-colors duration-500"
+                  className={`text-[12px] uppercase tracking-[0.3em] transition-all duration-500 ${
+                    scrolled ? "" : "opacity-[0.85] hover:opacity-100"
+                  }`}
                   style={{ color: linkColor }}
                 >
                   {l.label}
@@ -84,6 +93,8 @@ export default function Nav() {
           <div className="hidden md:block">
             <Link
               href="/enquire"
+              onMouseEnter={() => setEnquireHover(true)}
+              onMouseLeave={() => setEnquireHover(false)}
               className="inline-block px-[22px] py-[10px] text-[11px] uppercase tracking-[0.28em] transition-colors duration-500"
               style={{
                 border: `0.5px solid ${enquireBorder}`,

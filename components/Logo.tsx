@@ -15,10 +15,10 @@ const sizeMap = {
 
 const variants = {
   light: {
-    dune: "var(--dd-gold-antique)",
-    amp: "var(--dd-gold-deep)",
+    dune: "#D4AA68",
+    amp: "#B89050",
     ampOpacity: 0.7,
-    delta: "var(--dd-ink)",
+    delta: "#FFFFFF",
   },
   dark: {
     dune: "var(--dd-gold)",
