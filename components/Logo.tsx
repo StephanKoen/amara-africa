@@ -76,68 +76,66 @@ function IconMark({ width, height }: { width: number; height: number }) {
 }
 
 function NavVariant({ theme }: { theme: "dark" | "light" }) {
-  const c = themeColors[theme];
+  const deltaColor = theme === "dark" ? "#FFFFFF" : "#1A1610";
   return (
     <span
-      className="inline-flex items-center gap-[12px]"
+      className="inline-flex flex-col items-start"
       aria-label="Dune & Delta"
     >
-      <IconMark width={48} height={26} />
+      {/* English wordmark */}
+      <span className="font-serif leading-none flex items-baseline">
+        <span
+          className="italic"
+          style={{
+            color: "#C8962E",
+            fontSize: 38,
+            letterSpacing: "-0.005em",
+          }}
+        >
+          Dune
+        </span>
+        <span
+          className="mx-[0.3em]"
+          style={{ color: "#C8962E", fontSize: 24 }}
+        >
+          &amp;
+        </span>
+        <span
+          style={{
+            color: deltaColor,
+            fontSize: 38,
+            letterSpacing: "-0.005em",
+          }}
+        >
+          Delta
+        </span>
+      </span>
+      {/* Hairline rule */}
       <span
         className="block"
         style={{
-          width: "0.5px",
-          height: 48,
-          background: "rgba(200,185,150,0.4)",
+          width: "100%",
+          height: "1px",
+          background: "rgba(200,160,60,0.4)",
+          margin: "7px 0 6px",
         }}
         aria-hidden
       />
-      <span className="inline-flex flex-col items-start">
-        {/* English wordmark */}
-        <span className="font-serif leading-none flex items-baseline">
-          <span
-            className="italic"
-            style={{ color: c.dune, fontSize: 32, letterSpacing: "-0.005em" }}
-          >
-            Dune
-          </span>
-          <span
-            className="italic mx-[0.3em]"
-            style={{ color: c.amp, fontSize: 20 }}
-          >
-            &amp;
-          </span>
-          <span
-            style={{ color: c.delta, fontSize: 32, letterSpacing: "-0.005em" }}
-          >
-            Delta
-          </span>
-        </span>
-        {/* Hairline rule */}
-        <span
-          className="block"
-          style={{
-            width: 120,
-            height: "0.5px",
-            background: "rgba(200,185,150,0.25)",
-            margin: "8px 0 7px",
-          }}
-          aria-hidden
-        />
-        {/* Arabic */}
-        <span
-          className="leading-[1.2]"
-          dir="rtl"
-          lang="ar"
-          style={{
-            ...arabicFont,
-            fontSize: 16,
-            fontWeight: 500,
-            color: "#C8A84A",
-          }}
-        >
-          {ARABIC}
-        </span>
+      {/* Arabic line */}
+      <span
+        className="block leading-[1.2]"
+        dir="rtl"
+        lang="ar"
+        style={{
+          ...arabicFont,
+          fontSize: 18,
+          fontWeight: 500,
+          color: "#C8962E",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        {ARABIC}
       </span>
     </span>
   );

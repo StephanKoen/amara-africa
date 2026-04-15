@@ -66,7 +66,7 @@ export default function Nav() {
             : "0.5px solid transparent",
         }}
       >
-        <nav className="flex items-center justify-between h-[84px] md:h-[96px] px-[20px] md:px-[36px]">
+        <nav className="flex items-center justify-between h-[96px] px-[20px] md:px-[36px]">
           {/* Desktop: logo left */}
           <div className="hidden md:block">
             <Link href="/">
