@@ -85,11 +85,11 @@ export default function EnquireForm() {
   if (submitted) {
     return (
       <div className="max-w-[700px]">
-        <p className="label mb-7">Your Enquiry</p>
+        <p className="label mb-5">Your Enquiry</p>
         <h2 className="h2-section">
           Received, with <span className="gold-italic">thanks</span>.
         </h2>
-        <div className="mt-10 flex flex-col gap-5 body-copy max-w-[560px]">
+        <div className="mt-8 flex flex-col gap-4 body-copy max-w-[560px]">
           <p>
             A senior member of our team will write to you personally within one
             working day. Your message will not be forwarded, and will not enter
@@ -100,7 +100,7 @@ export default function EnquireForm() {
             directly on the number we will include in our reply.
           </p>
         </div>
-        <div className="mt-12">
+        <div className="mt-9">
           <p className="label">Dune &amp; Delta · Dubai · Cape Town · Lusaka</p>
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function EnquireForm() {
 
   return (
     <form onSubmit={submit} noValidate className="max-w-[780px]">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-9 gap-y-7">
         <Field
           label="Your name"
           error={errors.name}
@@ -224,7 +224,7 @@ export default function EnquireForm() {
         />
       </div>
 
-      <div className="mt-10">
+      <div className="mt-7">
         <Field
           label="Anything we should know"
           field={
@@ -239,7 +239,7 @@ export default function EnquireForm() {
         />
       </div>
 
-      <div className="mt-14 flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
+      <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
         <button type="submit" className="btn-gold">
           Request Private Access &rarr;
         </button>
@@ -265,11 +265,11 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="label block mb-4">{label}</span>
+      <span className="label block mb-3">{label}</span>
       {field}
       {error && (
         <span
-          className="block mt-3 text-[12px] italic"
+          className="block mt-2 text-[12px] italic"
           style={{ color: "var(--dd-gold-antique)" }}
         >
           {error}

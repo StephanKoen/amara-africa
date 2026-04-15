@@ -15,13 +15,13 @@ export default function AboutPage() {
     <>
       {/* Hero-ish header */}
       <section
-        className="section-x pt-[170px] md:pt-[220px] pb-[80px] md:pb-[110px]"
+        className="section-x pt-[130px] md:pt-[170px] pb-[60px] md:pb-[85px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-7">
-              <p className="label mb-8">About</p>
+              <p className="label mb-6">About</p>
               <h1 className="h1-display">
                 A small house,{" "}
                 <span className="gold-italic">quietly founded</span>, in 2025.
@@ -45,7 +45,7 @@ export default function AboutPage() {
       >
         <div
           className="relative w-full"
-          style={{ aspectRatio: "4 / 5", minHeight: 500 }}
+          style={{ aspectRatio: "4 / 5", minHeight: 400 }}
         >
           <Image
             src={images.textiles}
@@ -56,13 +56,13 @@ export default function AboutPage() {
           />
         </div>
         <div className="flex items-center">
-          <div className="px-[clamp(28px,6vw,100px)] py-[clamp(70px,9vw,140px)] max-w-[640px]">
-            <p className="label mb-7">The Story</p>
+          <div className="px-[clamp(22px,4.8vw,78px)] py-[clamp(52px,7vw,108px)] max-w-[640px]">
+            <p className="label mb-5">The Story</p>
             <h2 className="h2-section">
               Written,{" "}
               <span className="gold-italic">not assembled</span>.
             </h2>
-            <div className="mt-10 flex flex-col gap-6">
+            <div className="mt-8 flex flex-col gap-5">
               <p className="body-copy">
                 We spent years inside larger houses. We learned how to write a
                 safari, and we learned — slowly, and with some frustration —
@@ -92,15 +92,15 @@ export default function AboutPage() {
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="mb-[70px] md:mb-[100px]">
-            <p className="label mb-7">The Team</p>
+          <div className="mb-[52px] md:mb-[76px]">
+            <p className="label mb-5">The Team</p>
             <h2 className="h2-section">
               Two{" "}
               <span className="gold-italic">senior pairs of hands</span>.
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-9">
             <TeamCard
               name="Layla Al-Farsi"
               role="UAE Sales Lead"
@@ -134,7 +134,7 @@ export default function AboutPage() {
       >
         <div className="max-w-container mx-auto">
           <div className="max-w-[980px] mx-auto text-center">
-            <p className="label mb-8">Our philosophy</p>
+            <p className="label mb-6">Our philosophy</p>
             <blockquote>
               <p
                 className="font-serif italic"
@@ -149,12 +149,12 @@ export default function AboutPage() {
                 intend to be on the end of the phone while it happens.&rdquo;
               </p>
             </blockquote>
-            <p className="label mt-10">
+            <p className="label mt-8">
               Dune &amp; Delta · A Private House · Est. 2025
             </p>
           </div>
 
-          <div className="mt-20 flex justify-center">
+          <div className="mt-14 flex justify-center">
             <Link href="/enquire" className="text-link">
               Begin Your Journey &rarr;
             </Link>
@@ -196,8 +196,8 @@ function TeamCard({
           style={{ objectFit: "cover" }}
         />
       </div>
-      <div className="mt-8">
-        <p className="label mb-4">
+      <div className="mt-6">
+        <p className="label mb-3">
           {role} · {office}
         </p>
         <h3
@@ -206,7 +206,7 @@ function TeamCard({
         >
           {name}
         </h3>
-        <div className="mt-6 flex flex-col gap-4 max-w-[520px]">
+        <div className="mt-5 flex flex-col gap-3 max-w-[520px]">
           {bio.map((p, i) => (
             <p key={i} className="body-copy-sm">
               {p}

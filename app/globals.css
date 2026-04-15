@@ -209,18 +209,18 @@ select {
 
 /* Section wrapper */
 .section-x {
-  padding-left: clamp(22px, 5vw, 88px);
-  padding-right: clamp(22px, 5vw, 88px);
+  padding-left: clamp(18px, 4vw, 70px);
+  padding-right: clamp(18px, 4vw, 70px);
 }
 
 .section-y {
-  padding-top: clamp(80px, 10vw, 160px);
-  padding-bottom: clamp(80px, 10vw, 160px);
+  padding-top: clamp(60px, 7.5vw, 120px);
+  padding-bottom: clamp(60px, 7.5vw, 120px);
 }
 
 .section-y-lg {
-  padding-top: clamp(110px, 12vw, 200px);
-  padding-bottom: clamp(110px, 12vw, 200px);
+  padding-top: clamp(82px, 9vw, 150px);
+  padding-bottom: clamp(82px, 9vw, 150px);
 }
 
 /* Hairline dividers */

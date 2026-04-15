@@ -18,9 +18,9 @@ export default function NewsletterSection() {
       style={{ background: "var(--dd-parchment)" }}
     >
       <div className="max-w-container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-5">
-            <p className="label mb-7">The Field Journal</p>
+            <p className="label mb-5">The Field Journal</p>
             <h2 className="h2-section">
               A quarterly letter,{" "}
               <span className="gold-italic">quietly written</span>.
@@ -34,10 +34,10 @@ export default function NewsletterSection() {
             </p>
 
             {status === "idle" ? (
-              <form onSubmit={submit} className="mt-12">
-                <div className="flex items-end gap-8">
+              <form onSubmit={submit} className="mt-9">
+                <div className="flex items-end gap-6">
                   <label className="flex-1">
-                    <span className="label block mb-4">Your email</span>
+                    <span className="label block mb-3">Your email</span>
                     <input
                       type="email"
                       required
@@ -53,14 +53,14 @@ export default function NewsletterSection() {
                   </button>
                 </div>
                 <p
-                  className="mt-6 text-[12px]"
+                  className="mt-5 text-[12px]"
                   style={{ color: "var(--dd-stone)" }}
                 >
                   Four letters per year. Nothing else.
                 </p>
               </form>
             ) : (
-              <div className="mt-12">
+              <div className="mt-9">
                 <p
                   className="font-serif italic text-[24px] leading-snug"
                   style={{ color: "var(--dd-gold-antique)" }}

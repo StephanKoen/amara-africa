@@ -50,15 +50,15 @@ export default function FeatureSplit({
       style={{ background: "var(--dd-parchment)" }}
     >
       <div
-        className="px-[clamp(28px,6vw,100px)] py-[clamp(60px,8vw,120px)] max-w-[620px]"
+        className="px-[clamp(22px,4.8vw,78px)] py-[clamp(44px,6.2vw,92px)] max-w-[620px]"
       >
-        <p className="label mb-8">{label}</p>
+        <p className="label mb-6">{label}</p>
         <h2 className="h2-section">
           {headingLead}{" "}
           <span className="gold-italic">{headingItalic}</span>
           {headingTail ? <> {headingTail}</> : null}
         </h2>
-        <div className="mt-8 flex flex-col gap-5">
+        <div className="mt-6 flex flex-col gap-4">
           {body.map((p, i) => (
             <p key={i} className="body-copy">
               {p}
@@ -66,7 +66,7 @@ export default function FeatureSplit({
           ))}
         </div>
         {link && (
-          <div className="mt-10">
+          <div className="mt-8">
             <Link href={link.href} className="text-link">
               {link.label} &rarr;
             </Link>

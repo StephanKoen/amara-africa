@@ -60,12 +60,12 @@ export default function HeroSection({
         }}
       />
 
-      <div className="relative h-full section-x pb-[70px] pt-[120px] flex flex-col justify-end">
+      <div className="relative h-full section-x pb-[52px] pt-[96px] flex flex-col justify-end">
         <div className="max-w-container mx-auto w-full">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-14">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
             {/* Left: copy */}
             <div className="max-w-[780px]">
-              <p className="label mb-7">{kicker}</p>
+              <p className="label mb-5">{kicker}</p>
               <h1 className="h1-display">
                 {headingLead}{" "}
                 <span className="gold-italic">{headingItalic}</span>
@@ -78,7 +78,7 @@ export default function HeroSection({
               </h1>
 
               {(primaryLink || secondaryLink) && (
-                <div className="mt-12 flex flex-wrap gap-10">
+                <div className="mt-9 flex flex-wrap gap-8">
                   {primaryLink && (
                     <Link href={primaryLink.href} className="text-link">
                       {primaryLink.label} &rarr;
@@ -94,7 +94,7 @@ export default function HeroSection({
             </div>
 
             {/* Right: scroll indicator */}
-            <div className="hidden md:flex flex-col items-center gap-5 pb-3">
+            <div className="hidden md:flex flex-col items-center gap-4 pb-2">
               <span className="label" style={{ writingMode: "vertical-rl" }}>
                 Scroll
               </span>
@@ -104,7 +104,7 @@ export default function HeroSection({
 
           {showEstablishmentLine && (
             <p
-              className="mt-16 pt-6 hairline label"
+              className="mt-12 pt-5 hairline label"
               style={{ maxWidth: 520 }}
             >
               Dune &amp; Delta · Est. 2025 · Private journeys. Built for the Gulf.

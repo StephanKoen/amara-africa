@@ -62,16 +62,16 @@ export default function JourneyDetailPage({ params }: Props) {
               "linear-gradient(180deg, rgba(13,13,11,0.55) 0%, rgba(13,13,11,0.1) 40%, rgba(13,13,11,0.9) 100%)",
           }}
         />
-        <div className="absolute inset-0 section-x flex items-end pb-[80px]">
+        <div className="absolute inset-0 section-x flex items-end pb-[60px]">
           <div className="max-w-container mx-auto w-full">
-            <p className="label mb-7">{journey.tag}</p>
+            <p className="label mb-5">{journey.tag}</p>
             <h1 className="h1-display max-w-[860px]">
               {heroParts.lead}
               <span className="gold-italic">{heroParts.italic}</span>
               {heroParts.tail}
             </h1>
             <p
-              className="mt-8 font-serif italic text-[22px] md:text-[26px] leading-snug max-w-[720px]"
+              className="mt-6 font-serif italic text-[22px] md:text-[26px] leading-snug max-w-[720px]"
               style={{ color: "rgba(240,235,224,0.78)" }}
             >
               {journey.oneliner}
@@ -86,15 +86,15 @@ export default function JourneyDetailPage({ params }: Props) {
         style={{ background: "var(--dd-warm-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-[72px]">
             <div className="md:col-span-7">
-              <p className="label mb-7">The Journey</p>
+              <p className="label mb-5">The Journey</p>
               <h2 className="h2-section">
                 A journey held in{" "}
                 <span className="gold-italic">one voice</span>, from first call
                 to last goodbye.
               </h2>
-              <div className="mt-12 flex flex-col gap-7">
+              <div className="mt-9 flex flex-col gap-5">
                 <p className="body-copy">
                   Every Dune &amp; Delta journey is a starting point, not a
                   package. We take the temperament of {journey.title} and
@@ -118,21 +118,21 @@ export default function JourneyDetailPage({ params }: Props) {
 
             <aside className="md:col-span-5 md:col-start-8">
               <div
-                className="md:sticky md:top-[120px] p-10 md:p-12"
+                className="md:sticky md:top-[96px] p-8 md:p-9"
                 style={{
                   background: "var(--dd-white)",
                   border: "0.5px solid var(--dd-border)",
                 }}
               >
-                <p className="label mb-8">At a glance</p>
+                <p className="label mb-6">At a glance</p>
 
-                <div className="flex flex-col gap-7">
+                <div className="flex flex-col gap-5">
                   <SidebarRow label="Duration" value={journey.duration} />
                   <SidebarRow label="Territory" value={journey.territory} />
                   <SidebarRow label="Temperament" value={journey.tag} />
                 </div>
 
-                <div className="mt-10 hairline pt-8">
+                <div className="mt-8 hairline pt-6">
                   <Link href="/enquire" className="btn-gold">
                     Enquire About This Journey &rarr;
                   </Link>
@@ -168,14 +168,14 @@ export default function JourneyDetailPage({ params }: Props) {
         style={{ background: "var(--dd-warm-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="mb-[80px]">
-            <p className="label mb-7">You may also consider</p>
+          <div className="mb-[60px]">
+            <p className="label mb-5">You may also consider</p>
             <h2 className="h2-section">
               Two other{" "}
               <span className="gold-italic">quiet possibilities</span>.
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
             {related.map((j) => (
               <JourneyCard key={j.slug} journey={j} aspect="tall" />
             ))}
@@ -189,7 +189,7 @@ export default function JourneyDetailPage({ params }: Props) {
 function SidebarRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="label mb-2" style={{ color: "var(--dd-stone)" }}>
+      <p className="label mb-[6px]" style={{ color: "var(--dd-stone)" }}>
         {label}
       </p>
       <p

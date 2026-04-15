@@ -11,13 +11,13 @@ export default function EnquirePage() {
   return (
     <>
       <section
-        className="section-x pt-[170px] md:pt-[220px] pb-[80px]"
+        className="section-x pt-[130px] md:pt-[170px] pb-[60px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-7">
-              <p className="label mb-8">Enquire Privately</p>
+              <p className="label mb-6">Enquire Privately</p>
               <h1 className="h1-display">
                 Write to us, and{" "}
                 <span className="gold-italic">we will write back</span>.
@@ -36,14 +36,14 @@ export default function EnquirePage() {
       </section>
 
       <section
-        className="section-x pb-[160px] md:pb-[220px]"
+        className="section-x pb-[120px] md:pb-[170px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-[72px]">
             <div className="md:col-span-7">
               <div
-                className="p-10 md:p-12"
+                className="p-8 md:p-9"
                 style={{
                   background: "var(--dd-white)",
                   border: "0.5px solid var(--dd-border)",
@@ -55,14 +55,14 @@ export default function EnquirePage() {
 
             <aside className="md:col-span-5 md:col-start-8">
               <div
-                className="p-10 md:p-12"
+                className="p-8 md:p-9"
                 style={{
                   background: "var(--dd-white)",
                   border: "0.5px solid var(--dd-border)",
                 }}
               >
-                <p className="label mb-7">Offices</p>
-                <div className="flex flex-col gap-8">
+                <p className="label mb-5">Offices</p>
+                <div className="flex flex-col gap-6">
                   <Office
                     city="Dubai"
                     description="Gate Avenue, DIFC — guest relationships and the Gulf office."
@@ -77,8 +77,8 @@ export default function EnquirePage() {
                   />
                 </div>
 
-                <div className="mt-10 hairline pt-8">
-                  <p className="label mb-4">Reply time</p>
+                <div className="mt-8 hairline pt-6">
+                  <p className="label mb-3">Reply time</p>
                   <p
                     className="font-serif italic text-[22px] leading-snug"
                     style={{ color: "var(--dd-ink)" }}

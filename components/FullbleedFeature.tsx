@@ -20,7 +20,7 @@ export default function FullbleedFeature({
   link,
   imageSrc,
   imageAlt,
-  heightClass = "h-[460px] md:h-[580px]",
+  heightClass = "h-[360px] md:h-[480px]",
 }: FullbleedFeatureProps) {
   return (
     <section
@@ -52,17 +52,17 @@ export default function FullbleedFeature({
         }}
       />
 
-      <div className="relative h-full section-x flex items-end pb-[70px]">
+      <div className="relative h-full section-x flex items-end pb-[52px]">
         <div className="max-w-container mx-auto w-full">
           <div className="max-w-[720px]">
-            <p className="label mb-7">{label}</p>
+            <p className="label mb-5">{label}</p>
             <h2 className="h2-section">
               {headingLead}{" "}
               <span className="gold-italic">{headingItalic}</span>
               {headingTail ? <> {headingTail}</> : null}
             </h2>
             {link && (
-              <div className="mt-10">
+              <div className="mt-8">
                 <Link href={link.href} className="text-link">
                   {link.label} &rarr;
                 </Link>

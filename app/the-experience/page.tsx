@@ -79,9 +79,9 @@ export default function TheExperiencePage() {
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-5">
-              <p className="label mb-7">The Approach</p>
+              <p className="label mb-5">The Approach</p>
               <h2 className="h2-section">
                 Four{" "}
                 <span className="gold-italic">quiet certainties</span>, and the
@@ -119,7 +119,7 @@ export default function TheExperiencePage() {
               <>
                 <div
                   className="relative w-full"
-                  style={{ aspectRatio: "4 / 5", minHeight: 420 }}
+                  style={{ aspectRatio: "4 / 5", minHeight: 340 }}
                 >
                   <Image
                     src={p.image}
@@ -136,7 +136,7 @@ export default function TheExperiencePage() {
                 <Copy {...p} />
                 <div
                   className="relative w-full"
-                  style={{ aspectRatio: "4 / 5", minHeight: 420 }}
+                  style={{ aspectRatio: "4 / 5", minHeight: 340 }}
                 >
                   <Image
                     src={p.image}
@@ -158,9 +158,9 @@ export default function TheExperiencePage() {
         style={{ background: "var(--dd-parchment)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[70px]">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-[52px]">
             <div className="md:col-span-5">
-              <p className="label mb-7">For the Gulf</p>
+              <p className="label mb-5">For the Gulf</p>
               <h2 className="h2-section">
                 Built for{" "}
                 <span className="gold-italic">the way you travel</span>.
@@ -202,9 +202,9 @@ export default function TheExperiencePage() {
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-5">
-              <p className="label mb-7">Begin Your Journey</p>
+              <p className="label mb-5">Begin Your Journey</p>
               <h2 className="h2-section">
                 A single line is{" "}
                 <span className="gold-italic">enough</span>.
@@ -216,7 +216,7 @@ export default function TheExperiencePage() {
                 team will write back to you in person, without an automated
                 reply in between.
               </p>
-              <div className="mt-12">
+              <div className="mt-9">
                 <Link href="/enquire" className="text-link">
                   Request Private Access &rarr;
                 </Link>
@@ -242,15 +242,15 @@ function Copy({
 }) {
   return (
     <div className="flex items-center">
-      <div className="px-[clamp(28px,6vw,100px)] py-[clamp(60px,8vw,120px)] max-w-[620px]">
-        <p className="label mb-7">{label}</p>
+      <div className="px-[clamp(22px,4.8vw,78px)] py-[clamp(44px,6.2vw,92px)] max-w-[620px]">
+        <p className="label mb-5">{label}</p>
         <h3
           className="font-serif text-[30px] md:text-[38px] leading-[1.1]"
           style={{ color: "var(--dd-ink)" }}
         >
           {title}
         </h3>
-        <div className="mt-8 flex flex-col gap-5">
+        <div className="mt-6 flex flex-col gap-4">
           {body.map((p, i) => (
             <p key={i} className="body-copy">
               {p}
@@ -275,21 +275,21 @@ function GccCard({
 }) {
   return (
     <div
-      className="p-10 md:p-12"
+      className="p-7 md:p-9"
       style={{
         borderTop: "1px solid var(--dd-border)",
         borderBottom: "1px solid var(--dd-border)",
         borderRight: last ? "none" : "1px solid var(--dd-border)",
       }}
     >
-      <p className="label mb-6">{label}</p>
+      <p className="label mb-5">{label}</p>
       <h4
         className="font-serif italic text-[26px] leading-[1.15]"
         style={{ color: "var(--dd-ink)" }}
       >
         {title}
       </h4>
-      <p className="mt-6 body-copy">{body}</p>
+      <p className="mt-5 body-copy">{body}</p>
     </div>
   );
 }

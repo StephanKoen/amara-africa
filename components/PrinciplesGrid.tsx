@@ -32,9 +32,9 @@ export default function PrinciplesGrid({
     >
       <div className="max-w-container mx-auto">
         {/* Header */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[80px] md:mb-[120px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-[60px] md:mb-[90px]">
           <div className="md:col-span-5">
-            <p className="label mb-7">{label}</p>
+            <p className="label mb-5">{label}</p>
             <h2 className="h2-section">
               {headingLead}{" "}
               <span className="gold-italic">{headingItalic}</span>
@@ -44,7 +44,7 @@ export default function PrinciplesGrid({
           <div className="md:col-span-6 md:col-start-7 flex flex-col justify-end">
             <p className="body-copy max-w-[520px]">{intro}</p>
             {link && (
-              <div className="mt-8">
+              <div className="mt-6">
                 <Link href={link.href} className="text-link">
                   {link.label} &rarr;
                 </Link>
@@ -58,7 +58,7 @@ export default function PrinciplesGrid({
           {principles.map((p, i) => (
             <div
               key={p.number}
-              className="py-14 md:py-16 px-0 md:px-10 hairline"
+              className="py-10 md:py-12 px-0 md:px-8 hairline"
               style={{
                 borderRightWidth:
                   i % 2 === 0 && i < principles.length ? 1 : 0,
@@ -66,7 +66,7 @@ export default function PrinciplesGrid({
                 borderRightStyle: "solid",
               }}
             >
-              <div className="flex items-start gap-8">
+              <div className="flex items-start gap-6">
                 <span
                   className="font-serif italic text-[44px] leading-none"
                   style={{ color: "var(--dd-gold)", opacity: 0.5 }}
@@ -82,7 +82,7 @@ export default function PrinciplesGrid({
                     {p.title}
                   </h3>
                   <p
-                    className="mt-5 text-[15px] leading-[1.8]"
+                    className="mt-4 text-[15px] leading-[1.8]"
                     style={{ color: "var(--dd-stone)" }}
                   >
                     {p.body}

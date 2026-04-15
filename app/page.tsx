@@ -39,21 +39,21 @@ export default function HomePage() {
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-9 md:gap-14">
             <div className="md:col-span-5">
-              <p className="label mb-7">The Difference</p>
+              <p className="label mb-5">The Difference</p>
               <h2 className="h2-section">
                 A quieter way of{" "}
                 <span className="gold-italic">experiencing Africa</span>, built
                 from Dubai.
               </h2>
-              <p className="mt-10 body-copy max-w-[460px]">
+              <p className="mt-8 body-copy max-w-[460px]">
                 We are a small house. Our journeys are written, not
                 assembled. They begin with a conversation in Dubai, are built
                 in Cape Town and Lusaka, and are held by the same hands from
                 first call to last goodbye.
               </p>
-              <div className="mt-10">
+              <div className="mt-8">
                 <Link href="/the-experience" className="text-link">
                   Our Approach &rarr;
                 </Link>
@@ -105,9 +105,9 @@ export default function HomePage() {
         style={{ background: "var(--dd-warm-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[80px] md:mb-[110px]">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-[60px] md:mb-[82px]">
             <div className="md:col-span-5">
-              <p className="label mb-7">The Collection</p>
+              <p className="label mb-5">The Collection</p>
               <h2 className="h2-section">
                 Six{" "}
                 <span className="gold-italic">ways of travelling</span>,
@@ -124,13 +124,13 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
             {featured.map((journey, i) => (
               <JourneyCard key={journey.slug} journey={journey} priority={i === 0} />
             ))}
           </div>
 
-          <div className="mt-[80px] flex justify-center">
+          <div className="mt-[60px] flex justify-center">
             <Link href="/journeys" className="text-link">
               View All Six Archetypes &rarr;
             </Link>
@@ -186,9 +186,9 @@ export default function HomePage() {
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-5">
-              <p className="label mb-7">Begin Your Journey</p>
+              <p className="label mb-5">Begin Your Journey</p>
               <h2 className="h2-section">
                 Written by hand.{" "}
                 <span className="gold-italic">Kept by hand</span>.
@@ -200,7 +200,7 @@ export default function HomePage() {
                 enough. A senior member of our team will write back to you in
                 person, without an automated reply in between.
               </p>
-              <div className="mt-12 flex flex-wrap gap-10">
+              <div className="mt-9 flex flex-wrap gap-8">
                 <Link href="/enquire" className="text-link">
                   Begin Your Journey &rarr;
                 </Link>
@@ -230,7 +230,7 @@ function Pillar({
 }) {
   return (
     <div
-      className="py-10"
+      className="py-7"
       style={{
         borderTop: "1px solid var(--dd-border)",
         borderBottom: last ? "1px solid var(--dd-border)" : "none",
@@ -243,7 +243,7 @@ function Pillar({
         {title}
       </h3>
       <p
-        className="mt-5 text-[15px] leading-[1.8] max-w-[560px]"
+        className="mt-4 text-[15px] leading-[1.8] max-w-[560px]"
         style={{ color: "var(--dd-stone)" }}
       >
         {body}

@@ -42,8 +42,8 @@ export default function JourneyCard({
           priority={priority}
         />
       </div>
-      <div className="p-8 md:p-9">
-        <p className="label mb-4" style={{ color: "var(--dd-stone)" }}>
+      <div className="p-6 md:p-7">
+        <p className="label mb-3" style={{ color: "var(--dd-stone)" }}>
           {journey.tag}
         </p>
         <h3
@@ -57,13 +57,13 @@ export default function JourneyCard({
           {parts.tail}
         </h3>
         <p
-          className="mt-5 text-[14.5px] leading-[1.75]"
+          className="mt-4 text-[14.5px] leading-[1.75]"
           style={{ color: "var(--dd-stone)" }}
         >
           {journey.oneliner}
         </p>
         <span
-          className="mt-8 inline-block text-[12px] uppercase tracking-[0.28em] pb-[6px]"
+          className="mt-6 inline-block text-[12px] uppercase tracking-[0.28em] pb-[6px]"
           style={{
             color: "var(--dd-stone)",
             borderBottom: "0.5px solid var(--dd-border-mid)",

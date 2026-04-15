@@ -39,46 +39,36 @@ export default function Footer() {
   return (
     <footer
       data-theme="dark"
-      className="section-x pt-[110px] pb-10"
+      className="pt-[84px] pb-8 px-[20px] md:px-[40px] md:pt-[72px] md:pb-7"
       style={{
         background: "var(--dd-near-black)",
         borderTop: "0.5px solid var(--dd-border)",
       }}
     >
       <div className="max-w-container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-10 hairline pt-[90px]">
-          {/* Logo + tagline */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 hairline pt-[68px]">
+          {/* Logo */}
           <div className="md:col-span-5">
-            <Logo size="lg" variant="dark" />
+            <Logo variant="footer" theme="dark" />
             <p
-              className="mt-7 font-serif italic text-[22px] leading-snug"
-              style={{ color: "rgba(240,235,224,0.72)", maxWidth: 360 }}
+              className="mt-6 font-serif italic text-[20px] leading-snug"
+              style={{ color: "rgba(240,235,224,0.72)", maxWidth: 340 }}
             >
               Private African journeys.
               <br />
               Crafted for the Gulf.
             </p>
-            <p
-              className="mt-10 font-serif text-[34px] leading-none"
-              dir="rtl"
-              lang="ar"
-              style={{ color: "var(--dd-gold-amber)" }}
-              aria-label="Raaha — comfort, belonging"
-            >
-              راحة
-            </p>
-            <p className="label mt-4">A sense of belonging</p>
           </div>
 
           {/* Journeys */}
           <div className="md:col-span-3">
-            <p className="label mb-6">Journeys</p>
-            <ul className="flex flex-col gap-3">
+            <p className="label mb-5">Journeys</p>
+            <ul className="flex flex-col gap-[10px]">
               {JOURNEY_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="font-serif italic text-[19px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                    className="font-serif italic text-[18px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
                     style={{ color: "rgba(200,192,170,0.55)" }}
                   >
                     {l.label}
@@ -90,13 +80,13 @@ export default function Footer() {
 
           {/* Discover */}
           <div className="md:col-span-2">
-            <p className="label mb-6">Discover</p>
-            <ul className="flex flex-col gap-3">
+            <p className="label mb-5">Discover</p>
+            <ul className="flex flex-col gap-[10px]">
               {DISCOVER_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="font-serif italic text-[19px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                    className="font-serif italic text-[18px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
                     style={{ color: "rgba(200,192,170,0.55)" }}
                   >
                     {l.label}
@@ -108,12 +98,12 @@ export default function Footer() {
 
           {/* Offices */}
           <div className="md:col-span-2">
-            <p className="label mb-6">Offices</p>
-            <ul className="flex flex-col gap-5">
+            <p className="label mb-5">Offices</p>
+            <ul className="flex flex-col gap-4">
               {OFFICES.map((o) => (
                 <li key={o.city}>
                   <p
-                    className="font-serif italic text-[19px] leading-snug"
+                    className="font-serif italic text-[18px] leading-snug"
                     style={{ color: "var(--dd-linen)" }}
                   >
                     {o.city}
@@ -136,11 +126,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-[110px] hairline pt-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="mt-[84px] hairline pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <p className="label" style={{ color: "var(--dd-stone)" }}>
             © {new Date().getFullYear()} Dune &amp; Delta · All rights reserved
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5">
             <button
               className="text-[11px] uppercase tracking-[0.3em] transition-colors duration-300"
               style={{ color: "var(--dd-gold)" }}

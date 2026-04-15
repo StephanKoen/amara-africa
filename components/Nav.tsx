@@ -50,8 +50,8 @@ export default function Nav() {
     ? "#D4AA68"
     : "#FFFFFF";
 
-  // Hamburger bar colour
-  const barColor = scrolled ? "var(--dd-linen)" : "var(--dd-ink)";
+  // Hamburger bar colour — always readable on hero
+  const barColor = "#FFFFFF";
 
   return (
     <>
@@ -66,14 +66,16 @@ export default function Nav() {
             : "0.5px solid transparent",
         }}
       >
-        <nav className="section-x flex items-center justify-between h-[76px] md:h-[88px]">
+        <nav className="flex items-center justify-between h-[52px] md:h-[60px] px-[20px] md:px-[36px]">
           {/* Desktop: logo left */}
           <div className="hidden md:block">
-            <Logo size="md" variant={scrolled ? "dark" : "light"} />
+            <Link href="/">
+              <Logo variant="nav" theme="dark" />
+            </Link>
           </div>
 
           {/* Desktop: nav centre */}
-          <ul className="hidden md:flex items-center gap-10 lg:gap-12 absolute left-1/2 -translate-x-1/2">
+          <ul className="hidden md:flex items-center gap-8 lg:gap-10 absolute left-1/2 -translate-x-1/2">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <Link
@@ -95,7 +97,7 @@ export default function Nav() {
               href="/enquire"
               onMouseEnter={() => setEnquireHover(true)}
               onMouseLeave={() => setEnquireHover(false)}
-              className="inline-block px-[22px] py-[10px] text-[11px] uppercase tracking-[0.28em] transition-colors duration-500"
+              className="inline-block px-[18px] py-[8px] text-[11px] uppercase tracking-[0.28em] transition-colors duration-500"
               style={{
                 border: `0.5px solid ${enquireBorder}`,
                 color: enquireColor,
@@ -107,7 +109,9 @@ export default function Nav() {
 
           {/* Mobile: centred logo */}
           <div className="md:hidden flex-1 flex justify-center">
-            <Logo size="sm" variant={scrolled ? "dark" : "light"} />
+            <Link href="/">
+              <Logo variant="nav" theme="dark" />
+            </Link>
           </div>
 
           {/* Mobile: hamburger */}
@@ -115,12 +119,12 @@ export default function Nav() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
-            className="md:hidden absolute right-[22px] top-1/2 -translate-y-1/2 w-8 h-8 flex flex-col items-end justify-center gap-[6px]"
+            className="md:hidden absolute right-[20px] top-1/2 -translate-y-1/2 w-8 h-8 flex flex-col items-end justify-center gap-[6px]"
           >
             <span
               className="block h-[1px] w-7 transition-transform duration-500"
               style={{
-                background: menuOpen ? "var(--dd-stone)" : barColor,
+                background: menuOpen ? "var(--dd-ink)" : barColor,
                 transform: menuOpen
                   ? "translateY(4px) rotate(45deg)"
                   : "none",
@@ -129,7 +133,7 @@ export default function Nav() {
             <span
               className="block h-[1px] w-5 transition-transform duration-500"
               style={{
-                background: menuOpen ? "var(--dd-stone)" : barColor,
+                background: menuOpen ? "var(--dd-ink)" : barColor,
                 transform: menuOpen
                   ? "translateY(-3px) rotate(-45deg)"
                   : "none",
@@ -145,12 +149,12 @@ export default function Nav() {
           className="md:hidden fixed inset-0 z-40 menu-fade-in"
           style={{ background: "var(--dd-warm-white)" }}
         >
-          <div className="section-x h-full flex flex-col pt-[120px] pb-16">
+          <div className="section-x h-full flex flex-col pt-[96px] pb-12">
             <ul className="flex flex-col">
               {NAV_LINKS.map((l) => (
                 <li
                   key={l.href}
-                  className="py-6"
+                  className="py-5"
                   style={{
                     borderBottom: "0.5px solid var(--dd-border)",
                   }}
@@ -158,7 +162,7 @@ export default function Nav() {
                   <Link
                     href={l.href}
                     onClick={() => setMenuOpen(false)}
-                    className="font-serif italic text-[44px] leading-none"
+                    className="font-serif italic text-[40px] leading-none"
                     style={{ color: "var(--dd-ink)" }}
                   >
                     {l.label}
@@ -166,13 +170,13 @@ export default function Nav() {
                 </li>
               ))}
               <li
-                className="py-6"
+                className="py-5"
                 style={{ borderBottom: "0.5px solid var(--dd-border)" }}
               >
                 <Link
                   href="/enquire"
                   onClick={() => setMenuOpen(false)}
-                  className="font-serif text-[44px] leading-none"
+                  className="font-serif text-[40px] leading-none"
                   style={{ color: "var(--dd-ink)" }}
                 >
                   <span className="italic">Enquire </span>
@@ -186,11 +190,11 @@ export default function Nav() {
               </li>
             </ul>
 
-            <div className="mt-10">
+            <div className="mt-8">
               <Link
                 href="/enquire"
                 onClick={() => setMenuOpen(false)}
-                className="inline-block px-[22px] py-[12px] text-[11px] uppercase tracking-[0.28em]"
+                className="inline-block px-[20px] py-[10px] text-[11px] uppercase tracking-[0.28em]"
                 style={{
                   border: "0.5px solid var(--dd-gold-antique)",
                   color: "var(--dd-gold-antique)",
@@ -201,7 +205,10 @@ export default function Nav() {
             </div>
 
             <div className="mt-auto">
-              <div className="pt-6" style={{ borderTop: "0.5px solid var(--dd-border)" }}>
+              <div
+                className="pt-5"
+                style={{ borderTop: "0.5px solid var(--dd-border)" }}
+              >
                 <p className="label">Dune &amp; Delta · Est. 2025</p>
                 <p className="label mt-2">Dubai · Cape Town · Lusaka</p>
               </div>

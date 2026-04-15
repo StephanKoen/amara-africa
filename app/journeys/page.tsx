@@ -15,13 +15,13 @@ export default function JourneysIndexPage() {
     <>
       {/* Header */}
       <section
-        className="section-x pt-[170px] md:pt-[220px] pb-[80px] md:pb-[120px]"
+        className="section-x pt-[130px] md:pt-[170px] pb-[60px] md:pb-[90px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-7">
-              <p className="label mb-8">The Collection</p>
+              <p className="label mb-6">The Collection</p>
               <h1 className="h1-display">
                 Six{" "}
                 <span className="gold-italic">quietly written</span>{" "}
@@ -35,7 +35,7 @@ export default function JourneysIndexPage() {
                 re-written from the first page. The temperament remains; the
                 itinerary is yours alone.
               </p>
-              <div className="mt-10">
+              <div className="mt-8">
                 <Link href="/enquire" className="text-link">
                   Enquire Privately &rarr;
                 </Link>
@@ -47,11 +47,11 @@ export default function JourneysIndexPage() {
 
       {/* Grid */}
       <section
-        className="section-x pb-[120px] md:pb-[180px]"
+        className="section-x pb-[90px] md:pb-[140px]"
         style={{ background: "var(--dd-warm-white)" }}
       >
         <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
             {journeys.map((journey, i) => (
               <JourneyCard
                 key={journey.slug}
