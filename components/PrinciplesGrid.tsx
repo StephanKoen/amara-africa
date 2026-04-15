@@ -26,7 +26,10 @@ export default function PrinciplesGrid({
   principles,
 }: PrinciplesGridProps) {
   return (
-    <section className="section-x section-y-lg">
+    <section
+      className="section-x section-y-lg"
+      style={{ background: "var(--dd-parchment)" }}
+    >
       <div className="max-w-container mx-auto">
         {/* Header */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[80px] md:mb-[120px]">
@@ -59,14 +62,14 @@ export default function PrinciplesGrid({
               style={{
                 borderRightWidth:
                   i % 2 === 0 && i < principles.length ? 1 : 0,
-                borderRightColor: "var(--color-border)",
+                borderRightColor: "var(--dd-border)",
                 borderRightStyle: "solid",
               }}
             >
               <div className="flex items-start gap-8">
                 <span
                   className="font-serif italic text-[44px] leading-none"
-                  style={{ color: "var(--color-gold)" }}
+                  style={{ color: "var(--dd-gold)", opacity: 0.5 }}
                   aria-hidden
                 >
                   {p.number}
@@ -74,11 +77,16 @@ export default function PrinciplesGrid({
                 <div className="flex-1">
                   <h3
                     className="font-serif italic text-[26px] md:text-[30px] leading-[1.12]"
-                    style={{ color: "var(--color-cream)" }}
+                    style={{ color: "var(--dd-ink)" }}
                   >
                     {p.title}
                   </h3>
-                  <p className="mt-5 body-copy">{p.body}</p>
+                  <p
+                    className="mt-5 text-[15px] leading-[1.8]"
+                    style={{ color: "var(--dd-stone)" }}
+                  >
+                    {p.body}
+                  </p>
                 </div>
               </div>
             </div>

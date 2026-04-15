@@ -16,7 +16,7 @@ export default function JourneysIndexPage() {
       {/* Header */}
       <section
         className="section-x pt-[170px] md:pt-[220px] pb-[80px] md:pb-[120px]"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -46,7 +46,10 @@ export default function JourneysIndexPage() {
       </section>
 
       {/* Grid */}
-      <section className="section-x pb-[120px] md:pb-[180px]">
+      <section
+        className="section-x pb-[120px] md:pb-[180px]"
+        style={{ background: "var(--dd-warm-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
             {journeys.map((journey, i) => (

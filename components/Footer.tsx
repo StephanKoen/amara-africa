@@ -38,14 +38,18 @@ const OFFICES = [
 export default function Footer() {
   return (
     <footer
+      data-theme="dark"
       className="section-x pt-[110px] pb-10"
-      style={{ background: "var(--color-ink-secondary)" }}
+      style={{
+        background: "var(--dd-near-black)",
+        borderTop: "0.5px solid var(--dd-border)",
+      }}
     >
       <div className="max-w-container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-10 hairline pt-[90px]">
           {/* Logo + tagline */}
           <div className="md:col-span-5">
-            <Logo size="lg" />
+            <Logo size="lg" variant="dark" />
             <p
               className="mt-7 font-serif italic text-[22px] leading-snug"
               style={{ color: "rgba(240,235,224,0.72)", maxWidth: 360 }}
@@ -58,7 +62,7 @@ export default function Footer() {
               className="mt-10 font-serif text-[34px] leading-none"
               dir="rtl"
               lang="ar"
-              style={{ color: "var(--color-gold)" }}
+              style={{ color: "var(--dd-gold-amber)" }}
               aria-label="Raaha — comfort, belonging"
             >
               راحة
@@ -74,8 +78,8 @@ export default function Footer() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="font-serif italic text-[19px] leading-snug hover:text-[color:var(--color-gold)] transition-colors duration-300"
-                    style={{ color: "rgba(240,235,224,0.85)" }}
+                    className="font-serif italic text-[19px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                    style={{ color: "rgba(200,192,170,0.55)" }}
                   >
                     {l.label}
                   </Link>
@@ -92,8 +96,8 @@ export default function Footer() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="font-serif italic text-[19px] leading-snug hover:text-[color:var(--color-gold)] transition-colors duration-300"
-                    style={{ color: "rgba(240,235,224,0.85)" }}
+                    className="font-serif italic text-[19px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                    style={{ color: "rgba(200,192,170,0.55)" }}
                   >
                     {l.label}
                   </Link>
@@ -110,14 +114,14 @@ export default function Footer() {
                 <li key={o.city}>
                   <p
                     className="font-serif italic text-[19px] leading-snug"
-                    style={{ color: "var(--color-cream)" }}
+                    style={{ color: "var(--dd-linen)" }}
                   >
                     {o.city}
                   </p>
                   <p
                     className="text-[12px] leading-relaxed mt-1"
                     style={{
-                      color: "rgba(200,192,170,0.55)",
+                      color: "var(--dd-stone)",
                       letterSpacing: "0.04em",
                     }}
                   >
@@ -133,12 +137,13 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-[110px] hairline pt-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p className="label">
+          <p className="label" style={{ color: "var(--dd-stone)" }}>
             © {new Date().getFullYear()} Dune &amp; Delta · All rights reserved
           </p>
           <div className="flex items-center gap-6">
             <button
-              className="label hover:text-[color:var(--color-gold)] transition-colors duration-300"
+              className="text-[11px] uppercase tracking-[0.3em] transition-colors duration-300"
+              style={{ color: "var(--dd-gold)" }}
               aria-pressed="true"
             >
               English
@@ -149,7 +154,8 @@ export default function Footer() {
               aria-hidden
             />
             <button
-              className="label hover:text-[color:var(--color-gold)] transition-colors duration-300"
+              className="text-[11px] uppercase tracking-[0.3em] transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+              style={{ color: "var(--dd-stone)" }}
               lang="ar"
               dir="rtl"
             >

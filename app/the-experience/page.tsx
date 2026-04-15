@@ -74,7 +74,10 @@ export default function TheExperiencePage() {
       />
 
       {/* Intro */}
-      <section className="section-x section-y">
+      <section
+        className="section-x section-y"
+        style={{ background: "var(--dd-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-5">
@@ -99,7 +102,14 @@ export default function TheExperiencePage() {
 
       {/* Principles in long form */}
       {PRINCIPLES.map((p, i) => (
-        <section key={p.label} className={i === 0 ? "" : "hairline"}>
+        <section
+          key={p.label}
+          className={i === 0 ? "" : "hairline"}
+          style={{
+            background:
+              i % 2 === 0 ? "var(--dd-parchment)" : "var(--dd-white)",
+          }}
+        >
           <div
             className={`grid grid-cols-1 md:grid-cols-2 ${
               p.imagePosition === "left" ? "" : ""
@@ -145,7 +155,7 @@ export default function TheExperiencePage() {
       {/* GCC specific */}
       <section
         className="section-x section-y-lg"
-        style={{ background: "var(--color-ink-secondary)" }}
+        style={{ background: "var(--dd-parchment)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[70px]">
@@ -189,7 +199,7 @@ export default function TheExperiencePage() {
       {/* Enquire CTA */}
       <section
         className="section-x section-y"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -231,13 +241,13 @@ function Copy({
   body: string[];
 }) {
   return (
-    <div
-      className="flex items-center"
-      style={{ background: "var(--color-ink-secondary)" }}
-    >
+    <div className="flex items-center">
       <div className="px-[clamp(28px,6vw,100px)] py-[clamp(60px,8vw,120px)] max-w-[620px]">
         <p className="label mb-7">{label}</p>
-        <h3 className="font-serif text-[30px] md:text-[38px] leading-[1.1]">
+        <h3
+          className="font-serif text-[30px] md:text-[38px] leading-[1.1]"
+          style={{ color: "var(--dd-ink)" }}
+        >
           {title}
         </h3>
         <div className="mt-8 flex flex-col gap-5">
@@ -267,15 +277,15 @@ function GccCard({
     <div
       className="p-10 md:p-12"
       style={{
-        borderTop: "1px solid var(--color-border)",
-        borderBottom: "1px solid var(--color-border)",
-        borderRight: last ? "none" : "1px solid var(--color-border)",
+        borderTop: "1px solid var(--dd-border)",
+        borderBottom: "1px solid var(--dd-border)",
+        borderRight: last ? "none" : "1px solid var(--dd-border)",
       }}
     >
       <p className="label mb-6">{label}</p>
       <h4
         className="font-serif italic text-[26px] leading-[1.15]"
-        style={{ color: "var(--color-cream)" }}
+        style={{ color: "var(--dd-ink)" }}
       >
         {title}
       </h4>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Journey } from "@/lib/journeys";
+import { splitTitle } from "@/lib/journeys";
 
 type JourneyCardProps = {
   journey: Journey;
@@ -13,16 +14,22 @@ export default function JourneyCard({
   priority = false,
   aspect = "tall",
 }: JourneyCardProps) {
+  const parts = splitTitle(journey);
+
   return (
     <Link
       href={`/journeys/${journey.slug}`}
       className="journey-card group block"
+      style={{
+        background: "var(--dd-white)",
+        border: "0.5px solid var(--dd-border)",
+      }}
     >
       <div
         className="relative w-full overflow-hidden"
         style={{
           aspectRatio: aspect === "tall" ? "4 / 5" : "1 / 1",
-          background: "var(--color-ink-tertiary)",
+          background: "var(--dd-parchment)",
         }}
       >
         <Image
@@ -35,27 +42,35 @@ export default function JourneyCard({
           priority={priority}
         />
       </div>
-      <div
-        className="p-8 md:p-9"
-        style={{
-          background: "var(--color-ink-secondary)",
-          borderTop: "1px solid var(--color-border)",
-        }}
-      >
-        <p className="label mb-4">{journey.tag}</p>
+      <div className="p-8 md:p-9">
+        <p className="label mb-4" style={{ color: "var(--dd-stone)" }}>
+          {journey.tag}
+        </p>
         <h3
           className="font-serif italic text-[28px] md:text-[32px] leading-[1.08]"
-          style={{ color: "var(--color-cream)" }}
+          style={{ color: "var(--dd-ink)" }}
         >
-          {journey.title}
+          {parts.lead}
+          <span style={{ color: "var(--dd-gold-antique)" }}>
+            {parts.italic}
+          </span>
+          {parts.tail}
         </h3>
         <p
           className="mt-5 text-[14.5px] leading-[1.75]"
-          style={{ color: "rgba(240,235,224,0.7)" }}
+          style={{ color: "var(--dd-stone)" }}
         >
           {journey.oneliner}
         </p>
-        <span className="mt-8 inline-block text-link">Explore &rarr;</span>
+        <span
+          className="mt-8 inline-block text-[12px] uppercase tracking-[0.28em] pb-[6px]"
+          style={{
+            color: "var(--dd-stone)",
+            borderBottom: "0.5px solid var(--dd-border-mid)",
+          }}
+        >
+          Explore &rarr;
+        </span>
       </div>
     </Link>
   );

@@ -23,7 +23,11 @@ export default function FullbleedFeature({
   heightClass = "h-[460px] md:h-[580px]",
 }: FullbleedFeatureProps) {
   return (
-    <section className={`relative w-full ${heightClass}`}>
+    <section
+      data-theme="dark"
+      className={`relative w-full ${heightClass}`}
+      style={{ background: "var(--dd-near-black)" }}
+    >
       <Image
         src={imageSrc}
         alt={imageAlt}

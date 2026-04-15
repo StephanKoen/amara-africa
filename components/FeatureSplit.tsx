@@ -47,7 +47,7 @@ export default function FeatureSplit({
   const copy = (
     <div
       className="flex items-center"
-      style={{ background: "var(--color-ink-secondary)" }}
+      style={{ background: "var(--dd-parchment)" }}
     >
       <div
         className="px-[clamp(28px,6vw,100px)] py-[clamp(60px,8vw,120px)] max-w-[620px]"

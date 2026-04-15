@@ -15,7 +15,7 @@ export default function NewsletterSection() {
   return (
     <section
       className="section-x section-y"
-      style={{ background: "var(--color-ink)" }}
+      style={{ background: "var(--dd-parchment)" }}
     >
       <div className="max-w-container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -54,7 +54,7 @@ export default function NewsletterSection() {
                 </div>
                 <p
                   className="mt-6 text-[12px]"
-                  style={{ color: "rgba(200,192,170,0.48)" }}
+                  style={{ color: "var(--dd-stone)" }}
                 >
                   Four letters per year. Nothing else.
                 </p>
@@ -63,7 +63,7 @@ export default function NewsletterSection() {
               <div className="mt-12">
                 <p
                   className="font-serif italic text-[24px] leading-snug"
-                  style={{ color: "var(--color-gold)" }}
+                  style={{ color: "var(--dd-gold-antique)" }}
                 >
                   Thank you. We will write when the season turns.
                 </p>

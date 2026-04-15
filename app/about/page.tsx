@@ -16,7 +16,7 @@ export default function AboutPage() {
       {/* Hero-ish header */}
       <section
         className="section-x pt-[170px] md:pt-[220px] pb-[80px] md:pb-[110px]"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -41,7 +41,7 @@ export default function AboutPage() {
       {/* Brand story split */}
       <section
         className="grid grid-cols-1 md:grid-cols-2"
-        style={{ background: "var(--color-ink-secondary)" }}
+        style={{ background: "var(--dd-parchment)" }}
       >
         <div
           className="relative w-full"
@@ -87,7 +87,10 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="section-x section-y-lg">
+      <section
+        className="section-x section-y-lg"
+        style={{ background: "var(--dd-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="mb-[70px] md:mb-[100px]">
             <p className="label mb-7">The Team</p>
@@ -127,7 +130,7 @@ export default function AboutPage() {
       {/* Philosophy statement */}
       <section
         className="section-x section-y"
-        style={{ background: "var(--color-ink-tertiary)" }}
+        style={{ background: "var(--dd-parchment)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="max-w-[980px] mx-auto text-center">
@@ -138,7 +141,7 @@ export default function AboutPage() {
                 style={{
                   fontSize: "clamp(30px, 3.6vw, 48px)",
                   lineHeight: 1.2,
-                  color: "var(--color-cream)",
+                  color: "var(--dd-ink)",
                 }}
               >
                 &ldquo;A journey is not a product. It is a considered
@@ -183,7 +186,7 @@ function TeamCard({
     <div>
       <div
         className="relative w-full"
-        style={{ aspectRatio: "4 / 5", background: "var(--color-ink-tertiary)" }}
+        style={{ aspectRatio: "4 / 5", background: "var(--dd-parchment)" }}
       >
         <Image
           src={image}
@@ -199,7 +202,7 @@ function TeamCard({
         </p>
         <h3
           className="font-serif italic text-[30px] leading-[1.1]"
-          style={{ color: "var(--color-cream)" }}
+          style={{ color: "var(--dd-ink)" }}
         >
           {name}
         </h3>

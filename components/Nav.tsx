@@ -32,23 +32,37 @@ export default function Nav() {
     };
   }, [menuOpen]);
 
+  // Link colour by state
+  const linkColor = scrolled
+    ? "rgba(200,192,170,0.7)" // cream @ 0.7
+    : "rgba(26,22,16,0.65)"; // ink @ 0.65
+
+  // Outline enquire button by state
+  const enquireBorder = scrolled
+    ? "rgba(200,185,150,0.4)"
+    : "var(--dd-gold-antique)";
+  const enquireColor = scrolled ? "var(--dd-linen)" : "var(--dd-gold-antique)";
+
+  // Hamburger bar colour
+  const barColor = scrolled ? "var(--dd-linen)" : "var(--dd-ink)";
+
   return (
     <>
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-500"
         style={{
           background: scrolled ? "rgba(13,13,11,0.95)" : "transparent",
-          backdropFilter: scrolled ? "blur(14px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled
-            ? "1px solid var(--color-border)"
-            : "1px solid transparent",
+            ? "0.5px solid rgba(200,185,150,0.15)"
+            : "0.5px solid transparent",
         }}
       >
         <nav className="section-x flex items-center justify-between h-[76px] md:h-[88px]">
           {/* Desktop: logo left */}
           <div className="hidden md:block">
-            <Logo size="md" />
+            <Logo size="md" variant={scrolled ? "dark" : "light"} />
           </div>
 
           {/* Desktop: nav centre */}
@@ -57,8 +71,8 @@ export default function Nav() {
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="text-[12px] uppercase tracking-[0.3em] text-cream/80 hover:text-[color:var(--color-gold)] transition-colors duration-300"
-                  style={{ color: "rgba(240,235,224,0.78)" }}
+                  className="text-[12px] uppercase tracking-[0.3em] transition-colors duration-500"
+                  style={{ color: linkColor }}
                 >
                   {l.label}
                 </Link>
@@ -70,8 +84,11 @@ export default function Nav() {
           <div className="hidden md:block">
             <Link
               href="/enquire"
-              className="text-link"
-              style={{ letterSpacing: "0.28em" }}
+              className="inline-block px-[22px] py-[10px] text-[11px] uppercase tracking-[0.28em] transition-colors duration-500"
+              style={{
+                border: `0.5px solid ${enquireBorder}`,
+                color: enquireColor,
+              }}
             >
               Enquire Privately
             </Link>
@@ -79,7 +96,7 @@ export default function Nav() {
 
           {/* Mobile: centred logo */}
           <div className="md:hidden flex-1 flex justify-center">
-            <Logo size="sm" />
+            <Logo size="sm" variant={scrolled ? "dark" : "light"} />
           </div>
 
           {/* Mobile: hamburger */}
@@ -92,7 +109,7 @@ export default function Nav() {
             <span
               className="block h-[1px] w-7 transition-transform duration-500"
               style={{
-                background: "var(--color-cream)",
+                background: menuOpen ? "var(--dd-stone)" : barColor,
                 transform: menuOpen
                   ? "translateY(4px) rotate(45deg)"
                   : "none",
@@ -101,7 +118,7 @@ export default function Nav() {
             <span
               className="block h-[1px] w-5 transition-transform duration-500"
               style={{
-                background: "var(--color-cream)",
+                background: menuOpen ? "var(--dd-stone)" : barColor,
                 transform: menuOpen
                   ? "translateY(-3px) rotate(-45deg)"
                   : "none",
@@ -115,35 +132,65 @@ export default function Nav() {
       {menuOpen && (
         <div
           className="md:hidden fixed inset-0 z-40 menu-fade-in"
-          style={{ background: "rgba(13,13,11,0.98)" }}
+          style={{ background: "var(--dd-warm-white)" }}
         >
           <div className="section-x h-full flex flex-col pt-[120px] pb-16">
-            <ul className="flex flex-col gap-10">
+            <ul className="flex flex-col">
               {NAV_LINKS.map((l) => (
-                <li key={l.href}>
+                <li
+                  key={l.href}
+                  className="py-6"
+                  style={{
+                    borderBottom: "0.5px solid var(--dd-border)",
+                  }}
+                >
                   <Link
                     href={l.href}
                     onClick={() => setMenuOpen(false)}
                     className="font-serif italic text-[44px] leading-none"
-                    style={{ color: "var(--color-cream)" }}
+                    style={{ color: "var(--dd-ink)" }}
                   >
                     {l.label}
                   </Link>
                 </li>
               ))}
-              <li>
+              <li
+                className="py-6"
+                style={{ borderBottom: "0.5px solid var(--dd-border)" }}
+              >
                 <Link
                   href="/enquire"
                   onClick={() => setMenuOpen(false)}
-                  className="font-serif italic text-[44px] leading-none"
-                  style={{ color: "var(--color-gold)" }}
+                  className="font-serif text-[44px] leading-none"
+                  style={{ color: "var(--dd-ink)" }}
                 >
-                  Enquire
+                  <span className="italic">Enquire </span>
+                  <span
+                    className="italic"
+                    style={{ color: "var(--dd-gold-antique)" }}
+                  >
+                    Privately
+                  </span>
                 </Link>
               </li>
             </ul>
+
+            <div className="mt-10">
+              <Link
+                href="/enquire"
+                onClick={() => setMenuOpen(false)}
+                className="inline-block px-[22px] py-[12px] text-[11px] uppercase tracking-[0.28em]"
+                style={{
+                  border: "0.5px solid var(--dd-gold-antique)",
+                  color: "var(--dd-gold-antique)",
+                }}
+              >
+                Request Private Access
+              </Link>
+            </div>
+
             <div className="mt-auto">
-              <div className="hairline pt-6">
+              <div className="pt-6" style={{ borderTop: "0.5px solid var(--dd-border)" }}>
                 <p className="label">Dune &amp; Delta · Est. 2025</p>
                 <p className="label mt-2">Dubai · Cape Town · Lusaka</p>
               </div>

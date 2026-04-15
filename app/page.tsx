@@ -34,7 +34,10 @@ export default function HomePage() {
       />
 
       {/* Intro / The Difference */}
-      <section className="section-x section-y-lg">
+      <section
+        className="section-x section-y-lg"
+        style={{ background: "var(--dd-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20">
             <div className="md:col-span-5">
@@ -99,7 +102,7 @@ export default function HomePage() {
       {/* Journey cards */}
       <section
         className="section-x section-y-lg"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-warm-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-[80px] md:mb-[110px]">
@@ -180,7 +183,7 @@ export default function HomePage() {
       {/* Begin Your Journey CTA */}
       <section
         className="section-x section-y"
-        style={{ background: "var(--color-ink-secondary)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -229,17 +232,22 @@ function Pillar({
     <div
       className="py-10"
       style={{
-        borderTop: "1px solid var(--color-border)",
-        borderBottom: last ? "1px solid var(--color-border)" : "none",
+        borderTop: "1px solid var(--dd-border)",
+        borderBottom: last ? "1px solid var(--dd-border)" : "none",
       }}
     >
       <h3
         className="font-serif italic text-[26px] md:text-[30px] leading-[1.12]"
-        style={{ color: "var(--color-cream)" }}
+        style={{ color: "var(--dd-ink)" }}
       >
         {title}
       </h3>
-      <p className="mt-5 body-copy max-w-[560px]">{body}</p>
+      <p
+        className="mt-5 text-[15px] leading-[1.8] max-w-[560px]"
+        style={{ color: "var(--dd-stone)" }}
+      >
+        {body}
+      </p>
     </div>
   );
 }

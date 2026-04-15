@@ -3,14 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --color-ink: #0d0d0b;
-  --color-ink-secondary: #111210;
-  --color-ink-tertiary: #161714;
-  --color-cream: #f0ebe0;
-  --color-muted: rgba(200, 192, 170, 0.45);
-  --color-gold: #d4aa68;
-  --color-border: rgba(200, 185, 150, 0.1);
-  --color-border-strong: rgba(200, 185, 150, 0.18);
+  --dd-gold: #D4AA68;
+  --dd-gold-deep: #B89050;
+  --dd-gold-amber: #C8A84A;
+  --dd-gold-antique: #9A6018;
+  --dd-white: #FFFFFF;
+  --dd-warm-white: #F5F0E6;
+  --dd-linen: #F0EBE0;
+  --dd-parchment: #E8DFC8;
+  --dd-near-black: #0D0D0B;
+  --dd-surface-dark: #111210;
+  --dd-surface-deep: #161714;
+  --dd-olive: #3D4E28;
+  --dd-ink: #1A1610;
+  --dd-cream: #C8C0AA;
+  --dd-stone: #8A7A58;
+  --dd-border: rgba(180,150,90,0.15);
+  --dd-border-mid: rgba(180,150,90,0.25);
+  --dd-border-strong: rgba(180,150,90,0.45);
 }
 
 * {
@@ -21,14 +31,14 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--color-ink);
+  background: var(--dd-warm-white);
 }
 
 html,
 body {
   min-height: 100%;
-  background: var(--color-ink);
-  color: var(--color-cream);
+  background: var(--dd-warm-white);
+  color: var(--dd-ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
@@ -37,8 +47,8 @@ body {
 }
 
 ::selection {
-  background: rgba(212, 170, 104, 0.35);
-  color: var(--color-cream);
+  background: rgba(154, 96, 24, 0.28);
+  color: var(--dd-ink);
 }
 
 h1,
@@ -49,7 +59,7 @@ h5,
 h6 {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
   font-weight: 400;
-  color: var(--color-cream);
+  color: var(--dd-ink);
   margin: 0;
 }
 
@@ -85,6 +95,19 @@ select {
   outline: none;
 }
 
+/* Dark section context — flips utility classes back to cream/warm */
+[data-theme="dark"] {
+  color: var(--dd-linen);
+}
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--dd-linen);
+}
+
 /* Labels — small all-caps sans, wide tracking */
 .label {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -93,21 +116,34 @@ select {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: var(--color-muted);
+  color: var(--dd-stone);
+}
+[data-theme="dark"] .label {
+  color: rgba(240, 235, 224, 0.45);
 }
 
 /* Body copy */
 .body-copy {
   font-size: 15px;
   line-height: 1.8;
-  color: rgba(240, 235, 224, 0.78);
+  color: var(--dd-ink);
+  opacity: 0.7;
   font-weight: 400;
+}
+[data-theme="dark"] .body-copy {
+  color: rgba(240, 235, 224, 0.78);
+  opacity: 1;
 }
 
 .body-copy-sm {
   font-size: 14px;
   line-height: 1.75;
+  color: var(--dd-ink);
+  opacity: 0.7;
+}
+[data-theme="dark"] .body-copy-sm {
   color: rgba(240, 235, 224, 0.72);
+  opacity: 1;
 }
 
 /* Editorial headings */
@@ -134,13 +170,17 @@ select {
   font-weight: 400;
 }
 
+/* Gold italic emphasis — light default uses antique, dark uses bright gold */
 .gold-italic {
-  color: var(--color-gold);
+  color: var(--dd-gold-antique);
   font-style: italic;
   font-weight: 400;
 }
+[data-theme="dark"] .gold-italic {
+  color: var(--dd-gold);
+}
 
-/* Editorial text link — underline muted → gold */
+/* Editorial text link */
 .text-link {
   display: inline-block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -149,15 +189,22 @@ select {
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-cream);
+  color: var(--dd-ink);
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(200, 185, 150, 0.25);
+  border-bottom: 0.5px solid var(--dd-border-mid);
   transition: border-color 0.4s ease, color 0.4s ease;
 }
-
 .text-link:hover {
-  border-bottom-color: var(--color-gold);
-  color: var(--color-gold);
+  border-bottom-color: var(--dd-gold-antique);
+  color: var(--dd-gold-antique);
+}
+[data-theme="dark"] .text-link {
+  color: var(--dd-linen);
+  border-bottom-color: rgba(200, 185, 150, 0.25);
+}
+[data-theme="dark"] .text-link:hover {
+  color: var(--dd-gold);
+  border-bottom-color: var(--dd-gold);
 }
 
 /* Section wrapper */
@@ -176,13 +223,21 @@ select {
   padding-bottom: clamp(110px, 12vw, 200px);
 }
 
-/* Hairline divider */
+/* Hairline dividers */
 .hairline {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--dd-border);
 }
 
 .hairline-strong {
-  border-top: 1px solid var(--color-border-strong);
+  border-top: 1px solid var(--dd-border-strong);
+}
+
+[data-theme="dark"] .hairline {
+  border-top-color: rgba(200, 185, 150, 0.1);
+}
+
+[data-theme="dark"] .hairline-strong {
+  border-top-color: rgba(200, 185, 150, 0.18);
 }
 
 /* Page fade-in */
@@ -218,7 +273,7 @@ select {
   display: block;
   width: 1px;
   height: 72px;
-  background: var(--color-cream);
+  background: var(--dd-linen);
   transform-origin: top center;
   animation: scrollFadePulse 3.4s ease-in-out infinite;
 }
@@ -230,7 +285,7 @@ select {
 
 .journey-card:hover .journey-card-image {
   transform: scale(1.04);
-  filter: brightness(0.75);
+  filter: brightness(0.94);
 }
 
 /* Photo hover overlay */
@@ -257,22 +312,24 @@ select {
   animation: menuFadeIn 0.5s ease both;
 }
 
-/* Underline-only input */
+/* Underline-only input — used in the newsletter form */
 .input-underline {
   width: 100%;
   padding: 14px 2px;
-  border-bottom: 1px solid rgba(200, 185, 150, 0.22);
+  border-bottom: 0.5px solid var(--dd-border-mid);
+  background: transparent;
+  color: var(--dd-ink);
   font-size: 15px;
-  color: var(--color-cream);
   transition: border-color 0.3s ease;
 }
 
 .input-underline::placeholder {
-  color: rgba(200, 192, 170, 0.4);
+  color: rgba(138, 122, 88, 0.55);
 }
 
 .input-underline:focus {
-  border-bottom-color: var(--color-gold);
+  border-bottom-color: var(--dd-gold-antique);
+  outline: none;
 }
 
 textarea.input-underline {
@@ -287,11 +344,83 @@ select.input-underline {
 }
 
 select.input-underline option {
-  background: var(--color-ink-secondary);
-  color: var(--color-cream);
+  background: var(--dd-white);
+  color: var(--dd-ink);
 }
 
-/* Utility: disable rounded & shadows globally on UI */
+/* Boxed form field — used on the enquire page */
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--dd-warm-white);
+  border: 0.5px solid var(--dd-border-mid);
+  color: var(--dd-ink);
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.input-field::placeholder {
+  color: rgba(138, 122, 88, 0.55);
+}
+
+.input-field:focus {
+  border-color: var(--dd-gold-antique);
+  outline: none;
+}
+
+textarea.input-field {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select.input-field {
+  appearance: none;
+  cursor: pointer;
+}
+
+select.input-field option {
+  background: var(--dd-white);
+  color: var(--dd-ink);
+}
+
+/* Filled gold CTA button */
+.btn-gold {
+  display: inline-block;
+  padding: 16px 32px;
+  background: var(--dd-gold-antique);
+  color: var(--dd-warm-white);
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.4s ease;
+}
+
+.btn-gold:hover {
+  background: var(--dd-gold-deep);
+}
+
+/* Outline gold button — used on the nav enquire button */
+.btn-outline {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 0.5px solid var(--dd-gold-antique);
+  color: var(--dd-gold-antique);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(154, 96, 24, 0.08);
+}
+
+/* Global hard-edge — no rounded corners anywhere */
 button,
 input,
 textarea,

@@ -38,8 +38,13 @@ export default function JourneyDetailPage({ params }: Props) {
     <>
       {/* Hero */}
       <section
+        data-theme="dark"
         className="relative w-full"
-        style={{ height: "88svh", minHeight: 600 }}
+        style={{
+          height: "88svh",
+          minHeight: 600,
+          background: "var(--dd-near-black)",
+        }}
       >
         <Image
           src={journey.heroImage}
@@ -76,7 +81,10 @@ export default function JourneyDetailPage({ params }: Props) {
       </section>
 
       {/* Body + sticky sidebar */}
-      <section className="section-x section-y-lg">
+      <section
+        className="section-x section-y-lg"
+        style={{ background: "var(--dd-warm-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-24">
             <div className="md:col-span-7">
@@ -112,8 +120,8 @@ export default function JourneyDetailPage({ params }: Props) {
               <div
                 className="md:sticky md:top-[120px] p-10 md:p-12"
                 style={{
-                  background: "var(--color-ink-secondary)",
-                  border: "1px solid var(--color-border)",
+                  background: "var(--dd-white)",
+                  border: "0.5px solid var(--dd-border)",
                 }}
               >
                 <p className="label mb-8">At a glance</p>
@@ -125,7 +133,7 @@ export default function JourneyDetailPage({ params }: Props) {
                 </div>
 
                 <div className="mt-10 hairline pt-8">
-                  <Link href="/enquire" className="text-link">
+                  <Link href="/enquire" className="btn-gold">
                     Enquire About This Journey &rarr;
                   </Link>
                 </div>
@@ -155,7 +163,10 @@ export default function JourneyDetailPage({ params }: Props) {
       </section>
 
       {/* You may also consider */}
-      <section className="section-x section-y-lg">
+      <section
+        className="section-x section-y-lg"
+        style={{ background: "var(--dd-warm-white)" }}
+      >
         <div className="max-w-container mx-auto">
           <div className="mb-[80px]">
             <p className="label mb-7">You may also consider</p>
@@ -178,10 +189,12 @@ export default function JourneyDetailPage({ params }: Props) {
 function SidebarRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="label mb-2">{label}</p>
+      <p className="label mb-2" style={{ color: "var(--dd-stone)" }}>
+        {label}
+      </p>
       <p
         className="font-serif italic text-[22px] leading-snug"
-        style={{ color: "var(--color-cream)" }}
+        style={{ color: "var(--dd-ink)" }}
       >
         {value}
       </p>

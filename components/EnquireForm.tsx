@@ -116,7 +116,7 @@ export default function EnquireForm() {
           field={
             <input
               type="text"
-              className="input-underline"
+              className="input-field"
               value={form.name}
               onChange={update("name")}
               autoComplete="name"
@@ -130,7 +130,7 @@ export default function EnquireForm() {
           field={
             <input
               type="email"
-              className="input-underline"
+              className="input-field"
               value={form.email}
               onChange={update("email")}
               autoComplete="email"
@@ -143,7 +143,7 @@ export default function EnquireForm() {
           field={
             <input
               type="tel"
-              className="input-underline"
+              className="input-field"
               value={form.phone}
               onChange={update("phone")}
               autoComplete="tel"
@@ -156,7 +156,7 @@ export default function EnquireForm() {
           error={errors.country}
           field={
             <select
-              className="input-underline"
+              className="input-field"
               value={form.country}
               onChange={update("country")}
               required
@@ -184,7 +184,7 @@ export default function EnquireForm() {
           error={errors.journey}
           field={
             <select
-              className="input-underline"
+              className="input-field"
               value={form.journey}
               onChange={update("journey")}
               required
@@ -203,7 +203,7 @@ export default function EnquireForm() {
           field={
             <input
               type="text"
-              className="input-underline"
+              className="input-field"
               value={form.dates}
               onChange={update("dates")}
               placeholder="e.g. October — November 2026"
@@ -215,7 +215,7 @@ export default function EnquireForm() {
           field={
             <input
               type="text"
-              className="input-underline"
+              className="input-field"
               value={form.party}
               onChange={update("party")}
               placeholder="e.g. 2 adults, 2 children"
@@ -229,7 +229,7 @@ export default function EnquireForm() {
           label="Anything we should know"
           field={
             <textarea
-              className="input-underline"
+              className="input-field"
               rows={4}
               value={form.message}
               onChange={update("message")}
@@ -240,12 +240,12 @@ export default function EnquireForm() {
       </div>
 
       <div className="mt-14 flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
-        <button type="submit" className="text-link">
+        <button type="submit" className="btn-gold">
           Request Private Access &rarr;
         </button>
         <p
           className="text-[12px]"
-          style={{ color: "rgba(200,192,170,0.5)" }}
+          style={{ color: "var(--dd-stone)" }}
         >
           Your details are not shared. You will hear from a person, by name.
         </p>
@@ -270,7 +270,7 @@ function Field({
       {error && (
         <span
           className="block mt-3 text-[12px] italic"
-          style={{ color: "var(--color-gold)" }}
+          style={{ color: "var(--dd-gold-antique)" }}
         >
           {error}
         </span>

@@ -26,8 +26,13 @@ export default function HeroSection({
 }: HeroSectionProps) {
   return (
     <section
+      data-theme="dark"
       className="relative w-full overflow-hidden"
-      style={{ height: "100svh", minHeight: 640 }}
+      style={{
+        height: "100svh",
+        minHeight: 640,
+        background: "var(--dd-near-black)",
+      }}
     >
       <Image
         src={imageSrc}

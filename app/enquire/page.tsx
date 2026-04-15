@@ -12,7 +12,7 @@ export default function EnquirePage() {
     <>
       <section
         className="section-x pt-[170px] md:pt-[220px] pb-[80px]"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
@@ -37,20 +37,28 @@ export default function EnquirePage() {
 
       <section
         className="section-x pb-[160px] md:pb-[220px]"
-        style={{ background: "var(--color-ink)" }}
+        style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-14 md:gap-24">
             <div className="md:col-span-7">
-              <EnquireForm />
+              <div
+                className="p-10 md:p-12"
+                style={{
+                  background: "var(--dd-white)",
+                  border: "0.5px solid var(--dd-border)",
+                }}
+              >
+                <EnquireForm />
+              </div>
             </div>
 
             <aside className="md:col-span-5 md:col-start-8">
               <div
-                className="p-10 md:p-12 hairline-strong"
+                className="p-10 md:p-12"
                 style={{
-                  background: "var(--color-ink-secondary)",
-                  border: "1px solid var(--color-border-strong)",
+                  background: "var(--dd-white)",
+                  border: "0.5px solid var(--dd-border)",
                 }}
               >
                 <p className="label mb-7">Offices</p>
@@ -73,7 +81,7 @@ export default function EnquirePage() {
                   <p className="label mb-4">Reply time</p>
                   <p
                     className="font-serif italic text-[22px] leading-snug"
-                    style={{ color: "var(--color-cream)" }}
+                    style={{ color: "var(--dd-ink)" }}
                   >
                     Within one working day, from a named individual.
                   </p>
@@ -98,13 +106,13 @@ function Office({
     <div>
       <p
         className="font-serif italic text-[22px] leading-snug"
-        style={{ color: "var(--color-cream)" }}
+        style={{ color: "var(--dd-ink)" }}
       >
         {city}
       </p>
       <p
         className="mt-2 text-[13px] leading-relaxed"
-        style={{ color: "rgba(200,192,170,0.62)" }}
+        style={{ color: "var(--dd-stone)" }}
       >
         {description}
       </p>

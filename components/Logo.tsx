@@ -4,6 +4,7 @@ type LogoProps = {
   size?: "sm" | "md" | "lg";
   href?: string | null;
   className?: string;
+  variant?: "light" | "dark";
 };
 
 const sizeMap = {
@@ -12,22 +13,44 @@ const sizeMap = {
   lg: "text-[34px]",
 };
 
-export default function Logo({ size = "md", href = "/", className = "" }: LogoProps) {
+const variants = {
+  light: {
+    dune: "var(--dd-gold-antique)",
+    amp: "var(--dd-gold-deep)",
+    ampOpacity: 0.7,
+    delta: "var(--dd-ink)",
+  },
+  dark: {
+    dune: "var(--dd-gold)",
+    amp: "var(--dd-gold-deep)",
+    ampOpacity: 0.7,
+    delta: "var(--dd-linen)",
+  },
+} as const;
+
+export default function Logo({
+  size = "md",
+  href = "/",
+  className = "",
+  variant = "dark",
+}: LogoProps) {
+  const v = variants[variant];
+
   const content = (
     <span
       className={`font-serif ${sizeMap[size]} leading-none tracking-[-0.01em]`}
       aria-label="Dune and Delta"
     >
-      <span className="italic" style={{ color: "var(--color-gold)" }}>
+      <span className="italic" style={{ color: v.dune }}>
         Dune
       </span>
       <span
         className="italic mx-[0.18em]"
-        style={{ color: "rgba(212,170,104,0.55)" }}
+        style={{ color: v.amp, opacity: v.ampOpacity }}
       >
         &amp;
       </span>
-      <span style={{ color: "var(--color-cream)" }}>Delta</span>
+      <span style={{ color: v.delta }}>Delta</span>
     </span>
   );
 
