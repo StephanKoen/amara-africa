@@ -96,7 +96,11 @@ export default function JourneyDetailPage({ params }: Props) {
             <div className="md:col-span-7">
               <p className="label mb-5">The Journey</p>
               {journey.body ? (
-                <BodyMarkdown source={journey.body} title={journey.title} />
+                <BodyMarkdown
+                  source={journey.body}
+                  title={journey.title}
+                  sectionGalleries={journey.sectionGalleries}
+                />
               ) : (
                 <DefaultBody journey={journey} />
               )}
@@ -383,13 +387,98 @@ function DashIcon() {
  * Supports: ## h2, ### h3, ---, **bold** (both standalone-line and inline),
  * and blank-line separated paragraphs. Content is fully trusted (authored
  * by us in lib/journeys.ts), so no sanitisation is required.
+ *
+ * Also inserts per-section scrolling photo strips. After every H2 section's
+ * last content block, if the journey has a `sectionGalleries` entry whose
+ * `afterHeading` matches the section title, the gallery is rendered just
+ * before the section break (`---` or next `##`).
  */
-function BodyMarkdown({ source }: { source: string; title: string }) {
-  const blocks = source.trim().split(/\n\s*\n/);
+function BodyMarkdown({
+  source,
+  title,
+  sectionGalleries,
+}: {
+  source: string;
+  title: string;
+  sectionGalleries?: Journey["sectionGalleries"];
+}) {
+  const blocks = source
+    .trim()
+    .split(/\n\s*\n/)
+    .map((b) => b.trim());
+
+  const galleryFor = (heading: string) =>
+    sectionGalleries?.find(
+      (g) => g.afterHeading.trim().toLowerCase() === heading.trim().toLowerCase()
+    );
+
+  // Walk blocks and decide where to inject galleries: at the end of each
+  // H2 section, right before the `---` break or the next `## Heading`.
+  type Out =
+    | { kind: "block"; idx: number; block: string }
+    | {
+        kind: "gallery";
+        heading: string;
+        images: string[];
+        alts?: string[];
+      };
+  const plan: Out[] = [];
+  let currentHeading: string | null = null;
+  const flushGallery = () => {
+    if (!currentHeading) return;
+    const g = galleryFor(currentHeading);
+    if (g) {
+      plan.push({
+        kind: "gallery",
+        heading: currentHeading,
+        images: g.images,
+        alts: g.alts,
+      });
+    }
+  };
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i];
+    const isHr = /^-{3,}$/.test(b);
+    const isH2 = b.startsWith("## ");
+    if (isH2) {
+      flushGallery();
+      currentHeading = b.slice(3).trim();
+      plan.push({ kind: "block", idx: i, block: b });
+      continue;
+    }
+    if (isHr) {
+      flushGallery();
+      currentHeading = null;
+      plan.push({ kind: "block", idx: i, block: b });
+      continue;
+    }
+    plan.push({ kind: "block", idx: i, block: b });
+  }
+  // Flush once more for the final section (no trailing break).
+  flushGallery();
+
   return (
     <div className="flex flex-col">
-      {blocks.map((raw, idx) => {
-        const block = raw.trim();
+      {plan.map((item, key) => {
+        if (item.kind === "gallery") {
+          return item.images.length > 0 ? (
+            <SectionGallery
+              key={`gallery-${key}`}
+              images={item.images}
+              alts={item.alts}
+              headingTitle={item.heading}
+              journeyTitle={title}
+            />
+          ) : (
+            <SectionGalleryPlaceholder
+              key={`gallery-${key}`}
+              headingTitle={item.heading}
+            />
+          );
+        }
+
+        const block = item.block;
+        const idx = item.idx;
 
         // Horizontal rule
         if (/^-{3,}$/.test(block)) {
@@ -473,4 +562,99 @@ function renderInline(text: string) {
     }
     return <span key={i}>{part}</span>;
   });
+}
+
+/**
+ * Horizontal, scroll-snap photo strip rendered inside a section. Each tile is
+ * a tall 4:5 landscape anchor; users swipe / scroll-wheel horizontally.
+ */
+function SectionGallery({
+  images,
+  alts,
+  headingTitle,
+  journeyTitle,
+}: {
+  images: string[];
+  alts?: string[];
+  headingTitle: string;
+  journeyTitle: string;
+}) {
+  return (
+    <div className="mt-10 mb-2">
+      <p className="label mb-5">Photography · {headingTitle}</p>
+      <div
+        className="flex gap-3 overflow-x-auto overflow-y-hidden pb-3 -mx-[clamp(18px,4vw,70px)] px-[clamp(18px,4vw,70px)]"
+        style={{
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "thin",
+          scrollbarColor: "var(--dd-border-mid) transparent",
+        }}
+      >
+        {images.map((src, i) => (
+          <div
+            key={src}
+            className="relative flex-none"
+            style={{
+              width: "clamp(260px, 44vw, 460px)",
+              aspectRatio: "4 / 3",
+              background: "var(--dd-parchment)",
+              scrollSnapAlign: "start",
+            }}
+          >
+            <Image
+              src={src}
+              alt={alts?.[i] ?? `${journeyTitle} — ${headingTitle} — photograph ${i + 1}`}
+              fill
+              sizes="460px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Placeholder shown when a section's gallery is declared but has no images
+ * yet. Keeps the editorial rhythm intact — three hairline-bordered boxes
+ * with a quiet "Photography — to follow" note.
+ */
+function SectionGalleryPlaceholder({
+  headingTitle,
+}: {
+  headingTitle: string;
+}) {
+  return (
+    <div className="mt-10 mb-2">
+      <p className="label mb-5">Photography · {headingTitle}</p>
+      <div
+        className="flex gap-3 overflow-hidden"
+        aria-label={`Photography for ${headingTitle} — to follow`}
+      >
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="relative flex-none flex items-center justify-center"
+            style={{
+              width: "clamp(200px, 32vw, 320px)",
+              aspectRatio: "4 / 3",
+              background: "var(--dd-parchment)",
+              border: "0.5px dashed var(--dd-border-mid)",
+            }}
+          >
+            {i === 1 && (
+              <span
+                className="label"
+                style={{ color: "var(--dd-stone)", letterSpacing: "0.28em" }}
+              >
+                Photography to follow
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

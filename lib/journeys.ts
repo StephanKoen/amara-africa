@@ -29,6 +29,19 @@ export type Journey = {
   seoDescription?: string;
   seoKeywords?: string[];
   body?: string;
+
+  /**
+   * Optional scrolling photo strips rendered within the body, inserted after
+   * the H2 section whose heading matches `afterHeading` (case-insensitive,
+   * trimmed). If `images` is empty the renderer shows a discreet "photography
+   * to follow" placeholder instead, so the editorial rhythm of the page
+   * remains intact while the real photos are still being sourced.
+   */
+  sectionGalleries?: Array<{
+    afterHeading: string;
+    images: string[];
+    alts?: string[];
+  }>;
 };
 
 export const journeys: Journey[] = [
@@ -172,6 +185,33 @@ export const journeys: Journey[] = [
       "GCC travel to South Africa",
       "tailor-made South Africa holiday",
       "luxury Africa travel",
+    ],
+    sectionGalleries: [
+      {
+        afterHeading: "Cape Town — 4 nights",
+        images: [
+          "/images/journeys/the-cape-and-kruger/cape-town/01.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/02.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/03.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/05.jpg",
+        ],
+        alts: [
+          "Cape Grace lobby — panelled walls, chesterfield seating and chevron parquet floors",
+          "Private yacht moored in the V&A marina with the Cape Grace façade behind",
+          "A couple arriving at Cape Grace in a vintage convertible",
+          "The V&A Waterfront at sunset — Table Mountain and Cape Grace reflected in the harbour",
+          "The Cape Grace pool deck on a bright summer day",
+        ],
+      },
+      {
+        afterHeading: "Grootbos — 2 nights",
+        images: [],
+      },
+      {
+        afterHeading: "Monwana — 3 nights",
+        images: [],
+      },
     ],
     body: `South Africa distilled to its finest elements — a seamless private journey from the city energy of Cape Town to the restorative seclusion of Grootbos, and finally to the wild beauty of Monwana. Designed for travellers who move through the world on their own terms.
 
