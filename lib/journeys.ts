@@ -223,7 +223,20 @@ export const journeys: Journey[] = [
       },
       {
         afterHeading: "Monwana — 3 nights",
-        images: [],
+        images: [
+          "/images/journeys/the-cape-and-kruger/monwana/01.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/02.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/03.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/04.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/05.jpg",
+        ],
+        alts: [
+          "Monwana Game Lodge at dusk, lit gables reflected in the waterhole",
+          "A close sighting of a lioness mid-yawn in the golden grass",
+          "The lodge entrance — thatched gable, timber doors and a walkway between lily ponds",
+          "The Monwana team lined up to welcome guests arriving back from a game drive",
+          "The main lodge lounge — open-plan, stone fireplace, doors folded back to the bush",
+        ],
       },
     ],
     body: `South Africa distilled to its finest elements — a seamless private journey from the city energy of Cape Town to the restorative seclusion of Grootbos, and finally to the wild beauty of Monwana. Designed for travellers who move through the world on their own terms.
