@@ -9,6 +9,26 @@ export type Journey = {
   heroImage: string;
   cardImage: string;
   galleryImages: string[];
+
+  // Optional structured frontmatter
+  published?: boolean;
+  durationNights?: [number, number];
+  region?: string;
+  highlights?: string[];
+  inclusions?: string[];
+  exclusions?: string[];
+  idealFor?: string[];
+  pricingFrom?: number;
+  pricingCurrency?: string;
+  pricingUnit?: string;
+  featureImage?: string;
+  relatedSlugs?: string[];
+  seasonal?: boolean;
+  order?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  body?: string;
 };
 
 export const journeys: Journey[] = [
@@ -72,21 +92,184 @@ export const journeys: Journey[] = [
   {
     slug: "the-cape-and-kruger",
     tag: "Classic",
-    title: "The Cape & Kruger",
-    titleItalic: "Cape & Kruger",
+    title: "Signature South Africa",
+    titleItalic: "Signature South Africa",
     oneliner:
-      "South Africa's finest — from the Sabi Sand to the Cape Peninsula in one seamless arc.",
-    duration: "8–12 nights",
-    territory: "South Africa — Sabi Sand, Kruger & Cape",
-    heroImage:
-      "https://images.ctfassets.net/wds1hqrprqxb/5VDS25gvpLVtqSMNj7IPkc/e1ae74b563722948824e45942d899ff4/SMRTC_Guest_Bathroom_Emma_Jackson_3-min.jpg?w=1600&h=900&fl=progressive&q=92&fm=jpg",
-    cardImage:
-      "https://images.ctfassets.net/wds1hqrprqxb/5VDS25gvpLVtqSMNj7IPkc/e1ae74b563722948824e45942d899ff4/SMRTC_Guest_Bathroom_Emma_Jackson_3-min.jpg?w=900&h=900&fl=progressive&q=90&fm=jpg",
+      "Cape Town, Grootbos and Monwana. A refined private journey through South Africa's most compelling landscapes.",
+    duration: "10 Days / 9 Nights",
+    territory: "Cape Town · Grootbos · Greater Kruger",
+    heroImage: "/images/journeys/the-cape-and-kruger/hero.jpg",
+    cardImage: "/images/journeys/the-cape-and-kruger/card.jpg",
     galleryImages: [
-      "https://images.ctfassets.net/wds1hqrprqxb/SNsZuHtshjzHJzlIB6M2Z/befd067a27bf017fff42f56cb63abc0d/Singita_Kruger_National_Park_Zebra_3U9A5862.jpg?w=1200&h=800&fl=progressive&q=90&fm=jpg",
-      "https://images.ctfassets.net/wds1hqrprqxb/6Glf1CQJy5HGb6UJnaeqse/84d483f8e6429525276457c6d2fc7037/ebony_lodge_dining_room.jpg?w=1200&h=800&fl=progressive&q=90&fm=jpg",
-      "https://images.ctfassets.net/wds1hqrprqxb/2uTrdE7July4kBLuU3njGl/af37ecbfd7ea78d50b57ba39aca7f636/SSS_FOOD_Ebony_Lodge_Lunch_Food_And_Wine_Pairing_Ross_Couper_4.jpg?w=1200&h=800&fl=progressive&q=90&fm=jpg",
+      "/images/journeys/the-cape-and-kruger/gallery-1.jpg",
+      "/images/journeys/the-cape-and-kruger/gallery-2.jpg",
+      "/images/journeys/the-cape-and-kruger/gallery-3.jpg",
     ],
+    published: true,
+    durationNights: [9, 10],
+    region: "South Africa",
+    highlights: [
+      "4 nights at Cape Grace, Cape Town",
+      "2 nights at Grootbos Forest Lodge",
+      "3 nights at Monwana Game Lodge",
+      "Private Cape Town touring with dedicated guide",
+      "Private helicopter experience over Cape Town",
+      "Private yacht experience along the Atlantic Seaboard",
+      "Curated luxury dining reservations in Cape Town",
+      "Big Five safari in a private luxury setting",
+      "Ideal for couples, honeymooners, families and private groups",
+      "Tailor-made service with concierge-style support throughout",
+    ],
+    inclusions: [
+      "4 nights at Cape Grace Hotel, Cape Town",
+      "2 nights at Grootbos Forest Lodge",
+      "3 nights at Monwana Game Lodge",
+      "Luxury accommodation throughout",
+      "Breakfast daily in Cape Town",
+      "Fully inclusive stay at Grootbos as per lodge offering",
+      "Fully inclusive safari stay at Monwana",
+      "Selected private touring in Cape Town",
+      "Private helicopter experience over Cape Town",
+      "Private yacht experience along the Atlantic Seaboard",
+      "Safari activities at Monwana",
+      "Private transfers as specified in the itinerary",
+      "Meet and greet support on arrival",
+      "Tailor-made planning and concierge-style service throughout",
+    ],
+    exclusions: [
+      "International flights",
+      "Domestic flights unless specifically included",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+      "Premium beverages unless specifically included",
+      "Optional activities not specified in the itinerary",
+    ],
+    idealFor: [
+      "GCC luxury travellers",
+      "Couples and honeymooners",
+      "Families seeking a premium South Africa journey",
+      "First-time Africa travellers",
+      "Guests wanting privacy, comfort and curated experiences",
+      "Private groups celebrating a special occasion",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    featureImage: "/images/journeys/the-cape-and-kruger/feature.jpg",
+    relatedSlugs: ["the-migration", "the-coastal-escape"],
+    seasonal: false,
+    order: 1,
+    seoTitle:
+      "Luxury South Africa Tour — Cape Town, Grootbos & Safari | Dune & Delta",
+    seoDescription:
+      "A private 10-night South Africa journey combining Cape Town, the natural beauty of Grootbos and a Big Five safari at Monwana. Tailor-made for GCC travellers.",
+    seoKeywords: [
+      "luxury South Africa tour",
+      "South Africa luxury safari",
+      "Cape Town and safari itinerary",
+      "private South Africa holiday",
+      "GCC travel to South Africa",
+      "tailor-made South Africa holiday",
+      "luxury Africa travel",
+    ],
+    body: `South Africa distilled to its finest elements — a seamless private journey from the city energy of Cape Town to the restorative seclusion of Grootbos, and finally to the wild beauty of Monwana. Designed for travellers who move through the world on their own terms.
+
+## The journey
+
+Experience South Africa through an itinerary that balances iconic city experiences, dramatic coastal scenery, exclusive nature and extraordinary safari. Designed for discerning travellers seeking elegance, privacy and seamless service, this journey offers a refined progression from Cape Town's vibrant energy and privately guided experiences, to the restorative beauty of Grootbos, and on to the quiet exclusivity of Monwana. Every detail is curated to feel effortless, personal and exceptional.
+
+## Cape Town — 4 nights
+
+**Stay: Cape Grace Hotel, V&A Waterfront**
+
+Begin your South African journey at the iconic Cape Grace, perfectly positioned on the V&A Waterfront with immediate access to the city's finest shopping, dining and cultural landmarks. Framed by Table Mountain and the Atlantic Ocean, Cape Town offers a compelling confluence of natural beauty, design, history and coastal sophistication.
+
+This stay is built around flexibility and exclusivity. Your time here moves at your pace, shaped by a curated collection of private touring, scenic experiences and standout dining — all arranged in advance and managed throughout by your dedicated Dune & Delta concierge.
+
+### Curated private experiences in Cape Town
+
+**Private Table Mountain and city discovery**
+
+Begin with a private guided introduction to Cape Town's most iconic landmarks. Whether you ascend Table Mountain at sunrise or explore the city's design quarters and heritage neighbourhoods, your dedicated guide tailors the day entirely to your interests.
+
+**Private Cape Peninsula tour**
+
+One of the great scenic drives in the world, explored exclusively with your private guide. The route takes in Chapman's Peak, Cape Point Nature Reserve and the famous penguin colony at Boulders Beach — without the compromises of a shared itinerary.
+
+**Private helicopter experience**
+
+See Cape Town from above on a private helicopter flight, taking in the full sweep of Table Mountain, the Atlantic Seaboard, the Cape Peninsula and the surrounding mountains. This is one of the most memorable ways to understand the scale and beauty of the city.
+
+**Private yacht experience**
+
+Take to the water on a private yacht along the Atlantic Seaboard, with Table Mountain as your backdrop and the open ocean ahead. The pace and route are entirely yours.
+
+**Private Kirstenbosch and coastal touring**
+
+Explore the renowned Kirstenbosch National Botanical Garden in private, with guided insights into the Cape's remarkable flora. Combine with scenic coastal touring along the Garden Route's Atlantic edge.
+
+**V&A Waterfront**
+
+The V&A Waterfront is one of Africa's finest retail and dining destinations, immediately accessible from Cape Grace. Browse at your own pace, with guidance available if required.
+
+### Signature dining in Cape Town
+
+Cape Town's dining landscape is among the most accomplished in Africa, and we make a selection of reservations on your behalf to ensure each meal reflects the standard of the journey.
+
+**FYN** — One of Cape Town's most celebrated contemporary restaurants, FYN offers a Japanese-South African culinary dialogue with sweeping views across the city. The atmosphere is elegant, the cooking inventive and the service quietly exceptional.
+
+**Marble Cape Town** — Situated high above the city with a commanding rooftop setting, Marble is known for its precise wood-fired cooking, exceptional produce and stylish ambience. An evening here is as much about setting as it is about the food.
+
+**Mantra Café** — A refined choice for a relaxed daytime experience, offering quality, calm and a considered menu in a comfortable setting.
+
+**Bukhara** — A Cape Town institution and one of the finest Indian dining experiences in South Africa. The flavours are sophisticated and the cooking consistent — an ideal choice for guests seeking familiar excellence in an unfamiliar city.
+
+---
+
+## Grootbos — 2 nights
+
+**Stay: Grootbos Forest Lodge**
+
+From Cape Town, your private transfer carries you south along one of the world's most scenic coastal routes to Grootbos Forest Lodge — an exclusive retreat set between ancient milkwood forest, mountains and the sea. This is one of South Africa's most distinctive luxury escapes, and it offers something the rest of the journey deliberately does not: stillness.
+
+Grootbos operates at a different rhythm. The reserve encompasses over 2,500 hectares of extraordinary fynbos and milkwood forest, set above the Walker Bay coastline. The lodge itself is refined and peaceful, with spacious suites designed to draw in the surrounding landscape.
+
+Guests here enjoy guided nature and botanical experiences — the floral diversity of the Overberg is remarkable and entirely unlike anything encountered elsewhere on the journey. Horseback riding along the coastline, scenic walks through ancient forest, and coastal exploration of Walker Bay are among the activities available. The ocean is always present, whether in view or in sound.
+
+There is also the option to simply rest. After the energy of Cape Town, Grootbos offers the space to slow down, breathe and settle into the natural world before the journey's final chapter.
+
+---
+
+## Monwana — 3 nights
+
+**Stay: Monwana Game Lodge, Greater Kruger**
+
+The journey concludes at Monwana, an intimate luxury lodge in the Greater Kruger region that offers everything a discerning safari guest should expect — and very little that they would not want.
+
+Monwana is intentionally small. The lodge accommodates a limited number of guests at any time, which means the experience here is personal, unhurried and genuinely private. The guiding is outstanding, the wildlife viewing exceptional, and the environment — deep in the Greater Kruger — is among the most rewarding in southern Africa for encountering the Big Five.
+
+Each day moves to the rhythm of the bush. Morning game drives depart in the cool hours before dawn, when the light is at its finest and the wildlife most active. Afternoon drives continue into the golden hour and evening. Between activities, the lodge itself is a destination — beautifully designed, generously spaced and set within a landscape that rewards quiet observation.
+
+Dining at Monwana is taken seriously. Meals are prepared with care and served in settings that make the most of the surrounding environment — whether at a candlelit table under the night sky or in the comfort of the main lodge. The food is excellent, the service warm and the atmosphere entirely your own.
+
+This is the dramatic, unhurried final chapter of a journey designed to leave a lasting impression.
+
+---
+
+## Why this journey
+
+This itinerary brings together South Africa's most compelling elements in one coherent, private route. Cape Town provides the energy, the cultural depth and the scenic spectacle. Grootbos offers seclusion, natural beauty and a rare sense of calm. Monwana delivers the safari experience at its most personal and refined.
+
+Each destination has been chosen because it is genuinely excellent — not merely well-known. The progression from city to coast to bush is deliberately paced, allowing the journey to build in a way that feels complete rather than hurried.
+
+For travellers seeking the very best of South Africa, privately experienced and seamlessly delivered, this is the itinerary we return to most often. It works for couples, for honeymooners, for families and for private groups. It works for first-time visitors to Africa and for those returning with higher expectations. It is, simply, South Africa done properly.
+
+---
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
   },
   {
     slug: "the-falls-and-delta",

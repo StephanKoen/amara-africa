@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JourneyCard from "@/components/JourneyCard";
-import { getJourney, journeys, splitTitle } from "@/lib/journeys";
+import { getJourney, journeys, splitTitle, type Journey } from "@/lib/journeys";
 
 type Props = {
   params: { slug: string };
@@ -16,12 +16,18 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const journey = getJourney(params.slug);
   if (!journey) return { title: "Journey" };
+
+  const title =
+    journey.seoTitle ?? `${journey.title} — ${journey.territory}`;
+  const description = journey.seoDescription ?? journey.oneliner;
+
   return {
-    title: `${journey.title} — ${journey.territory}`,
-    description: journey.oneliner,
+    title,
+    description,
+    keywords: journey.seoKeywords,
     openGraph: {
-      title: `${journey.title} · Dune & Delta`,
-      description: journey.oneliner,
+      title: journey.seoTitle ?? `${journey.title} · Dune & Delta`,
+      description,
       images: [{ url: journey.heroImage, alt: journey.title }],
     },
   };
@@ -31,7 +37,7 @@ export default function JourneyDetailPage({ params }: Props) {
   const journey = getJourney(params.slug);
   if (!journey) notFound();
 
-  const related = journeys.filter((j) => j.slug !== journey.slug).slice(0, 2);
+  const related = resolveRelated(journey);
   const heroParts = splitTitle(journey);
 
   return (
@@ -89,31 +95,11 @@ export default function JourneyDetailPage({ params }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-[72px]">
             <div className="md:col-span-7">
               <p className="label mb-5">The Journey</p>
-              <h2 className="h2-section">
-                A journey held in{" "}
-                <span className="gold-italic">one voice</span>, from first call
-                to last goodbye.
-              </h2>
-              <div className="mt-9 flex flex-col gap-5">
-                <p className="body-copy">
-                  Every Dune &amp; Delta journey is a starting point, not a
-                  package. We take the temperament of {journey.title} and
-                  re-write it for your household — the pace, the table, the
-                  hours in the vehicle, the hours in between.
-                </p>
-                <p className="body-copy">
-                  A single senior consultant in our Dubai office holds your
-                  file. On the ground, a single senior guide holds the pace.
-                  The lodges we hold are briefed in advance for Halal-aware
-                  menus and Arabic-speaking hosts, offered quietly and without
-                  further discussion.
-                </p>
-                <p className="body-copy">
-                  Your itinerary will be written by hand — each day, each
-                  transfer, each early morning, in plain language — by the
-                  person who actually planned it.
-                </p>
-              </div>
+              {journey.body ? (
+                <BodyMarkdown source={journey.body} title={journey.title} />
+              ) : (
+                <DefaultBody journey={journey} />
+              )}
             </div>
 
             <aside className="md:col-span-5 md:col-start-8">
@@ -142,6 +128,111 @@ export default function JourneyDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Inclusions */}
+      {journey.inclusions && journey.inclusions.length > 0 && (
+        <section
+          className="section-x section-y"
+          style={{ background: "var(--dd-parchment)" }}
+        >
+          <div className="max-w-container mx-auto">
+            <div className="mb-10">
+              <p className="label mb-4">What's included</p>
+              <h2 className="h2-section">
+                Quietly <span className="gold-italic">included</span>.
+              </h2>
+            </div>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+              {journey.inclusions.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-4 py-2"
+                  style={{
+                    borderTop: "0.5px solid var(--dd-border)",
+                  }}
+                >
+                  <TickIcon />
+                  <span
+                    className="text-[15px] leading-[1.6]"
+                    style={{ color: "var(--dd-ink)" }}
+                  >
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Exclusions */}
+      {journey.exclusions && journey.exclusions.length > 0 && (
+        <section
+          className="section-x section-y"
+          style={{ background: "var(--dd-white)" }}
+        >
+          <div className="max-w-container mx-auto">
+            <div className="mb-10">
+              <p className="label mb-4">Not included</p>
+              <h2 className="h2-section">
+                For <span className="gold-italic">clarity</span>.
+              </h2>
+            </div>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+              {journey.exclusions.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-4 py-2"
+                  style={{
+                    borderTop: "0.5px solid var(--dd-border)",
+                  }}
+                >
+                  <DashIcon />
+                  <span
+                    className="text-[15px] leading-[1.6]"
+                    style={{ color: "var(--dd-stone)" }}
+                  >
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Ideal For */}
+      {journey.idealFor && journey.idealFor.length > 0 && (
+        <section
+          className="section-x section-y"
+          style={{ background: "var(--dd-warm-white)" }}
+        >
+          <div className="max-w-container mx-auto">
+            <div className="mb-8">
+              <p className="label mb-4">Ideal for</p>
+              <h2 className="h2-section">
+                Written for <span className="gold-italic">these guests</span>.
+              </h2>
+            </div>
+            <ul className="flex flex-wrap gap-3">
+              {journey.idealFor.map((item) => (
+                <li
+                  key={item}
+                  style={{
+                    border: "0.5px solid var(--dd-border-mid)",
+                    padding: "8px 16px",
+                    fontSize: 12,
+                    letterSpacing: "0.06em",
+                    color: "var(--dd-stone)",
+                  }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Photo strip */}
       <section className="grid grid-cols-1 md:grid-cols-3">
@@ -186,6 +277,47 @@ export default function JourneyDetailPage({ params }: Props) {
   );
 }
 
+function resolveRelated(journey: Journey): Journey[] {
+  if (journey.relatedSlugs && journey.relatedSlugs.length > 0) {
+    const resolved = journey.relatedSlugs
+      .map((s) => journeys.find((j) => j.slug === s))
+      .filter((j): j is Journey => Boolean(j));
+    if (resolved.length > 0) return resolved.slice(0, 2);
+  }
+  return journeys.filter((j) => j.slug !== journey.slug).slice(0, 2);
+}
+
+function DefaultBody({ journey }: { journey: Journey }) {
+  return (
+    <>
+      <h2 className="h2-section">
+        A journey held in{" "}
+        <span className="gold-italic">one voice</span>, from first call to last
+        goodbye.
+      </h2>
+      <div className="mt-9 flex flex-col gap-5">
+        <p className="body-copy">
+          Every Dune &amp; Delta journey is a starting point, not a package. We
+          take the temperament of {journey.title} and re-write it for your
+          household — the pace, the table, the hours in the vehicle, the hours
+          in between.
+        </p>
+        <p className="body-copy">
+          A single senior consultant in our Dubai office holds your file. On
+          the ground, a single senior guide holds the pace. The lodges we hold
+          are briefed in advance for Halal-aware menus and Arabic-speaking
+          hosts, offered quietly and without further discussion.
+        </p>
+        <p className="body-copy">
+          Your itinerary will be written by hand — each day, each transfer,
+          each early morning, in plain language — by the person who actually
+          planned it.
+        </p>
+      </div>
+    </>
+  );
+}
+
 function SidebarRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
@@ -200,4 +332,145 @@ function SidebarRow({ label, value }: { label: string; value: string }) {
       </p>
     </div>
   );
+}
+
+function TickIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      aria-hidden
+      className="mt-[6px] shrink-0"
+      style={{ color: "var(--dd-gold-antique)" }}
+    >
+      <path
+        d="M2 7.2 L5.4 10.4 L12 3.6"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function DashIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      aria-hidden
+      className="mt-[6px] shrink-0"
+      style={{ color: "var(--dd-stone)" }}
+    >
+      <path
+        d="M3 7 L11 7"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/**
+ * Minimal markdown-to-JSX renderer tailored to journey body content.
+ * Supports: ## h2, ### h3, ---, **bold** (both standalone-line and inline),
+ * and blank-line separated paragraphs. Content is fully trusted (authored
+ * by us in lib/journeys.ts), so no sanitisation is required.
+ */
+function BodyMarkdown({ source }: { source: string; title: string }) {
+  const blocks = source.trim().split(/\n\s*\n/);
+  return (
+    <div className="flex flex-col">
+      {blocks.map((raw, idx) => {
+        const block = raw.trim();
+
+        // Horizontal rule
+        if (/^-{3,}$/.test(block)) {
+          return (
+            <hr
+              key={idx}
+              className="my-10"
+              style={{
+                border: "none",
+                borderTop: "0.5px solid var(--dd-border)",
+              }}
+            />
+          );
+        }
+
+        // H2 — major section heading
+        if (block.startsWith("## ")) {
+          return (
+            <h2
+              key={idx}
+              className="h2-section mt-12 mb-6"
+              style={{ color: "var(--dd-ink)" }}
+            >
+              {block.slice(3)}
+            </h2>
+          );
+        }
+
+        // H3 — sub-section heading
+        if (block.startsWith("### ")) {
+          return (
+            <h3
+              key={idx}
+              className="font-serif italic text-[22px] md:text-[26px] leading-[1.2] mt-10 mb-5"
+              style={{ color: "var(--dd-ink)" }}
+            >
+              {block.slice(4)}
+            </h3>
+          );
+        }
+
+        // Standalone bold line — treated as a small italic gold sub-heading
+        // (e.g. "**Stay: Cape Grace Hotel, V&A Waterfront**")
+        const standaloneBold = block.match(/^\*\*([^*]+)\*\*$/);
+        if (standaloneBold) {
+          return (
+            <p
+              key={idx}
+              className="font-serif italic mt-6 mb-2 text-[17px] md:text-[18px] leading-[1.3]"
+              style={{ color: "var(--dd-gold-antique)" }}
+            >
+              {standaloneBold[1]}
+            </p>
+          );
+        }
+
+        // Paragraph — with possible inline **bold**
+        return (
+          <p key={idx} className="body-copy mb-5">
+            {renderInline(block)}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    const m = part.match(/^\*\*([^*]+)\*\*$/);
+    if (m) {
+      return (
+        <strong
+          key={i}
+          style={{ color: "var(--dd-ink)", fontWeight: 500 }}
+        >
+          {m[1]}
+        </strong>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
 }
