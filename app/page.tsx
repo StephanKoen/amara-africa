@@ -94,8 +94,8 @@ export default function HomePage() {
           "Our guest suites are quiet, the service is unhurried, and the details — the linens, the water, the light — are attended to before you arrive.",
         ]}
         link={{ href: "/the-experience", label: "Inside the Houses" }}
-        imageSrc={images.lodgeInterior}
-        imageAlt="A considered lodge bathroom in natural materials with late-afternoon light"
+        imageSrc="https://library.singita.com/download/public/assets/171940122810044.jpg"
+        imageAlt="Singita Milele — main suite bathroom with freestanding bath and floor-to-ceiling views over the Serengeti"
         imagePosition="left"
       />
 
