@@ -206,7 +206,20 @@ export const journeys: Journey[] = [
       },
       {
         afterHeading: "Grootbos — 2 nights",
-        images: [],
+        images: [
+          "/images/journeys/the-cape-and-kruger/grootbos/01.jpg",
+          "/images/journeys/the-cape-and-kruger/grootbos/02.jpg",
+          "/images/journeys/the-cape-and-kruger/grootbos/03.jpg",
+          "/images/journeys/the-cape-and-kruger/grootbos/04.jpg",
+          "/images/journeys/the-cape-and-kruger/grootbos/05.jpg",
+        ],
+        alts: [
+          "A plate of freshly shucked oysters dressed with sea lettuce, lime and foraged shoreline botanicals",
+          "A private villa pool deck above the fynbos with the Walker Bay coastline beyond",
+          "A Land Rover moving quietly along a track through the restio-lined fynbos reserve",
+          "A small group riding through pink erica and ocean dunes on a clear morning",
+          "A Southern Right whale breaching just off the Grootbos coast",
+        ],
       },
       {
         afterHeading: "Monwana — 3 nights",
