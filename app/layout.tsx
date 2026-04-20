@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://duneanddelta.com"),
+  metadataBase: new URL("https://amarafrica.com"),
   title: {
     default: "Dune & Delta — Private African Journeys. Crafted for the Gulf.",
     template: "%s · Dune & Delta",
