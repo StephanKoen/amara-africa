@@ -26,7 +26,7 @@ export function generateMetadata({ params }: Props): Metadata {
     description,
     keywords: journey.seoKeywords,
     openGraph: {
-      title: journey.seoTitle ?? `${journey.title} · Dune & Delta`,
+      title: journey.seoTitle ?? `${journey.title} · Amara Africa`,
       description,
       images: [{ url: journey.heroImage, alt: journey.title }],
     },
@@ -301,7 +301,7 @@ function DefaultBody({ journey }: { journey: Journey }) {
       </h2>
       <div className="mt-9 flex flex-col gap-5">
         <p className="body-copy">
-          Every Dune &amp; Delta journey is a starting point, not a package. We
+          Every Amara Africa journey is a starting point, not a package. We
           take the temperament of {journey.title} and re-write it for your
           household — the pace, the table, the hours in the vehicle, the hours
           in between.

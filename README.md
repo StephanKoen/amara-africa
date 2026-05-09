@@ -1,8 +1,8 @@
-# Dune & Delta
+# Amara Africa
 
 Private African journeys. Crafted for the Gulf.
 
-A small, editorial marketing site for Dune & Delta — a luxury African safari
+A small, editorial marketing site for Amara Africa — a luxury African safari
 house founded in Dubai in 2025, with offices in Dubai, Cape Town and Lusaka.
 
 ## Stack
@@ -30,7 +30,7 @@ npm run lint   # next lint
 | `/`                      | Homepage                                 |
 | `/journeys`              | The Collection — six journey archetypes  |
 | `/journeys/[slug]`       | Individual journey page                  |
-| `/the-experience`        | The Dune & Delta Way                     |
+| `/the-experience`        | The Amara Africa Way                     |
 | `/about`                 | About, team, philosophy                  |
 | `/enquire`               | Enquiry form                             |
 

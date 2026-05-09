@@ -11,7 +11,7 @@ const themeColors = {
   light: { dune: "#9A6018", amp: "#B89050", delta: "#1A1610" },
 } as const;
 
-const ARABIC = "دِيُون وَ دِلتا";
+const ARABIC = "أمارا أفريقيا";
 
 const arabicFont: CSSProperties = {
   fontFamily: '"Noto Naskh Arabic", "Playfair Display", serif',
@@ -80,7 +80,7 @@ function NavVariant({ theme }: { theme: "dark" | "light" }) {
   return (
     <span
       className="inline-flex flex-col items-start"
-      aria-label="Dune & Delta"
+      aria-label="Amara Africa"
     >
       {/* English wordmark */}
       <span className="font-serif leading-none flex items-baseline">
@@ -92,22 +92,17 @@ function NavVariant({ theme }: { theme: "dark" | "light" }) {
             letterSpacing: "-0.005em",
           }}
         >
-          Dune
-        </span>
-        <span
-          className="mx-[0.3em]"
-          style={{ color: "#C8962E", fontSize: 24 }}
-        >
-          &amp;
+          Amara
         </span>
         <span
           style={{
             color: deltaColor,
             fontSize: 38,
             letterSpacing: "-0.005em",
+            marginLeft: "0.25em",
           }}
         >
-          Delta
+          Africa
         </span>
       </span>
       {/* Hairline rule */}
@@ -146,20 +141,14 @@ function FooterVariant({ theme }: { theme: "dark" | "light" }) {
   return (
     <span
       className="inline-flex flex-col items-start"
-      aria-label="Dune & Delta"
+      aria-label="Amara Africa"
     >
       <IconMark width={52} height={30} />
       <span className="mt-3 font-serif leading-none flex items-baseline">
         <span className="italic" style={{ color: c.dune, fontSize: 20 }}>
-          Dune
+          Amara
         </span>
-        <span
-          className="italic mx-[0.3em]"
-          style={{ color: c.amp, fontSize: 13 }}
-        >
-          &amp;
-        </span>
-        <span style={{ color: "#F0EBE0", fontSize: 20 }}>Delta</span>
+        <span style={{ color: "#F0EBE0", fontSize: 20, marginLeft: "0.25em" }}>Africa</span>
       </span>
       <span
         className="block mt-3"
@@ -201,20 +190,14 @@ function FullVariant({ theme }: { theme: "dark" | "light" }) {
   return (
     <span
       className="inline-flex flex-col items-center text-center"
-      aria-label="Dune & Delta"
+      aria-label="Amara Africa"
     >
       <IconMark width={64} height={36} />
       <span className="mt-4 font-serif leading-none flex items-baseline">
         <span className="italic" style={{ color: c.dune, fontSize: 26 }}>
-          Dune
+          Amara
         </span>
-        <span
-          className="italic mx-[0.3em]"
-          style={{ color: c.amp, fontSize: 17 }}
-        >
-          &amp;
-        </span>
-        <span style={{ color: c.delta, fontSize: 26 }}>Delta</span>
+        <span style={{ color: c.delta, fontSize: 26, marginLeft: "0.25em" }}>Africa</span>
       </span>
       <span
         className="block mt-4"

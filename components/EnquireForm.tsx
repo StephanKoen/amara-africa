@@ -101,7 +101,7 @@ export default function EnquireForm() {
           </p>
         </div>
         <div className="mt-9">
-          <p className="label">Dune &amp; Delta · Dubai · Cape Town · Lusaka</p>
+          <p className="label">Amara Africa · Dubai · Cape Town · Lusaka</p>
         </div>
       </div>
     );

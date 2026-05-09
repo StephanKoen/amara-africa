@@ -209,7 +209,7 @@ export default function Nav() {
                 className="pt-5"
                 style={{ borderTop: "0.5px solid var(--dd-border)" }}
               >
-                <p className="label">Dune &amp; Delta · Est. 2025</p>
+                <p className="label">Amara Africa · Est. 2025</p>
                 <p className="label mt-2">Dubai · Cape Town · Lusaka</p>
               </div>
             </div>

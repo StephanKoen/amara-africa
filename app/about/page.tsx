@@ -5,7 +5,7 @@ import { images } from "@/lib/images";
 import NewsletterSection from "@/components/NewsletterSection";
 
 export const metadata: Metadata = {
-  title: "About — Dune & Delta",
+  title: "About — Amara Africa",
   description:
     "A small house, founded in 2025, with offices in Dubai, Cape Town and Lusaka. Our story, our team, and what we hold to.",
 };
@@ -29,7 +29,7 @@ export default function AboutPage() {
             </div>
             <div className="md:col-span-5 flex flex-col justify-end">
               <p className="body-copy max-w-[460px]">
-                Dune &amp; Delta was founded in Dubai in 2025 by a small group
+                Amara Africa was founded in Dubai in 2025 by a small group
                 of people who had spent fifteen years writing safaris for other
                 companies, and who wanted to write them again, differently.
               </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
                 what is gained when it is not.
               </p>
               <p className="body-copy">
-                Dune &amp; Delta exists to keep a small number of journeys held
+                Amara Africa exists to keep a small number of journeys held
                 by a small number of hands. Our Dubai office holds the guest
                 relationship; our Cape Town product team holds the itinerary;
                 our Lusaka team holds the ground operation. Three rooms, one
@@ -109,7 +109,7 @@ export default function AboutPage() {
               alt="A private table quietly laid for a senior consultant's lunch meeting"
               bio={[
                 "Layla holds every guest relationship in the Gulf. She is the first voice you hear and the last, and she is the person at the other end of the phone while you travel.",
-                "Before Dune & Delta she spent twelve years inside a Riyadh-based private travel house, writing briefs for a small roster of GCC families.",
+                "Before Amara Africa she spent twelve years inside a Riyadh-based private travel house, writing briefs for a small roster of GCC families.",
               ]}
             />
             <TeamCard
@@ -120,7 +120,7 @@ export default function AboutPage() {
               alt="A considered lodge interior selected by the product team"
               bio={[
                 "Emma builds every itinerary. She walks every lodge we hold, every year, and she knows which room has the late-afternoon light and which has the river frontage.",
-                "Before Dune & Delta she spent eight years as a senior product lead at one of Southern Africa's most respected safari houses.",
+                "Before Amara Africa she spent eight years as a senior product lead at one of Southern Africa's most respected safari houses.",
               ]}
             />
           </div>
@@ -150,7 +150,7 @@ export default function AboutPage() {
               </p>
             </blockquote>
             <p className="label mt-8">
-              Dune &amp; Delta · A Private House · Est. 2025
+              Amara Africa · A Private House · Est. 2025
             </p>
           </div>
 

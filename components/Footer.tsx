@@ -128,7 +128,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-[84px] hairline pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <p className="label" style={{ color: "var(--dd-stone)" }}>
-            © {new Date().getFullYear()} Dune &amp; Delta · All rights reserved
+            © {new Date().getFullYear()} Amara Africa · All rights reserved
           </p>
           <div className="flex items-center gap-5">
             <button

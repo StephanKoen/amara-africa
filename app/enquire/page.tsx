@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import EnquireForm from "@/components/EnquireForm";
 
 export const metadata: Metadata = {
-  title: "Enquire Privately — Dune & Delta",
+  title: "Enquire Privately — Amara Africa",
   description:
     "Write to us. A senior member of our Dubai office will reply in person, within one working day. No automated confirmations.",
 };

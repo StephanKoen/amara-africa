@@ -6,18 +6,18 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   metadataBase: new URL("https://amarafrica.com"),
   title: {
-    default: "Dune & Delta — Private African Journeys. Crafted for the Gulf.",
-    template: "%s · Dune & Delta",
+    default: "Amara Africa — Private African Journeys. Crafted for the Gulf.",
+    template: "%s · Amara Africa",
   },
   description:
     "Private, considered safaris across South Africa, Tanzania and Zambia — built for Gulf travellers by a team in Dubai, Cape Town and Lusaka.",
   openGraph: {
-    title: "Dune & Delta — Private African Journeys. Crafted for the Gulf.",
+    title: "Amara Africa — Private African Journeys. Crafted for the Gulf.",
     description:
       "Private, considered safaris across South Africa, Tanzania and Zambia — built for Gulf travellers.",
     type: "website",
     locale: "en_GB",
-    siteName: "Dune & Delta",
+    siteName: "Amara Africa",
     images: [
       {
         url: "https://images.ctfassets.net/wds1hqrprqxb/7wrSc782QHPspNc7NWmcaP/1c48edc3fd244969058e52c361a24594/Sasakwa_Activities_Game_drive_slider1.jpg?w=1600&h=1000&fl=progressive&q=92&fm=jpg",

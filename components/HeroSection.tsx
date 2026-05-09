@@ -107,7 +107,7 @@ export default function HeroSection({
               className="mt-12 pt-5 hairline label"
               style={{ maxWidth: 520 }}
             >
-              Dune &amp; Delta · Est. 2025 · Private journeys. Built for the Gulf.
+              Amara Africa · Est. 2025 · Private journeys. Built for the Gulf.
             </p>
           )}
         </div>

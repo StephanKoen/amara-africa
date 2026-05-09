@@ -174,7 +174,7 @@ export const journeys: Journey[] = [
     seasonal: false,
     order: 1,
     seoTitle:
-      "Luxury South Africa Tour — Cape Town, Grootbos & Safari | Dune & Delta",
+      "Luxury South Africa Tour — Cape Town, Grootbos & Safari | Amara Africa",
     seoDescription:
       "A private 10-night South Africa journey combining Cape Town, the natural beauty of Grootbos and a Big Five safari at Monwana. Tailor-made for GCC travellers.",
     seoKeywords: [
@@ -251,7 +251,7 @@ Experience South Africa through an itinerary that balances iconic city experienc
 
 Begin your South African journey at the iconic Cape Grace, perfectly positioned on the V&A Waterfront with immediate access to the city's finest shopping, dining and cultural landmarks. Framed by Table Mountain and the Atlantic Ocean, Cape Town offers a compelling confluence of natural beauty, design, history and coastal sophistication.
 
-This stay is built around flexibility and exclusivity. Your time here moves at your pace, shaped by a curated collection of private touring, scenic experiences and standout dining — all arranged in advance and managed throughout by your dedicated Dune & Delta concierge.
+This stay is built around flexibility and exclusivity. Your time here moves at your pace, shaped by a curated collection of private touring, scenic experiences and standout dining — all arranged in advance and managed throughout by your dedicated Amara Africa concierge.
 
 ### Curated private experiences in Cape Town
 

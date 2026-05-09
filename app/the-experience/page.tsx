@@ -6,9 +6,9 @@ import { images } from "@/lib/images";
 import NewsletterSection from "@/components/NewsletterSection";
 
 export const metadata: Metadata = {
-  title: "The Experience — The Dune & Delta Way",
+  title: "The Experience — The Amara Africa Way",
   description:
-    "The quiet principles that hold every Dune & Delta journey. Private, Halal-aware, Arabic on request, and written by one pair of hands.",
+    "The quiet principles that hold every Amara Africa journey. Private, Halal-aware, Arabic on request, and written by one pair of hands.",
 };
 
 const PRINCIPLES = [
@@ -62,7 +62,7 @@ export default function TheExperiencePage() {
   return (
     <>
       <HeroSection
-        kicker="The Dune & Delta Way"
+        kicker="The Amara Africa Way"
         headingLead="The absence of"
         headingItalic="unnecessary compromise"
         headingTail="."
