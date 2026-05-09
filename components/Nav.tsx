@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Logo from "./Logo";
+import AmaraLogo from "./AmaraLogo";
 
 const NAV_LINKS = [
   { href: "/journeys", label: "Journeys" },
@@ -70,7 +70,7 @@ export default function Nav() {
           {/* Desktop: logo left */}
           <div className="hidden md:block">
             <Link href="/">
-              <Logo variant="nav" theme="dark" />
+              <AmaraLogo variant="dark" size="nav" />
             </Link>
           </div>
 
@@ -110,7 +110,7 @@ export default function Nav() {
           {/* Mobile: centred logo */}
           <div className="md:hidden flex-1 flex justify-center">
             <Link href="/">
-              <Logo variant="nav" theme="dark" />
+              <AmaraLogo variant="dark" size="nav" />
             </Link>
           </div>
 
