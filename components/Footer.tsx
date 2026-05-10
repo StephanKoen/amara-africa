@@ -20,18 +20,13 @@ const DISCOVER_LINKS = [
 const OFFICES = [
   {
     city: "Dubai",
-    line1: "Gate Avenue · DIFC",
-    line2: "Sheikh Zayed Road",
+    line1: "Jumeirah Village Circle",
+    line2: "Dubai · UAE",
   },
   {
-    city: "Cape Town",
-    line1: "42 Hans Strijdom",
-    line2: "Foreshore · 8001",
-  },
-  {
-    city: "Lusaka",
-    line1: "Stand 1234 · Kabulonga",
-    line2: "Lusaka · Zambia",
+    city: "George",
+    line1: "Garden Route",
+    line2: "South Africa",
   },
 ];
 
