@@ -1,141 +1,120 @@
 type AmaraLogoProps = {
   variant?: "linen" | "dark";
-  size?: "nav" | "full";
+  size?: "sm" | "md" | "lg";
   className?: string;
 };
 
-const GOLD = "#C8962E";
-const GOLD_DEEP = "#9A6C1A";
-const INK = "#1A1710";
-const CREAM = "#EDE8DC";
-
-const ruleStyle = {
-  width: "100%",
-  height: "1px",
-  background: `rgba(154, 108, 26, 0.28)`,
+const SCALE = {
+  sm: { amara: 64, africa: 12, tagline: 7, arabic: 9, gap: 6 },
+  md: { amara: 120, africa: 22, tagline: 9, arabic: 14, gap: 12 },
+  lg: { amara: 180, africa: 34, tagline: 13, arabic: 22, gap: 16 },
 } as const;
 
 export default function AmaraLogo({
   variant = "linen",
-  size = "full",
+  size = "md",
   className = "",
 }: AmaraLogoProps) {
-  const africaColor = variant === "dark" ? CREAM : INK;
-
-  if (size === "nav") {
-    return (
-      <span
-        className={`inline-flex flex-col items-center text-center ${className}`}
-        aria-label="Amara Africa"
-      >
-        <span
-          className="block"
-          style={{
-            fontFamily: '"Great Vibes", cursive',
-            fontSize: 36,
-            lineHeight: 0.9,
-            color: GOLD,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Amara
-        </span>
-        <span
-          className="block mt-[2px] uppercase"
-          style={{
-            fontFamily: '"Cormorant Garamond", serif',
-            fontSize: 11,
-            fontWeight: 400,
-            letterSpacing: "0.52em",
-            paddingLeft: "0.52em",
-            color: africaColor,
-            lineHeight: 1,
-          }}
-        >
-          Africa
-        </span>
-      </span>
-    );
-  }
+  const s = SCALE[size];
+  const dark = variant === "dark";
+  const ruleColor = dark ? "rgba(200,150,46,0.28)" : "rgba(154,108,26,0.28)";
+  const africaColor = dark ? "#EDE8DC" : "#1A1710";
+  const taglineColor = dark
+    ? "rgba(200,150,46,0.78)"
+    : "rgba(154,108,26,0.85)";
+  const arabicColor = dark ? "#C8962E" : "#9A6C1A";
 
   return (
     <span
       className={`inline-flex flex-col items-center text-center ${className}`}
       aria-label="Amara Africa"
     >
-      {/* Top rule */}
-      <span className="block" style={ruleStyle} aria-hidden />
-
-      {/* Amara — Great Vibes cursive */}
       <span
-        className="block mt-4 mb-3"
+        className="block w-[70%] h-px"
+        style={{ background: ruleColor }}
+        aria-hidden
+      />
+
+      <span
+        className="block"
         style={{
-          fontFamily: '"Great Vibes", cursive',
-          fontSize: 150,
+          fontFamily: "var(--font-cursive)",
+          fontSize: s.amara,
           lineHeight: 0.85,
-          color: GOLD,
-          letterSpacing: "-0.01em",
+          color: "#C8962E",
+          marginTop: s.gap,
+          marginBottom: s.gap * 0.75,
         }}
       >
         Amara
       </span>
 
-      {/* Mid rule */}
-      <span className="block" style={ruleStyle} aria-hidden />
-
-      {/* AFRICA — Cormorant Garamond uppercase */}
       <span
-        className="block mt-4 mb-3 uppercase"
+        className="block w-[70%] h-px"
+        style={{ background: ruleColor }}
+        aria-hidden
+      />
+
+      <span
+        className="block uppercase"
         style={{
-          fontFamily: '"Cormorant Garamond", serif',
-          fontSize: 28,
+          fontFamily: "var(--font-serif)",
+          fontSize: s.africa,
           fontWeight: 400,
           letterSpacing: "0.62em",
           paddingLeft: "0.62em",
           color: africaColor,
           lineHeight: 1,
+          marginTop: s.gap,
+          marginBottom: s.gap * 0.6,
         }}
       >
         Africa
       </span>
 
-      {/* Tagline — Cormorant Garamond italic */}
       <span
-        className="block mb-4 uppercase italic"
+        className="block uppercase italic"
         style={{
-          fontFamily: '"Cormorant Garamond", serif',
-          fontSize: 11,
+          fontFamily: "var(--font-serif)",
+          fontSize: s.tagline,
           fontWeight: 400,
           letterSpacing: "0.18em",
           paddingLeft: "0.18em",
-          color: `rgba(154, 108, 26, 0.85)`,
+          color: taglineColor,
           lineHeight: 1.4,
+          marginBottom: s.gap,
         }}
       >
         A Private World of African Luxury
       </span>
 
-      {/* Lower rule */}
-      <span className="block" style={ruleStyle} aria-hidden />
-
-      {/* Arabic */}
       <span
-        className="block mt-3 mb-3"
+        className="block w-[70%] h-px"
+        style={{ background: ruleColor }}
+        aria-hidden
+      />
+
+      <span
+        className="block"
         dir="rtl"
         lang="ar"
         style={{
-          fontFamily: '"Noto Naskh Arabic", serif',
-          fontSize: 18,
-          fontWeight: 500,
-          color: GOLD,
+          fontFamily: "var(--font-arabic)",
+          fontSize: s.arabic,
+          color: arabicColor,
           lineHeight: 1.4,
+          marginTop: s.gap * 0.75,
+          marginBottom: s.gap * 0.75,
         }}
       >
         أَمَارَا وَ أَفْرِيقَا
       </span>
 
-      {/* Bottom rule */}
-      <span className="block" style={ruleStyle} aria-hidden />
+      <span
+        className="block w-[70%] h-px"
+        style={{ background: ruleColor }}
+        aria-hidden
+      />
     </span>
   );
 }

@@ -49,7 +49,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 hairline pt-[68px]">
           {/* Logo */}
           <div className="md:col-span-5">
-            <AmaraLogo variant="dark" size="full" />
+            <AmaraLogo variant="dark" size="md" />
             <p
               className="mt-6 font-serif italic text-[20px] leading-snug"
               style={{ color: "rgba(240,235,224,0.72)", maxWidth: 340 }}

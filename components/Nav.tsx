@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import AmaraLogo from "./AmaraLogo";
-
 const NAV_LINKS = [
   { href: "/journeys", label: "Journeys" },
   { href: "/the-experience", label: "The Experience" },
@@ -70,7 +68,7 @@ export default function Nav() {
           {/* Desktop: logo left */}
           <div className="hidden md:block">
             <Link href="/">
-              <AmaraLogo variant="dark" size="nav" />
+              <NavLogo />
             </Link>
           </div>
 
@@ -110,7 +108,7 @@ export default function Nav() {
           {/* Mobile: centred logo */}
           <div className="md:hidden flex-1 flex justify-center">
             <Link href="/">
-              <AmaraLogo variant="dark" size="nav" />
+              <NavLogo />
             </Link>
           </div>
 
@@ -217,5 +215,41 @@ export default function Nav() {
         </div>
       )}
     </>
+  );
+}
+
+function NavLogo() {
+  return (
+    <span
+      className="inline-flex flex-col items-center text-center"
+      aria-label="Amara Africa"
+    >
+      <span
+        className="block"
+        style={{
+          fontFamily: "var(--font-cursive)",
+          fontSize: 36,
+          lineHeight: 0.9,
+          color: "#C8962E",
+          letterSpacing: "-0.01em",
+        }}
+      >
+        Amara
+      </span>
+      <span
+        className="block mt-[2px] uppercase"
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: "0.52em",
+          paddingLeft: "0.52em",
+          color: "#EDE8DC",
+          lineHeight: 1,
+        }}
+      >
+        Africa
+      </span>
+    </span>
   );
 }
