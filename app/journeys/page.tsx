@@ -15,7 +15,7 @@ export default function JourneysIndexPage() {
     <>
       {/* Header */}
       <section
-        className="section-x pt-[130px] md:pt-[170px] pb-[60px] md:pb-[90px]"
+        className="section-x pt-[144px] md:pt-[184px] pb-[60px] md:pb-[90px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">

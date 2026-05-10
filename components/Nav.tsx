@@ -56,7 +56,9 @@ export default function Nav() {
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-500"
         style={{
-          background: scrolled ? "rgba(13,13,11,0.95)" : "transparent",
+          background: scrolled
+            ? "rgba(13,13,11,0.95)"
+            : "linear-gradient(to bottom, rgba(13,13,11,0.55) 0%, rgba(13,13,11,0) 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled
@@ -64,7 +66,7 @@ export default function Nav() {
             : "0.5px solid transparent",
         }}
       >
-        <nav className="flex items-center justify-between h-[96px] px-[20px] md:px-[36px]">
+        <nav className="flex items-center justify-between h-[110px] px-[20px] md:px-[36px]">
           {/* Desktop: logo left */}
           <div className="hidden md:block">
             <Link href="/">
@@ -147,7 +149,7 @@ export default function Nav() {
           className="md:hidden fixed inset-0 z-40 menu-fade-in"
           style={{ background: "var(--dd-warm-white)" }}
         >
-          <div className="section-x h-full flex flex-col pt-[96px] pb-12">
+          <div className="section-x h-full flex flex-col pt-[110px] pb-12">
             <ul className="flex flex-col">
               {NAV_LINKS.map((l) => (
                 <li
@@ -228,7 +230,7 @@ function NavLogo() {
         className="block"
         style={{
           fontFamily: "var(--font-cursive)",
-          fontSize: 36,
+          fontSize: 48,
           lineHeight: 0.9,
           color: "#C8962E",
           letterSpacing: "-0.01em",
@@ -237,10 +239,10 @@ function NavLogo() {
         Amara
       </span>
       <span
-        className="block mt-[2px] uppercase"
+        className="block mt-[3px] uppercase"
         style={{
           fontFamily: "var(--font-serif)",
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: 400,
           letterSpacing: "0.52em",
           paddingLeft: "0.52em",
@@ -249,6 +251,19 @@ function NavLogo() {
         }}
       >
         Africa
+      </span>
+      <span
+        className="block mt-[4px]"
+        dir="rtl"
+        lang="ar"
+        style={{
+          fontFamily: "var(--font-arabic)",
+          fontSize: 9,
+          color: "rgba(200,150,46,0.7)",
+          lineHeight: 1.2,
+        }}
+      >
+        أَمَارَا وَ أَفْرِيقَا
       </span>
     </span>
   );

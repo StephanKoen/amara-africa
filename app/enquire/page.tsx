@@ -11,7 +11,7 @@ export default function EnquirePage() {
   return (
     <>
       <section
-        className="section-x pt-[130px] md:pt-[170px] pb-[60px]"
+        className="section-x pt-[144px] md:pt-[184px] pb-[60px]"
         style={{ background: "var(--dd-white)" }}
       >
         <div className="max-w-container mx-auto">
