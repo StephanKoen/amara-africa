@@ -95,32 +95,40 @@ export default function AboutPage() {
           <div className="mb-[52px] md:mb-[76px]">
             <p className="label mb-5">The Team</p>
             <h2 className="h2-section">
-              Two{" "}
+              Three{" "}
               <span className="gold-italic">senior pairs of hands</span>.
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-9">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-9">
             <TeamCard
-              name="Layla Al-Farsi"
-              role="UAE Sales Lead"
-              office="Dubai"
+              name="Stephan Koen"
+              role="Co-Founder · Chief Strategy Officer"
+              office="George"
               image={images.foodWine}
-              alt="A private table quietly laid for a senior consultant's lunch meeting"
+              alt="Placeholder portrait — Stephan Koen"
               bio={[
-                "Layla holds every guest relationship in the Gulf. She is the first voice you hear and the last, and she is the person at the other end of the phone while you travel.",
-                "Before Amara Africa she spent twelve years inside a Riyadh-based private travel house, writing briefs for a small roster of GCC families.",
+                "[Bio placeholder — Stephan. To be written.]",
               ]}
             />
             <TeamCard
-              name="Emma Jackson"
-              role="SA Product Manager"
-              office="Cape Town"
+              name="Lloyd Barkhuizen"
+              role="Co-Founder · Chief Revenue Officer"
+              office="Dubai"
               image={images.lodgeInterior}
-              alt="A considered lodge interior selected by the product team"
+              alt="Placeholder portrait — Lloyd"
               bio={[
-                "Emma builds every itinerary. She walks every lodge we hold, every year, and she knows which room has the late-afternoon light and which has the river frontage.",
-                "Before Amara Africa she spent eight years as a senior product lead at one of Southern Africa's most respected safari houses.",
+                "[Bio placeholder — Lloyd. To be written.]",
+              ]}
+            />
+            <TeamCard
+              name="Cecily Fester"
+              role="Global Director of Operations"
+              office="Cape Town"
+              image={images.textiles}
+              alt="Placeholder portrait — Cecily"
+              bio={[
+                "[Bio placeholder — Cecily. To be written.]",
               ]}
             />
           </div>
