@@ -50,7 +50,7 @@ export default function HomePage() {
               <p className="mt-8 body-copy max-w-[460px]">
                 We are a small house. Our journeys are written, not
                 assembled. They begin with a conversation in Dubai, are built
-                in Cape Town and Lusaka, and are held by the same hands from
+                in Cape Town, and are held by the same hands from
                 first call to last goodbye.
               </p>
               <div className="mt-8">

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: "%s · Amara Africa",
   },
   description:
-    "Private, considered safaris across South Africa, Tanzania and Zambia — built for Gulf travellers by a team in Dubai, Cape Town and Lusaka.",
+    "Private, considered safaris across South Africa, Tanzania and Zambia — built for Gulf travellers by a team in Dubai and Cape Town.",
   openGraph: {
     title: "Amara Africa — Private African Journeys. Crafted for the Gulf.",
     description:

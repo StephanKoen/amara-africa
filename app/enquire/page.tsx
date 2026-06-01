@@ -69,12 +69,21 @@ export default function EnquirePage() {
                   />
                   <Office
                     city="Cape Town"
-                    description="42 Hans Strijdom, Foreshore — product and itinerary writing."
+                    description="42 Hans Strijdom, Foreshore — product, itinerary writing and ground operations."
                   />
-                  <Office
-                    city="Lusaka"
-                    description="Kabulonga — ground operations for Zambia and East Africa."
-                  />
+                </div>
+
+                <div className="mt-8 hairline pt-6">
+                  <p className="label mb-3">WhatsApp · UAE</p>
+                  <a
+                    href="https://wa.me/971588585960"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-serif italic text-[22px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                    style={{ color: "var(--dd-ink)" }}
+                  >
+                    +971 58 858 5960
+                  </a>
                 </div>
 
                 <div className="mt-8 hairline pt-6">

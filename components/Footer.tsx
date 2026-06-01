@@ -24,9 +24,9 @@ const OFFICES = [
     line2: "Dubai · UAE",
   },
   {
-    city: "George",
-    line1: "Garden Route",
-    line2: "South Africa",
+    city: "Cape Town",
+    line1: "Foreshore",
+    line2: "Cape Town · South Africa",
   },
 ];
 
@@ -53,6 +53,18 @@ export default function Footer() {
               <br />
               Crafted for the Gulf.
             </p>
+            <div className="mt-6">
+              <p className="label mb-2">WhatsApp · UAE</p>
+              <a
+                href="https://wa.me/971588585960"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-serif italic text-[18px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+                style={{ color: "var(--dd-linen)" }}
+              >
+                +971 58 858 5960
+              </a>
+            </div>
           </div>
 
           {/* Journeys */}

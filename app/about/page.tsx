@@ -7,7 +7,7 @@ import NewsletterSection from "@/components/NewsletterSection";
 export const metadata: Metadata = {
   title: "About — Amara Africa",
   description:
-    "A small house, founded in 2025, with offices in Dubai, Cape Town and Lusaka. Our story, our team, and what we hold to.",
+    "A small house, founded in 2025, with offices in Dubai and Cape Town. Our story, our team, and what we hold to.",
 };
 
 export default function AboutPage() {
@@ -72,13 +72,13 @@ export default function AboutPage() {
               <p className="body-copy">
                 Amara Africa exists to keep a small number of journeys held
                 by a small number of hands. Our Dubai office holds the guest
-                relationship; our Cape Town product team holds the itinerary;
-                our Lusaka team holds the ground operation. Three rooms, one
+                relationship; our Cape Town product team holds the itinerary
+                and the ground operation. Two rooms, one
                 voice, one pace.
               </p>
               <p className="body-copy">
-                We are a house of three cities and three countries. We are from
-                the Gulf, from Southern Africa, and from East Africa. Our
+                We are a house of two cities and two countries. We are from
+                the Gulf and from Southern Africa. Our
                 clients are, quietly, the same.
               </p>
             </div>
@@ -105,30 +105,33 @@ export default function AboutPage() {
               name="Stephan Koen"
               role="Co-Founder · Chief Strategy Officer"
               office="George"
-              image={images.foodWine}
-              alt="Placeholder portrait — Stephan Koen"
+              image="/images/Team/Stephan.jpg"
+              alt="Portrait of Stephan Koen, Co-Founder and Chief Strategy Officer"
               bio={[
-                "[Bio placeholder — Stephan. To be written.]",
+                "For over two decades Stephan has worked across the globe managing operations for some of the world's largest travel management companies — mastering the systems, strategy, and technology that move people seamlessly around the world. But the operations and the strategy were always in service of something simpler: a lifelong love of Africa, of its wild coast and quiet bushveld, of the feeling of being somewhere truly untamed.",
+                "He founded Amara to bring the very best of what Africa has to offer to the discerning travellers of the UAE and Saudi Arabia — to share a continent he has loved his whole life with those who have yet to discover it. For Stephan, Africa's greatest luxury is its wildness intact, and Amara exists to help keep it that way.",
               ]}
             />
             <TeamCard
               name="Lloyd Barkhuizen"
               role="Co-Founder · Chief Revenue Officer"
               office="Dubai"
-              image={images.lodgeInterior}
-              alt="Placeholder portrait — Lloyd"
+              image="/images/Team/Lloyd.png"
+              alt="Portrait of Lloyd Barkhuizen, Co-Founder and Chief Revenue Officer"
               bio={[
-                "[Bio placeholder — Lloyd. To be written.]",
+                "Across more than three decades in travel, Lloyd has built a career spanning sales leadership, airline and supplier contracting, and consulting to the industry across South Africa and beyond. He has built travel businesses, negotiated the deals that make extraordinary journeys possible, and earned a name for putting the client at the centre of every conversation.",
+                "Now based in Dubai, he is Amara's bridge between the discerning travellers of the Gulf and the Africa he has loved his whole life. For Lloyd, the privilege isn't the deal — it's watching a first-time guest fall for the continent the way he did, and knowing the journey was built to give back as much as it gives.",
               ]}
             />
             <TeamCard
               name="Cecily Fester"
               role="Global Director of Operations"
               office="Cape Town"
-              image={images.textiles}
-              alt="Placeholder portrait — Cecily"
+              image="/images/Team/Cecily.jpg"
+              alt="Portrait of Cecily Fester, Global Director of Operations"
               bio={[
-                "[Bio placeholder — Cecily. To be written.]",
+                "Over two decades in travel operations have made Cecily a master of the art that the best journeys depend on and the guest never sees. Across some of the industry's most respected names she has looked after VIP travel, orchestrated conferences and events, and held a single service standard steady across borders, time zones, and every surprise the road can throw.",
+                "Her love of Africa runs through all of it — a belief that the continent rewards those who are fully present in it, and that such presence is only possible when everything behind the scenes has been thought through to the last detail. At Amara she is the calm, exacting hand behind every Amara journey, and the quiet guardian of the wild places at its heart.",
               ]}
             />
           </div>
