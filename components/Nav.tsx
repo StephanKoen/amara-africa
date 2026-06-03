@@ -58,7 +58,7 @@ export default function Nav() {
         style={{
           background: scrolled
             ? "rgba(13,13,11,0.95)"
-            : "linear-gradient(to bottom, rgba(13,13,11,0.55) 0%, rgba(13,13,11,0) 100%)",
+            : "linear-gradient(to bottom, rgba(13,13,11,0.85) 0%, rgba(13,13,11,0.55) 45%, rgba(13,13,11,0) 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled
