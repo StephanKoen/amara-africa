@@ -1,0 +1,13 @@
+{
+  "name": "amara-logo-export",
+  "private": true,
+  "type": "module",
+  "description": "One-off generator for the Amara Africa logo brand pack (SVG + PNG). Not part of the website build.",
+  "scripts": {
+    "build": "node generate.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "opentype.js": "^1.3.4"
+  }
+}
