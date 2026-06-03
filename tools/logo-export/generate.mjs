@@ -5,6 +5,9 @@
 //   cd tools/logo-export && npm install && npm run build
 //
 // Output: public/brand/logo/*.svg and *.png
+//
+// Layout: Amara (cursive) → AFRICA (spaced serif) → Arabic (tight under
+// AFRICA) → tagline (Title-Case italic, set apart at the bottom). No rules.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -28,25 +31,27 @@ const naskhBuf = fs.readFileSync(path.join(FONT_DIR, "NotoNaskhArabic-Regular.tt
 const TXT = {
   amara: "Amara",
   africa: "AFRICA",
-  tagline: "A PRIVATE WORLD OF AFRICAN LUXURY",
+  tagline: "A Private World of African Luxury",
   arabic: "أَمَارَا وَ أَفْرِيقَا",
 };
 
 // ---- Treatments ------------------------------------------------------------
-const WHITE = { amara: "#FFFFFF", africa: "#FFFFFF", tagline: "#FFFFFF", arabic: "#FFFFFF", rule: "#FFFFFF", ruleOpacity: 0.5 };
-const BLACK = { amara: "#1A1610", africa: "#1A1610", tagline: "#1A1610", arabic: "#1A1610", rule: "#1A1610", ruleOpacity: 0.5 };
-const GOLD = { amara: "#C8962E", africa: "#C8962E", tagline: "#C8962E", arabic: "#C8962E", rule: "#C8962E", ruleOpacity: 0.55 };
+const T_LIGHT = "rgba(154,108,26,0.92)"; // muted gold tagline on light
+const T_DARK = "rgba(200,168,74,0.88)"; // muted gold tagline on dark
+
+const MONO = (c, tagline) => ({ amara: c, africa: c, arabic: c, tagline });
 
 const TREATMENTS = {
-  gold: { ...GOLD, bg: null },
-  white: { ...WHITE, bg: null },
-  "white-on-black": { ...WHITE, bg: "#0D0D0B" },
-  black: { ...BLACK, bg: null },
-  "black-on-white": { ...BLACK, bg: "#FFFFFF" },
-  "colour-on-dark": {
-    amara: "#C8962E", africa: "#EDE8DC", tagline: "#C8A84A",
-    arabic: "#C8962E", rule: "#C8962E", ruleOpacity: 0.45, bg: "#0D0D0B",
-  },
+  // Primary multi-colour mark (matches the approved comp) — for light grounds
+  "colour-light": { amara: "#C8962E", africa: "#1A1610", arabic: "#C8962E", tagline: T_LIGHT, bg: null },
+  // Multi-colour for dark grounds (AFRICA reads in cream)
+  "colour-on-dark": { amara: "#C8962E", africa: "#EDE8DC", arabic: "#C8962E", tagline: T_DARK, bg: "#0D0D0B" },
+  // Single-colour marks
+  gold: { ...MONO("#C8962E", "rgba(200,150,46,0.9)"), bg: null },
+  white: { ...MONO("#FFFFFF", "rgba(255,255,255,0.85)"), bg: null },
+  "white-on-black": { ...MONO("#FFFFFF", "rgba(255,255,255,0.85)"), bg: "#0D0D0B" },
+  black: { ...MONO("#1A1610", "rgba(26,22,16,0.85)"), bg: null },
+  "black-on-white": { ...MONO("#1A1610", "rgba(26,22,16,0.85)"), bg: "#FFFFFF" },
 };
 
 // ---- Helpers ---------------------------------------------------------------
@@ -60,41 +65,35 @@ function layoutLatin(font, text, fontSize, letterSpacing = 0) {
     full.extend(glyph.getPath(x, 0, fontSize));
     x += glyph.advanceWidth * scale + letterSpacing;
   }
-  const bbox = full.getBoundingBox();
-  return { path: full, bbox };
+  return { path: full, bbox: full.getBoundingBox() };
 }
 
-// Measure vertical extent of the Arabic string (ascent/descent above/below baseline).
+// Measure vertical extent of the Arabic string (ascent/descent around baseline).
 function measureArabic(text, fontSize) {
-  const scale = fontSize / naskh.unitsPerEm;
   let y1 = 0, y2 = 0;
   for (const ch of [...text]) {
     const bb = naskh.charToGlyph(ch).getPath(0, 0, fontSize).getBoundingBox();
     if (bb.y1 < y1) y1 = bb.y1;
     if (bb.y2 > y2) y2 = bb.y2;
   }
-  // Pad a touch for harakat (diacritics) that sit high.
-  return { ascent: -y1 + fontSize * 0.08, descent: y2 + fontSize * 0.04, scale };
+  return { ascent: -y1 + fontSize * 0.08, descent: y2 + fontSize * 0.04 };
 }
 
 const round = (n) => Math.round(n * 100) / 100;
+const inkW = (b) => b.bbox.x2 - b.bbox.x1;
 
 function pathTag(layout, tx, ty, fill) {
   return `<path d="${layout.path.toPathData(2)}" fill="${fill}" transform="translate(${round(tx)} ${round(ty)})"/>`;
 }
-
-function rule(cx, y, w, t, fill, opacity) {
-  return `<rect x="${round(cx - w / 2)}" y="${round(y)}" width="${round(w)}" height="${t}" fill="${fill}" fill-opacity="${opacity}"/>`;
+function centeredPath(layout, cx, baseline, fill) {
+  return pathTag(layout, cx - (layout.bbox.x1 + layout.bbox.x2) / 2, baseline, fill);
 }
-
 function fontFaceDefs() {
   return `<defs><style>@font-face{font-family:'Noto Naskh Arabic';font-style:normal;src:url(data:font/ttf;base64,${naskhB64}) format('truetype');}</style></defs>`;
 }
-
 function arabicText(cx, baseline, size, fill) {
   return `<text x="${round(cx)}" y="${round(baseline)}" font-family="Noto Naskh Arabic" font-size="${size}" fill="${fill}" text-anchor="middle" direction="rtl" xml:lang="ar">${TXT.arabic}</text>`;
 }
-
 function wrapSvg(width, height, bg, body) {
   const bgRect = bg ? `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${bg}"/>` : "";
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${round(width)}" height="${round(height)}" viewBox="0 0 ${round(width)} ${round(height)}">${fontFaceDefs()}${bgRect}${body}</svg>`;
@@ -102,102 +101,74 @@ function wrapSvg(width, height, bg, body) {
 
 // ---- Full stacked lockup ---------------------------------------------------
 function buildFull(t) {
-  const PAD_X = 150, PAD_Y = 80, GAP = 44, RULE_T = 2;
-  const sizes = { amara: 300, africa: 64, tagline: 24, arabic: 74 };
-  const ls = { africa: sizes.africa * 0.62, tagline: sizes.tagline * 0.16 };
+  const PAD_X = 150, PAD_TOP = 64, PAD_BOT = 60;
+  const GAP_AMARA_AFRICA = 26, GAP_AFRICA_ARABIC = 20, GAP_ARABIC_TAGLINE = 70;
+  const sizes = { amara: 300, africa: 58, arabic: 56, tagline: 31 };
+  const ls = { africa: sizes.africa * 0.58, tagline: sizes.tagline * 0.05 };
 
   const amara = layoutLatin(greatVibes, TXT.amara, sizes.amara);
   const africa = layoutLatin(cormorant, TXT.africa, sizes.africa, ls.africa);
   const tagline = layoutLatin(cormorantItalic, TXT.tagline, sizes.tagline, ls.tagline);
   const ar = measureArabic(TXT.arabic, sizes.arabic);
 
-  const inkW = (b) => b.bbox.x2 - b.bbox.x1;
   const contentW = Math.max(inkW(amara), inkW(africa), inkW(tagline), sizes.arabic * 4);
   const W = contentW + PAD_X * 2;
   const cx = W / 2;
-  const ruleW = contentW * 0.72;
-
   const parts = [];
-  let y = PAD_Y;
-
-  // top rule
-  parts.push(rule(cx, y, ruleW, RULE_T, t.rule, t.ruleOpacity));
-  y += RULE_T + GAP;
+  let y = PAD_TOP;
 
   // Amara
-  const aAsc = -amara.bbox.y1, aDesc = amara.bbox.y2;
-  let base = y + aAsc;
-  parts.push(pathTag(amara, cx - (amara.bbox.x1 + amara.bbox.x2) / 2, base, t.amara));
-  y = base + aDesc + GAP;
-
-  // mid rule
-  parts.push(rule(cx, y, ruleW, RULE_T, t.rule, t.ruleOpacity));
-  y += RULE_T + GAP;
+  let base = y + -amara.bbox.y1;
+  parts.push(centeredPath(amara, cx, base, t.amara));
+  y = base + amara.bbox.y2 + GAP_AMARA_AFRICA;
 
   // AFRICA
-  const fAsc = -africa.bbox.y1, fDesc = africa.bbox.y2;
-  base = y + fAsc;
-  parts.push(pathTag(africa, cx - (africa.bbox.x1 + africa.bbox.x2) / 2, base, t.africa));
-  y = base + fDesc + GAP * 0.7;
+  base = y + -africa.bbox.y1;
+  parts.push(centeredPath(africa, cx, base, t.africa));
+  y = base + africa.bbox.y2 + GAP_AFRICA_ARABIC;
 
-  // tagline
-  const tAsc = -tagline.bbox.y1, tDesc = tagline.bbox.y2;
-  base = y + tAsc;
-  parts.push(pathTag(tagline, cx - (tagline.bbox.x1 + tagline.bbox.x2) / 2, base, t.tagline));
-  y = base + tDesc + GAP;
-
-  // rule
-  parts.push(rule(cx, y, ruleW, RULE_T, t.rule, t.ruleOpacity));
-  y += RULE_T + GAP;
-
-  // Arabic
+  // Arabic — tight beneath AFRICA
   base = y + ar.ascent;
   parts.push(arabicText(cx, base, sizes.arabic, t.arabic));
-  y = base + ar.descent + GAP;
+  y = base + ar.descent + GAP_ARABIC_TAGLINE;
 
-  // bottom rule
-  parts.push(rule(cx, y, ruleW, RULE_T, t.rule, t.ruleOpacity));
-  y += RULE_T + PAD_Y;
+  // Tagline — set apart at the bottom
+  base = y + -tagline.bbox.y1;
+  parts.push(centeredPath(tagline, cx, base, t.tagline));
+  y = base + tagline.bbox.y2 + PAD_BOT;
 
   return wrapSvg(W, y, t.bg, parts.join(""));
 }
 
 // ---- Compact wordmark ------------------------------------------------------
 function buildWordmark(t) {
-  const PAD_X = 130, PAD_Y = 70, GAP = 30, RULE_T = 2;
-  const sizes = { amara: 200, africa: 132, arabic: 60 };
+  const PAD_X = 130, PAD_TOP = 64, PAD_BOT = 60, GAP_ARABIC = 26;
+  const sizes = { amara: 200, africa: 132, arabic: 58 };
 
   const amara = layoutLatin(greatVibes, TXT.amara, sizes.amara);
-  const africa = layoutLatin(cormorant, TXT.africa.charAt(0) + TXT.africa.slice(1).toLowerCase(), sizes.africa); // "Africa"
+  const africa = layoutLatin(cormorant, "Africa", sizes.africa);
   const ar = measureArabic(TXT.arabic, sizes.arabic);
 
-  const amaraInk = amara.bbox.x2 - amara.bbox.x1;
-  const africaInk = africa.bbox.x2 - africa.bbox.x1;
+  const amaraInk = inkW(amara), africaInk = inkW(africa);
   const between = sizes.africa * 0.18;
   const wordW = amaraInk + between + africaInk;
 
   const W = Math.max(wordW, sizes.arabic * 5) + PAD_X * 2;
   const cx = W / 2;
-  let y = PAD_Y;
-
   const parts = [];
-  // baseline alignment for the two scripts
+  let y = PAD_TOP;
+
   const asc = Math.max(-amara.bbox.y1, -africa.bbox.y1);
   const desc = Math.max(amara.bbox.y2, africa.bbox.y2);
   const base = y + asc;
   const startX = cx - wordW / 2;
   parts.push(pathTag(amara, startX - amara.bbox.x1, base, t.amara));
   parts.push(pathTag(africa, startX + amaraInk + between - africa.bbox.x1, base, t.africa));
-  y = base + desc + GAP;
+  y = base + desc + GAP_ARABIC;
 
-  // hairline rule under the wordmark
-  parts.push(rule(cx, y, wordW, RULE_T, t.rule, t.ruleOpacity));
-  y += RULE_T + GAP * 0.9;
-
-  // Arabic
   const abase = y + ar.ascent;
   parts.push(arabicText(cx, abase, sizes.arabic, t.arabic));
-  y = abase + ar.descent + PAD_Y;
+  y = abase + ar.descent + PAD_BOT;
 
   return wrapSvg(W, y, t.bg, parts.join(""));
 }
