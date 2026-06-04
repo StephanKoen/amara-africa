@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 const NAV_LINKS = [
   { href: "/journeys", label: "Journeys" },
@@ -12,6 +13,20 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquireHover, setEnquireHover] = useState(false);
+  const pathname = usePathname();
+
+  // Pages that open over a dark, full-bleed hero — the nav can stay
+  // transparent at the top there. Every other page opens on a light
+  // background and needs the solid dark nav so the logo + links read.
+  const hasDarkHero =
+    pathname === "/" ||
+    pathname === "/the-experience" ||
+    (pathname.startsWith("/journeys/") && pathname !== "/journeys");
+
+  // Use the solid treatment when scrolled, on any light-top page, but never
+  // while the mobile menu is open (the menu's light overlay needs the
+  // header transparent so the dark close-icon and links stay legible).
+  const solid = !menuOpen && (scrolled || !hasDarkHero);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -32,17 +47,17 @@ export default function Nav() {
   }, [menuOpen]);
 
   // Link colour by state
-  const linkColor = scrolled
+  const linkColor = solid
     ? "rgba(200,192,170,0.7)" // cream @ 0.7
     : "#FFFFFF";
 
   // Outline enquire button by state
-  const enquireBorder = scrolled
+  const enquireBorder = solid
     ? "rgba(200,185,150,0.4)"
     : enquireHover
     ? "#D4AA68"
     : "rgba(255,255,255,0.6)";
-  const enquireColor = scrolled
+  const enquireColor = solid
     ? "var(--dd-linen)"
     : enquireHover
     ? "#D4AA68"
@@ -56,12 +71,12 @@ export default function Nav() {
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-500"
         style={{
-          background: scrolled
+          background: solid
             ? "rgba(13,13,11,0.95)"
-            : "linear-gradient(to bottom, rgba(13,13,11,0.85) 0%, rgba(13,13,11,0.55) 45%, rgba(13,13,11,0) 100%)",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled
+            : "linear-gradient(to bottom, rgba(13,13,11,0.55) 0%, rgba(13,13,11,0) 100%)",
+          backdropFilter: solid ? "blur(12px)" : "none",
+          WebkitBackdropFilter: solid ? "blur(12px)" : "none",
+          borderBottom: solid
             ? "0.5px solid rgba(200,185,150,0.15)"
             : "0.5px solid transparent",
         }}
