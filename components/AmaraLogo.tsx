@@ -4,11 +4,11 @@ type AmaraLogoProps = {
   className?: string;
 };
 
-// Per-size type scale (px). Layout: Amara → AFRICA → Arabic (tight) → tagline.
+// Per-size type scale (px). Layout: Amara → AFRICA → Arabic → tagline.
 const SCALE = {
-  sm: { amara: 64, africa: 12, arabic: 10, tagline: 8 },
-  md: { amara: 120, africa: 22, arabic: 17, tagline: 13 },
-  lg: { amara: 180, africa: 34, arabic: 26, tagline: 19 },
+  sm: { amara: 64, africa: 12, arabic: 13, tagline: 8 },
+  md: { amara: 120, africa: 22, arabic: 21, tagline: 13 },
+  lg: { amara: 180, africa: 34, arabic: 33, tagline: 19 },
 } as const;
 
 export default function AmaraLogo({
@@ -59,7 +59,7 @@ export default function AmaraLogo({
         Africa
       </span>
 
-      {/* Arabic — tight beneath AFRICA */}
+      {/* Arabic — spaced beneath AFRICA (gap matches Amara→AFRICA) */}
       <span
         className="block"
         dir="rtl"
@@ -69,7 +69,7 @@ export default function AmaraLogo({
           fontSize: s.arabic,
           color: arabicColor,
           lineHeight: 1.3,
-          marginTop: s.arabic * 0.35,
+          marginTop: s.africa * 0.9,
         }}
       >
         أَمَارَا وَ أَفْرِيقَا

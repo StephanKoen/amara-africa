@@ -268,12 +268,12 @@ function NavLogo() {
         Africa
       </span>
       <span
-        className="block mt-[4px]"
+        className="block mt-[6px]"
         dir="rtl"
         lang="ar"
         style={{
           fontFamily: "var(--font-arabic)",
-          fontSize: 9,
+          fontSize: 11,
           color: "rgba(200,150,46,0.7)",
           lineHeight: 1.2,
         }}

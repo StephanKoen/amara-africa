@@ -102,8 +102,8 @@ function wrapSvg(width, height, bg, body) {
 // ---- Full stacked lockup ---------------------------------------------------
 function buildFull(t) {
   const PAD_X = 150, PAD_TOP = 64, PAD_BOT = 60;
-  const GAP_AMARA_AFRICA = 26, GAP_AFRICA_ARABIC = 20, GAP_ARABIC_TAGLINE = 70;
-  const sizes = { amara: 300, africa: 58, arabic: 56, tagline: 31 };
+  const GAP_AMARA_AFRICA = 26, GAP_AFRICA_ARABIC = 26, GAP_ARABIC_TAGLINE = 70;
+  const sizes = { amara: 300, africa: 58, arabic: 70, tagline: 31 };
   const ls = { africa: sizes.africa * 0.58, tagline: sizes.tagline * 0.05 };
 
   const amara = layoutLatin(greatVibes, TXT.amara, sizes.amara);
@@ -142,8 +142,8 @@ function buildFull(t) {
 
 // ---- Compact wordmark ------------------------------------------------------
 function buildWordmark(t) {
-  const PAD_X = 130, PAD_TOP = 64, PAD_BOT = 60, GAP_ARABIC = 26;
-  const sizes = { amara: 200, africa: 132, arabic: 58 };
+  const PAD_X = 130, PAD_TOP = 64, PAD_BOT = 60, GAP_ARABIC = 32;
+  const sizes = { amara: 200, africa: 132, arabic: 72 };
 
   const amara = layoutLatin(greatVibes, TXT.amara, sizes.amara);
   const africa = layoutLatin(cormorant, "Africa", sizes.africa);
