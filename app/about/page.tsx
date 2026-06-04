@@ -105,7 +105,7 @@ export default function AboutPage() {
               name="Stephan Koen"
               role="Co-Founder · Chief Strategy Officer"
               office="George"
-              image="/images/Team/Stephan.jpg"
+              image="/images/Team/Stephan2.png"
               alt="Portrait of Stephan Koen, Co-Founder and Chief Strategy Officer"
               bio={[
                 "For over two decades Stephan has worked across the globe managing operations for some of the world's largest travel management companies — mastering the systems, strategy, and technology that move people seamlessly around the world. But the operations and the strategy were always in service of something simpler: a lifelong love of Africa, of its wild coast and quiet bushveld, of the feeling of being somewhere truly untamed.",
@@ -127,7 +127,7 @@ export default function AboutPage() {
               name="Cecily Fester"
               role="Global Director of Operations"
               office="Cape Town"
-              image="/images/Team/Cecily.jpg"
+              image="/images/Team/Cecily2.png"
               alt="Portrait of Cecily Fester, Global Director of Operations"
               bio={[
                 "Over two decades in travel operations have made Cecily a master of the art that the best journeys depend on and the guest never sees. Across some of the industry's most respected names she has looked after VIP travel, orchestrated conferences and events, and held a single service standard steady across borders, time zones, and every surprise the road can throw.",
