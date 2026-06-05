@@ -101,8 +101,8 @@ function wrapSvg(width, height, bg, body) {
 
 // ---- Full stacked lockup ---------------------------------------------------
 function buildFull(t) {
-  const PAD_X = 150, PAD_TOP = 64, PAD_BOT = 60;
-  const GAP_AMARA_AFRICA = 26, GAP_AFRICA_ARABIC = 26, GAP_ARABIC_TAGLINE = 70;
+  const PAD_X = 150, PAD_TOP = 60, PAD_BOT = 60;
+  const GAP_AMARA_AFRICA = 26, GAP_AFRICA_ARABIC = 26, GAP_ARABIC_TAGLINE = 30;
   const sizes = { amara: 300, africa: 58, arabic: 70, tagline: 31 };
   const ls = { africa: sizes.africa * 0.58, tagline: sizes.tagline * 0.05 };
 

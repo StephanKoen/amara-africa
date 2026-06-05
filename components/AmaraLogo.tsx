@@ -75,7 +75,7 @@ export default function AmaraLogo({
         أَمَارَا وَ أَفْرِيقَا
       </span>
 
-      {/* Tagline — Title-Case italic, set apart at the bottom */}
+      {/* Tagline — Title-Case italic, sits close under the Arabic */}
       <span
         className="block italic"
         style={{
@@ -85,7 +85,7 @@ export default function AmaraLogo({
           letterSpacing: "0.04em",
           color: taglineColor,
           lineHeight: 1.4,
-          marginTop: s.tagline * 2.4,
+          marginTop: s.africa * 0.95,
         }}
       >
         A Private World of African Luxury
