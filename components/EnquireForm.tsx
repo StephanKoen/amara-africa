@@ -52,12 +52,21 @@ const initial: FormState = {
   message: "",
 };
 
+// Web3Forms public access key — routes submissions to Lloyd@amarafrica.com.
+// Generate at https://web3forms.com (enter Lloyd@amarafrica.com), then paste
+// the key below. It is a public client key by design — safe to commit.
+const WEB3FORMS_ACCESS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ??
+  "99c172f6-b2c2-4520-ba4e-10ae96846519";
+
 export default function EnquireForm() {
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
     {}
   );
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
   const update = (k: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -76,10 +85,48 @@ export default function EnquireForm() {
     return Object.keys(next).length === 0;
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    setSubmitted(true);
+    setSending(true);
+    setSendError("");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New enquiry — ${form.journey || "Amara Africa"} — ${form.name}`,
+          from_name: "Amara Africa — Website Enquiry",
+          replyto: form.email,
+          Name: form.name,
+          Email: form.email,
+          Phone: form.phone || "—",
+          "Country of residence": form.country,
+          "Journey of interest": form.journey,
+          "Approximate travel dates": form.dates || "—",
+          "Party size": form.party || "—",
+          Message: form.message || "—",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setSendError(
+          "We couldn't send your enquiry just now. Please email us directly at Lloyd@amarafrica.com."
+        );
+      }
+    } catch {
+      setSendError(
+        "We couldn't send your enquiry just now. Please email us directly at Lloyd@amarafrica.com."
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -240,8 +287,8 @@ export default function EnquireForm() {
       </div>
 
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
-        <button type="submit" className="btn-gold">
-          Request Private Access &rarr;
+        <button type="submit" className="btn-gold" disabled={sending}>
+          {sending ? "Sending…" : "Request Private Access →"}
         </button>
         <p
           className="text-[12px]"
@@ -250,6 +297,15 @@ export default function EnquireForm() {
           Your details are not shared. You will hear from a person, by name.
         </p>
       </div>
+
+      {sendError && (
+        <p
+          className="mt-5 text-[13px] italic"
+          style={{ color: "var(--dd-gold-antique)" }}
+        >
+          {sendError}
+        </p>
+      )}
     </form>
   );
 }
