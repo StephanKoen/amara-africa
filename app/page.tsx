@@ -109,14 +109,14 @@ export default function HomePage() {
             <div className="md:col-span-5">
               <p className="label mb-5">The Collection</p>
               <h2 className="h2-section">
-                Six{" "}
+                Seven{" "}
                 <span className="gold-italic">ways of travelling</span>,
                 quietly written.
               </h2>
             </div>
             <div className="md:col-span-6 md:col-start-7 flex flex-col justify-end">
               <p className="body-copy max-w-[520px]">
-                We hold six journey archetypes. Each is a starting point, not a
+                We hold seven journey archetypes. Each is a starting point, not a
                 package. We re-write every one of them for every guest, but the
                 temperament of each remains. Begin with whichever most resembles
                 the journey you have in your head.
@@ -132,7 +132,7 @@ export default function HomePage() {
 
           <div className="mt-[60px] flex justify-center">
             <Link href="/journeys" className="text-link">
-              View All Six Archetypes &rarr;
+              View All Seven Archetypes &rarr;
             </Link>
           </div>
         </div>
