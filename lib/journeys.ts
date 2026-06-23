@@ -337,6 +337,228 @@ For travellers seeking the very best of South Africa, privately experienced and 
 
 This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
   },
+  // ──────────────────────────────────────────────────────────────────────
+  // The Singita Signature — 14-day Cape Town + Singita safari (from the
+  // "Cape Town & Singita Safari" PDF, 14 days / 13 nights, 2 adults).
+  // Built to mirror the "Signature South Africa" (the-cape-and-kruger) layout.
+  //
+  // STATUS: HELD until final imagery is supplied — lives on a feature branch,
+  // not yet merged to main, so it is NOT live on production.
+  //
+  // NOTE — imagery is placeholder/reused for now:
+  //   • Cape Town gallery → the real Cape Grace / V&A Waterfront photos we
+  //     already hold (cape-and-kruger/cape-town/*). These are correct.
+  //   • Sabi Sand + Kruger galleries → our Greater-Kruger safari photos
+  //     (cape-and-kruger/monwana/*) as stand-ins.
+  //   Final Singita Boulders/Lebombo + Cape Grace imagery is "available on
+  //   request" per the source PDF and must be swapped in before launch.
+  //
+  // STILL TO CONFIRM (from the PDF's "To be confirmed" section):
+  //   • Cross-region complimentary-night offer applicability (excludes Castleton).
+  //   • Whether Cape Town touring is included or concierge-arranged at cost
+  //     (PDF says excursions are "not pre-reserved here" — kept as arranged).
+  //   • Night split (CPT 6 · Sabi Sand 4 · Kruger 3) is flagged flexible.
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    slug: "the-singita-signature",
+    tag: "Grand",
+    title: "The Singita Signature",
+    titleItalic: "Singita Signature",
+    oneliner:
+      "Six nights at Cape Grace, then seven of Singita Big Five — the Sabi Sand and the private Kruger, back to back.",
+    duration: "14 Days / 13 Nights",
+    territory: "Cape Town · Sabi Sand · Kruger",
+    // Placeholder hero/card — swap for final Cape Grace / Singita imagery.
+    heroImage: "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+    cardImage: "/images/journeys/the-cape-and-kruger/monwana/01.jpg",
+    galleryImages: [
+      "/images/journeys/the-cape-and-kruger/cape-town/01.jpg",
+      "/images/journeys/the-cape-and-kruger/monwana/02.jpg",
+      "/images/journeys/the-cape-and-kruger/monwana/04.jpg",
+    ],
+    published: true,
+    durationNights: [13, 13],
+    region: "South Africa",
+    highlights: [
+      "6 nights at Cape Grace, A Fairmont Managed Hotel, V&A Waterfront",
+      "4 nights at Singita Boulders Lodge, Sabi Sand",
+      "3 nights at Singita Lebombo, the private Kruger concession",
+      "Table Mountain, the Cape Peninsula and Boulders penguins",
+      "A full day in the Cape Winelands — Stellenbosch & Franschhoek",
+      "Twice-daily game drives with guide and tracker, plus guided walks",
+      "Two contrasting Singita wilderness camps, back to back",
+      "Built for two — couples and honeymooners",
+    ],
+    inclusions: [
+      "6 nights at Cape Grace, A Fairmont Managed Hotel, V&A Waterfront",
+      "4 nights at Singita Boulders Lodge, Sabi Sand",
+      "3 nights at Singita Lebombo, Kruger National Park",
+      "Daily breakfast in Cape Town",
+      "Fully inclusive stay at both Singita lodges (meals, drives and lodge activities as per the lodge offering)",
+      "Twice-daily game drives with guide and tracker, plus guided walks",
+      "Singita airstrip transfers and the inter-reserve light-aircraft transfer",
+      "Private arrival transfer in Cape Town",
+      "Complimentary hotel chauffeur within a 10km radius of Cape Grace (excludes airport)",
+      "Cape Town experiences arranged by the hotel concierge (peninsula, Winelands, culture)",
+      "Tailor-made planning and concierge-style service throughout",
+    ],
+    exclusions: [
+      "International flights",
+      "Domestic and inter-lodge flights (Cape Town–Johannesburg–safari routing)",
+      "Conservation and community levies",
+      "Airport transfers unless specifically included",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Gratuities and personal expenses",
+      "Premium beverages unless specifically included",
+      "Cape Town touring and excursions booked through the concierge unless specified",
+    ],
+    idealFor: [
+      "Couples and honeymooners",
+      "GCC luxury travellers",
+      "Singita enthusiasts and safari connoisseurs",
+      "Guests wanting city, wine and Big Five in one journey",
+      "Travellers seeking an unhurried 13-night route",
+      "First-time and returning visitors seeking the very best",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    featureImage: "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+    relatedSlugs: ["the-cape-and-kruger", "the-family-legacy"],
+    seasonal: false,
+    order: 2,
+    seoTitle:
+      "Cape Town & Singita Safari — 14-Day Luxury South Africa Journey | Amara Africa",
+    seoDescription:
+      "A private 13-night South Africa journey: six nights at Cape Grace on the V&A Waterfront, then Singita Big Five safari across the Sabi Sand and a private Kruger concession. Tailor-made for GCC travellers.",
+    seoKeywords: [
+      "Cape Town and Singita safari",
+      "luxury South Africa itinerary",
+      "Singita safari Sabi Sand Kruger",
+      "Cape Grace V&A Waterfront",
+      "14 day South Africa luxury tour",
+      "GCC travel to South Africa",
+      "private Big Five safari",
+    ],
+    sectionGalleries: [
+      {
+        afterHeading: "Cape Town · Cape Grace — 6 nights",
+        images: [
+          "/images/journeys/the-cape-and-kruger/cape-town/01.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/02.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/03.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+          "/images/journeys/the-cape-and-kruger/cape-town/05.jpg",
+        ],
+        alts: [
+          "Cape Grace on its private quay at the V&A Waterfront",
+          "A private yacht moored in the V&A marina with the hotel behind",
+          "Arrival at Cape Grace beneath Table Mountain",
+          "The V&A Waterfront at sunset — Table Mountain reflected in the harbour",
+          "The Cape Grace pool deck on a bright summer day",
+        ],
+      },
+      {
+        // Placeholder Greater-Kruger safari imagery — replace with Singita
+        // Sabi Sand (Boulders/Ebony) photography before launch.
+        afterHeading: "Sabi Sand · Singita — 4 nights",
+        images: [
+          "/images/journeys/the-cape-and-kruger/monwana/01.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/02.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/03.jpg",
+        ],
+        alts: [
+          "A safari lodge at dusk, lit gables reflected in the waterhole",
+          "A close sighting of a lioness in the golden grass",
+          "A walkway through the lodge between lily ponds",
+        ],
+      },
+      {
+        // Placeholder — replace with Singita Kruger (Lebombo/Sweni) photography.
+        afterHeading: "Kruger · Singita — 3 nights",
+        images: [
+          "/images/journeys/the-cape-and-kruger/monwana/03.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/04.jpg",
+          "/images/journeys/the-cape-and-kruger/monwana/05.jpg",
+        ],
+        alts: [
+          "The lodge entrance — thatched gable and timber doors",
+          "Guests welcomed back from a game drive",
+          "The open-plan lounge, doors folded back to the bush",
+        ],
+      },
+    ],
+    body: `Two halves of South Africa at its best — six refined nights at Cape Grace on the V&A Waterfront, then seven of Singita Big Five safari split across the Sabi Sand and the company's private concession in the Kruger. One elegant city base, two contrasting wilderness camps.
+
+## The journey
+
+A seamless private progression from city to wild. Cape Town first — Table Mountain, the peninsula, the Winelands and the Waterfront, at your own pace from a hotel on its own quay. Then the bush: the dense riverine forest of the Sabi Sand, among the finest leopard country in Africa, followed by the dramatic open horizons of Singita's private Kruger concession. The night split — Cape Town 6, Sabi Sand 4, Kruger 3 — and the lodge choices are flexible, shaped around your dates and pace.
+
+## Cape Town · Cape Grace — 6 nights
+
+**Stay: Cape Grace, A Fairmont Managed Hotel — V&A Waterfront**
+
+Begin on a private quay between the Waterfront and the yacht marina, beneath Table Mountain — recently reopened as a Fairmont managed hotel after a full renovation, with the Heirloom restaurant, Bascule Bar and afternoon tea in the Library Lounge. Six unhurried nights here give the city room to breathe, with every experience arranged in advance through the concierge and a complimentary chauffeur on hand within the city.
+
+### Curated days on the Cape
+
+**Table Mountain & the city**
+
+The cableway to the summit (weather permitting), then the historic centre — the Company's Garden and the brightly painted streets of Bo-Kaap on Signal Hill — with afternoon tea back at the hotel.
+
+**The Cape Peninsula**
+
+One of the world's great scenic drives: the coastal Chapman's Peak, Cape Point and the Cape of Good Hope, and the penguin colony at Boulders Beach near Simon's Town.
+
+**The Cape Winelands**
+
+A day among the historic estates and cellars of Stellenbosch and Franschhoek, with lunch among the vines.
+
+**Culture, art & the spa**
+
+A morning ferry to Robben Island, contemporary art at Zeitz MOCAA or the gardens at Kirstenbosch — and an afternoon reserved for the Fairmont Spa.
+
+**An open day**
+
+A flexible final day on the Cape: the Atlantic beaches at Camps Bay and Clifton, the wine farms of Constantia, or simply the Waterfront.
+
+---
+
+## Sabi Sand · Singita — 4 nights
+
+**Stay: Singita Boulders Lodge, Sabi Sand**
+
+Fly from Cape Town to the Singita airstrip and transfer to the lodge for lunch and an introductory late-afternoon drive into the dense riverine forest of the Sabi Sand — among the finest leopard country in Africa. The full safari rhythm follows: early-morning and late-afternoon drives with guide and tracker, guided walks, and long, leisurely hours at the lodge through the heat of the day. Two full days to work the territory, track a specific animal across drives, and make the most of the light for photography.
+
+---
+
+## Kruger · Singita — 3 nights
+
+**Stay: Singita Lebombo, Kruger National Park**
+
+A morning drive, then a light-aircraft transfer east to Singita's private concession in the Kruger — a dramatic landscape of rhyolite ridges and giant euphorbia, known for its lion prides and vast, uncrowded terrain. Morning and late-afternoon drives, with walking safaris available for a closer read of the bush, before a last evening under a dark Kruger sky closes the journey.
+
+---
+
+## When to travel
+
+The two halves pull gently in different directions. Cape Town is at its best in the warm, dry summer — roughly November to March — for the city, beaches and peninsula. Safari game-viewing is strongest in the dry winter, May to October, when thinner vegetation and animals gathering at water make sightings easier. The shoulder months — around April, or October into November — give the most balanced compromise across both.
+
+---
+
+## Why this journey
+
+It brings together the two things travellers most want from South Africa — a world-class city and a world-class safari — without compromise on either. Cape Grace anchors the first half in comfort and location; Singita anchors the second in some of the finest guiding and most exclusive traversing rights in the country. The progression from city to bush is deliberately paced, and the whole route is private from first transfer to last.
+
+Designed here for two — couples and honeymooners — it adapts readily for families and private groups.
+
+---
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, lodges, night split and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
+  },
   {
     slug: "the-falls-and-delta",
     tag: "Wonder",
