@@ -342,16 +342,16 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
   // "Cape Town & Singita Safari" PDF, 14 days / 13 nights, 2 adults).
   // Built to mirror the "Signature South Africa" (the-cape-and-kruger) layout.
   //
-  // STATUS: HELD until final imagery is supplied — lives on a feature branch,
-  // not yet merged to main, so it is NOT live on production.
+  // STATUS: on a feature branch (not yet merged to main / not live). Ready to
+  // launch pending the user's go-ahead and the "Six → Seven journeys" copy fix.
   //
-  // NOTE — imagery is placeholder/reused for now:
-  //   • Cape Town gallery → the real Cape Grace / V&A Waterfront photos we
-  //     already hold (cape-and-kruger/cape-town/*). These are correct.
-  //   • Sabi Sand + Kruger galleries → our Greater-Kruger safari photos
-  //     (cape-and-kruger/monwana/*) as stand-ins.
-  //   Final Singita Boulders/Lebombo + Cape Grace imagery is "available on
-  //   request" per the source PDF and must be swapped in before launch.
+  // IMAGERY (real):
+  //   • Cape Town gallery → real Cape Grace / V&A Waterfront photos we already
+  //     hold (cape-and-kruger/cape-town/*). Correct as-is.
+  //   • Sabi Sand → real Singita Ebony Lodge photos (the-singita-signature/sabi-sand/*).
+  //   • Kruger → real Singita Sweni Lodge photos (the-singita-signature/kruger/*).
+  //   • Hero → Singita Ebony Lodge fire deck over the Sand River.
+  //   (No dedicated new Cape Grace shots were supplied; existing ones suffice.)
   //
   // STILL TO CONFIRM (from the PDF's "To be confirmed" section):
   //   • Cross-region complimentary-night offer applicability (excludes Castleton).
@@ -368,21 +368,21 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
       "Six nights at Cape Grace, then seven of Singita Big Five — the Sabi Sand and the private Kruger, back to back.",
     duration: "14 Days / 13 Nights",
     territory: "Cape Town · Sabi Sand · Kruger",
-    // Placeholder hero/card — swap for final Cape Grace / Singita imagery.
-    heroImage: "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
-    cardImage: "/images/journeys/the-cape-and-kruger/monwana/01.jpg",
+    heroImage: "/images/journeys/the-singita-signature/hero.jpg",
+    cardImage: "/images/journeys/the-singita-signature/card.jpg",
     galleryImages: [
-      "/images/journeys/the-cape-and-kruger/cape-town/01.jpg",
-      "/images/journeys/the-cape-and-kruger/monwana/02.jpg",
-      "/images/journeys/the-cape-and-kruger/monwana/04.jpg",
+      // A trio across the three legs: Cape Grace (real, shared) → Ebony → Sweni.
+      "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+      "/images/journeys/the-singita-signature/sabi-sand/01.jpg",
+      "/images/journeys/the-singita-signature/kruger/02.jpg",
     ],
     published: true,
     durationNights: [13, 13],
     region: "South Africa",
     highlights: [
       "6 nights at Cape Grace, A Fairmont Managed Hotel, V&A Waterfront",
-      "4 nights at Singita Boulders Lodge, Sabi Sand",
-      "3 nights at Singita Lebombo, the private Kruger concession",
+      "4 nights at Singita Ebony Lodge, Sabi Sand",
+      "3 nights at Singita Sweni Lodge, the private Kruger concession",
       "Table Mountain, the Cape Peninsula and Boulders penguins",
       "A full day in the Cape Winelands — Stellenbosch & Franschhoek",
       "Twice-daily game drives with guide and tracker, plus guided walks",
@@ -391,8 +391,8 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
     ],
     inclusions: [
       "6 nights at Cape Grace, A Fairmont Managed Hotel, V&A Waterfront",
-      "4 nights at Singita Boulders Lodge, Sabi Sand",
-      "3 nights at Singita Lebombo, Kruger National Park",
+      "4 nights at Singita Ebony Lodge, Sabi Sand",
+      "3 nights at Singita Sweni Lodge, Kruger National Park",
       "Daily breakfast in Cape Town",
       "Fully inclusive stay at both Singita lodges (meals, drives and lodge activities as per the lodge offering)",
       "Twice-daily game drives with guide and tracker, plus guided walks",
@@ -424,7 +424,7 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
     pricingFrom: 0,
     pricingCurrency: "USD",
     pricingUnit: "on request",
-    featureImage: "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+    featureImage: "/images/journeys/the-singita-signature/hero.jpg",
     relatedSlugs: ["the-cape-and-kruger", "the-family-legacy"],
     seasonal: false,
     order: 2,
@@ -460,32 +460,27 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
         ],
       },
       {
-        // Placeholder Greater-Kruger safari imagery — replace with Singita
-        // Sabi Sand (Boulders/Ebony) photography before launch.
         afterHeading: "Sabi Sand · Singita — 4 nights",
         images: [
-          "/images/journeys/the-cape-and-kruger/monwana/01.jpg",
-          "/images/journeys/the-cape-and-kruger/monwana/02.jpg",
-          "/images/journeys/the-cape-and-kruger/monwana/03.jpg",
+          "/images/journeys/the-singita-signature/sabi-sand/01.jpg",
+          "/images/journeys/the-singita-signature/sabi-sand/02.jpg",
+          "/images/journeys/the-singita-signature/sabi-sand/03.jpg",
         ],
         alts: [
-          "A safari lodge at dusk, lit gables reflected in the waterhole",
-          "A close sighting of a lioness in the golden grass",
-          "A walkway through the lodge between lily ponds",
+          "Singita Ebony Lodge — the fire deck above the Sand River",
+          "The Ebony lounge under a thatched roof, open to Sand River views",
+          "An Ebony suite bathroom in stone, open to the riverine bush",
         ],
       },
       {
-        // Placeholder — replace with Singita Kruger (Lebombo/Sweni) photography.
         afterHeading: "Kruger · Singita — 3 nights",
         images: [
-          "/images/journeys/the-cape-and-kruger/monwana/03.jpg",
-          "/images/journeys/the-cape-and-kruger/monwana/04.jpg",
-          "/images/journeys/the-cape-and-kruger/monwana/05.jpg",
+          "/images/journeys/the-singita-signature/kruger/01.jpg",
+          "/images/journeys/the-singita-signature/kruger/02.jpg",
         ],
         alts: [
-          "The lodge entrance — thatched gable and timber doors",
-          "Guests welcomed back from a game drive",
-          "The open-plan lounge, doors folded back to the bush",
+          "Singita Sweni Lodge — a timber-clad suite interior in the Lebombo concession",
+          "A Sweni pool suite, its private deck and pool above the bush",
         ],
       },
     ],
@@ -527,7 +522,7 @@ A flexible final day on the Cape: the Atlantic beaches at Camps Bay and Clifton,
 
 ## Sabi Sand · Singita — 4 nights
 
-**Stay: Singita Boulders Lodge, Sabi Sand**
+**Stay: Singita Ebony Lodge, Sabi Sand**
 
 Fly from Cape Town to the Singita airstrip and transfer to the lodge for lunch and an introductory late-afternoon drive into the dense riverine forest of the Sabi Sand — among the finest leopard country in Africa. The full safari rhythm follows: early-morning and late-afternoon drives with guide and tracker, guided walks, and long, leisurely hours at the lodge through the heat of the day. Two full days to work the territory, track a specific animal across drives, and make the most of the light for photography.
 
@@ -535,7 +530,7 @@ Fly from Cape Town to the Singita airstrip and transfer to the lodge for lunch a
 
 ## Kruger · Singita — 3 nights
 
-**Stay: Singita Lebombo, Kruger National Park**
+**Stay: Singita Sweni Lodge, Kruger National Park**
 
 A morning drive, then a light-aircraft transfer east to Singita's private concession in the Kruger — a dramatic landscape of rhyolite ridges and giant euphorbia, known for its lion prides and vast, uncrowded terrain. Morning and late-afternoon drives, with walking safaris available for a closer read of the bush, before a last evening under a dark Kruger sky closes the journey.
 
