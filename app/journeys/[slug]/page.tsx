@@ -3,7 +3,49 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JourneyCard from "@/components/JourneyCard";
+import JsonLd from "@/components/JsonLd";
 import { getJourney, journeys, splitTitle, type Journey } from "@/lib/journeys";
+
+const BASE = "https://amarafrica.com";
+
+// Absolute URL for schema images (local paths → prefixed; Contentful URLs as-is).
+function absoluteUrl(src: string) {
+  return src.startsWith("http") ? src : `${BASE}${src}`;
+}
+
+// TouristTrip + breadcrumb structured data for a journey — rich results in
+// Google and a parseable source for AI travel engines.
+function journeySchema(journey: Journey) {
+  const trip = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    name: journey.title,
+    description: journey.seoDescription ?? journey.oneliner,
+    image: absoluteUrl(journey.heroImage),
+    url: `${BASE}/journeys/${journey.slug}`,
+    touristType: journey.idealFor,
+    provider: {
+      "@type": "TravelAgency",
+      "@id": "https://amarafrica.com/#organization",
+      name: "Amara Africa",
+      url: BASE,
+    },
+  };
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Journeys", item: `${BASE}/journeys` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: journey.title,
+        item: `${BASE}/journeys/${journey.slug}`,
+      },
+    ],
+  };
+  return { "@context": "https://schema.org", "@graph": [trip, breadcrumb] };
+}
 
 type Props = {
   params: { slug: string };
@@ -42,6 +84,7 @@ export default function JourneyDetailPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={journeySchema(journey)} />
       {/* Hero */}
       <section
         data-theme="dark"

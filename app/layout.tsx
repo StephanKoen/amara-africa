@@ -7,6 +7,39 @@ import {
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+
+// Site-wide organisation schema — the trust/identity signal for search and AI
+// engines. Telephone is the already-public UAE WhatsApp/business number; email
+// is deliberately omitted so it isn't newly exposed to scrapers.
+const ORGANISATION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "@id": "https://amarafrica.com/#organization",
+  name: "Amara Africa",
+  alternateName: "أَمَارَا وَ أَفْريقَا",
+  url: "https://amarafrica.com",
+  description:
+    "Private, considered African safaris built for Gulf travellers — halal-aware service, Arabic-language access, and single-consultant continuity. Offices in Dubai and Cape Town.",
+  foundingDate: "2025",
+  knowsLanguage: ["en", "ar"],
+  areaServed: [
+    "United Arab Emirates",
+    "Saudi Arabia",
+    "Qatar",
+    "Kuwait",
+    "Bahrain",
+    "Oman",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: "+971588585960",
+    availableLanguage: ["en", "ar"],
+  },
+  image:
+    "https://images.ctfassets.net/wds1hqrprqxb/7wrSc782QHPspNc7NWmcaP/1c48edc3fd244969058e52c361a24594/Sasakwa_Activities_Game_drive_slider1.jpg?w=1600&h=1000&fl=progressive&q=92&fm=jpg",
+};
 
 const greatVibes = Great_Vibes({
   weight: "400",
@@ -82,6 +115,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <JsonLd data={ORGANISATION_SCHEMA} />
         <Nav />
         <main className="page-fade">{children}</main>
         <Footer />
