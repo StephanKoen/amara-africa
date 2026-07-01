@@ -8,6 +8,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
+import MetaPixel from "@/components/MetaPixel";
 
 // Site-wide organisation schema — the trust/identity signal for search and AI
 // engines. Telephone is the already-public UAE WhatsApp/business number; email
@@ -115,6 +116,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <MetaPixel />
         <JsonLd data={ORGANISATION_SCHEMA} />
         <Nav />
         <main className="page-fade">{children}</main>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackMeta } from "./MetaPixel";
 
 const GCC_COUNTRIES = [
   "United Arab Emirates",
@@ -114,6 +115,8 @@ export default function EnquireForm() {
       });
       const data = await res.json();
       if (data.success) {
+        // Meta conversion — a completed enquiry is our primary "Lead" event.
+        trackMeta("Lead", { content_name: form.journey || "Amara Africa" });
         setSubmitted(true);
       } else {
         setSendError(
