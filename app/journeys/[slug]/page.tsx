@@ -352,8 +352,9 @@ function DefaultBody({ journey }: { journey: Journey }) {
         <p className="body-copy">
           A single senior consultant in our Dubai office holds your file. On
           the ground, a single senior guide holds the pace. The lodges we hold
-          are briefed in advance for Halal-aware menus and Arabic-speaking
-          hosts, offered quietly and without further discussion.
+          are briefed in advance for Halal-aware menus, offered quietly and
+          without further discussion; Arabic-speaking hosts can be arranged
+          on request and when available.
         </p>
         <p className="body-copy">
           Your itinerary will be written by hand — each day, each transfer,

@@ -18,7 +18,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: "Can you arrange halal-aware dining and Arabic-speaking hosts?",
-    a: "Yes. The lodges we hold are briefed in advance for halal-aware menus and Arabic-speaking hosts, arranged quietly and without further discussion. It is part of how we work, not an addition to be requested.",
+    a: "Halal-aware menus are briefed to every lodge in advance, quietly and without further discussion — that is simply how we work. Arabic-speaking hosts and guides are arranged on request and when available; tell us early and we will do the securing.",
   },
   {
     q: "Who looks after our booking?",

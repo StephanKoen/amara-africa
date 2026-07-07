@@ -75,7 +75,7 @@ export default function HomePage() {
               />
               <Pillar
                 title="Arabic on request"
-                body="Arabic-speaking hosts, guides and in-lodge support can be arranged on any journey. We plan for the Gulf because we are from the Gulf."
+                body="Arabic-speaking hosts, guides and in-lodge support on request and when available. We plan for the Gulf because we are from the Gulf."
                 last
               />
             </div>

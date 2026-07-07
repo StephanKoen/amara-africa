@@ -184,7 +184,7 @@ export default function TheExperiencePage() {
             <GccCard
               label="Arabic on request"
               title="An Arabic-speaking host"
-              body="Arabic-speaking hosts, guides and in-lodge support can be arranged on any journey — booked as quietly as a pillow preference, and held the same way."
+              body="Arabic-speaking hosts, guides and in-lodge support on request and when available — arranged as quietly as a pillow preference, and held the same way."
             />
             <GccCard
               label="Distribution"
