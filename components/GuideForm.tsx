@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { trackMeta } from "./MetaPixel";
+import { trackGA } from "./GoogleAnalytics";
 
 const GCC_COUNTRIES = [
   "United Arab Emirates",
@@ -66,9 +67,10 @@ export default function GuideForm() {
     } catch {
       // The guide is delivered regardless — the notification email is best-effort.
     }
-    // Meta conversion — the guide opt-in is the Stage 1 "Lead" event the
+    // Conversions — the guide opt-in is the Stage 1 "Lead" event the
     // paid campaign optimises on.
     trackMeta("Lead", { content_name: "gulf-family-guide" });
+    trackGA("generate_lead", { form: "guide" });
     setDone(true);
     setSending(false);
   };
