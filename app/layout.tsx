@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import MetaPixel from "@/components/MetaPixel";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import Concierge from "@/components/Concierge";
 
 // Site-wide organisation schema — the trust/identity signal for search and AI
 // engines. Telephone is the already-public UAE WhatsApp/business number; email
@@ -123,6 +124,10 @@ export default function RootLayout({
         <Nav />
         <main className="page-fade">{children}</main>
         <Footer />
+        {/* The AI concierge ships only once the key exists in the environment,
+            so a deploy without it never shows guests a dead widget. */}
+        {(process.env.ANTHROPIC_API_KEY ||
+          process.env.NODE_ENV === "development") && <Concierge />}
       </body>
     </html>
   );
