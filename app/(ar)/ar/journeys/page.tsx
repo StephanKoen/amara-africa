@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JourneyCard from "@/components/JourneyCard";
-import { journeys } from "@/lib/journeys";
 import NewsletterSection from "@/components/NewsletterSection";
+import { arabicJourneys } from "@/lib/journeys-ar";
 
 export const metadata: Metadata = {
-  title: "The Collection — Seven Private African Journeys",
+  title: "المجموعة — سبع رحلات أفريقية خاصة",
   description:
-    "Seven considered African journeys — The Migration, The Grand Circuit, The Family Legacy, The Cape & Kruger, The Singita Signature, The Falls & Delta, and The Coastal Escape.",
+    "سبع رحلات أفريقية مدروسة — الهجرة الكبرى، الجولة الكبرى، إرث العائلة، توقيع جنوب أفريقيا، توقيع سينغيتا، الشلالات والدلتا، والملاذ الساحلي.",
+  alternates: {
+    canonical: "/ar/journeys",
+    languages: { en: "/journeys", ar: "/ar/journeys" },
+  },
 };
 
-export default function JourneysIndexPage() {
+export default function ArabicJourneysIndexPage() {
   return (
     <>
       {/* Header */}
@@ -21,23 +25,20 @@ export default function JourneysIndexPage() {
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-7">
-              <p className="label mb-6">The Collection</p>
+              <p className="label mb-6">المجموعة</p>
               <h1 className="h1-display">
-                Seven{" "}
-                <span className="gold-italic">quietly written</span>{" "}
-                journeys.
+                سبع رحلات <span className="gold-italic">كُتبت بهدوء</span>.
               </h1>
             </div>
             <div className="md:col-span-5 flex flex-col justify-end">
               <p className="body-copy max-w-[460px]">
-                These are the seven starting points we return to most often.
-                Each is an archetype, not a package. Every brief we accept is
-                re-written from the first page. The temperament remains; the
-                itinerary is yours alone.
+                هذه نقاط البداية السبع التي نعود إليها أكثر من سواها. كل منها
+                نمط، لا باقة جاهزة. وكل تكليف نقبله يُعاد كتابته من الصفحة
+                الأولى. الطابع يبقى؛ أما البرنامج فلكم وحدكم.
               </p>
               <div className="mt-8">
-                <Link href="/enquire" className="text-link">
-                  Enquire Privately &rarr;
+                <Link href="/ar/enquire" className="text-link">
+                  استفسر بخصوصية ←
                 </Link>
               </div>
             </div>
@@ -52,19 +53,20 @@ export default function JourneysIndexPage() {
       >
         <div className="max-w-container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
-            {journeys.map((journey, i) => (
+            {arabicJourneys.map((journey, i) => (
               <JourneyCard
                 key={journey.slug}
                 journey={journey}
                 priority={i < 2}
                 aspect="tall"
+                locale="ar"
               />
             ))}
           </div>
         </div>
       </section>
 
-      <NewsletterSection />
+      <NewsletterSection locale="ar" />
     </>
   );
 }

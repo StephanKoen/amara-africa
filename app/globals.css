@@ -435,3 +435,61 @@ nav {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
+
+/* ——— Arabic (RTL) typography ———
+   Arabic script must never be letter-spaced (it breaks the joined script)
+   and should not be slanted (Naskh has no italic — browsers fake it badly).
+   Headings switch from Playfair to Noto Naskh; line-heights open up to make
+   room for Arabic ascenders/descenders. */
+html[lang="ar"] body {
+  font-family: var(--font-arabic), "Noto Naskh Arabic", "Geeza Pro", serif;
+}
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] .h1-display,
+html[lang="ar"] .h2-section,
+html[lang="ar"] .h3-card,
+html[lang="ar"] .font-serif {
+  font-family: var(--font-arabic), "Noto Naskh Arabic", "Geeza Pro", serif;
+  letter-spacing: 0;
+}
+html[lang="ar"] .label,
+html[lang="ar"] .text-link,
+html[lang="ar"] [class*="tracking-"] {
+  letter-spacing: 0 !important;
+}
+html[lang="ar"] .gold-italic,
+html[lang="ar"] .italic,
+html[lang="ar"] .font-serif,
+html[lang="ar"] em,
+html[lang="ar"] blockquote p {
+  font-style: normal !important;
+}
+html[lang="ar"] .h1-display {
+  font-size: clamp(38px, 6.2vw, 82px);
+  line-height: 1.32;
+}
+html[lang="ar"] .h2-section {
+  font-size: clamp(30px, 4.2vw, 52px);
+  line-height: 1.42;
+}
+html[lang="ar"] .body-copy,
+html[lang="ar"] .body-copy-sm {
+  line-height: 2.05;
+  font-size: 15.5px;
+}
+html[lang="ar"] .label {
+  font-size: 12.5px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* Directional glyphs (→) inside shared components flip visually in RTL. */
+html[dir="rtl"] .ui-arrow {
+  display: inline-block;
+  transform: scaleX(-1);
+}

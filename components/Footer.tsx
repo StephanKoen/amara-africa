@@ -1,36 +1,79 @@
 import Link from "next/link";
 import AmaraLogo from "./AmaraLogo";
+import LanguageToggle from "./LanguageToggle";
+import type { Locale } from "@/lib/i18n";
 
-const JOURNEY_LINKS = [
-  { href: "/journeys/the-migration", label: "The Migration" },
-  { href: "/journeys/the-grand-circuit", label: "The Grand Circuit" },
-  { href: "/journeys/the-family-legacy", label: "The Family Legacy" },
-  { href: "/journeys/the-cape-and-kruger", label: "The Cape & Kruger" },
-  { href: "/journeys/the-falls-and-delta", label: "The Falls & Delta" },
-  { href: "/journeys/the-coastal-escape", label: "The Coastal Escape" },
-];
-
-const DISCOVER_LINKS = [
-  { href: "/the-experience", label: "The Experience" },
-  { href: "/about", label: "About" },
-  { href: "/journeys", label: "All Journeys" },
-  { href: "/enquire", label: "Enquire Privately" },
-];
-
-const OFFICES = [
-  {
-    city: "Dubai",
-    line1: "Jumeirah Village Circle",
-    line2: "Dubai · UAE",
+const STRINGS = {
+  en: {
+    journeyLinks: [
+      { href: "/journeys/the-migration", label: "The Migration" },
+      { href: "/journeys/the-grand-circuit", label: "The Grand Circuit" },
+      { href: "/journeys/the-family-legacy", label: "The Family Legacy" },
+      { href: "/journeys/the-cape-and-kruger", label: "The Cape & Kruger" },
+      { href: "/journeys/the-falls-and-delta", label: "The Falls & Delta" },
+      { href: "/journeys/the-coastal-escape", label: "The Coastal Escape" },
+    ],
+    discoverLinks: [
+      { href: "/the-experience", label: "The Experience" },
+      { href: "/about", label: "About" },
+      { href: "/journeys", label: "All Journeys" },
+      { href: "/enquire", label: "Enquire Privately" },
+    ],
+    offices: [
+      { city: "Dubai", line1: "Jumeirah Village Circle", line2: "Dubai · UAE" },
+      {
+        city: "Cape Town",
+        line1: "Foreshore",
+        line2: "Cape Town · South Africa",
+      },
+    ],
+    tagline: ["Private African journeys.", "Crafted for the Gulf."],
+    whatsapp: "WhatsApp · UAE",
+    journeys: "Journeys",
+    discover: "Discover",
+    officesLabel: "Offices",
+    rights: "All rights reserved",
+    brand: "Amara Africa",
   },
-  {
-    city: "Cape Town",
-    line1: "Foreshore",
-    line2: "Cape Town · South Africa",
+  ar: {
+    journeyLinks: [
+      { href: "/ar/journeys/the-migration", label: "الهجرة الكبرى" },
+      { href: "/ar/journeys/the-grand-circuit", label: "الجولة الكبرى" },
+      { href: "/ar/journeys/the-family-legacy", label: "إرث العائلة" },
+      { href: "/ar/journeys/the-cape-and-kruger", label: "توقيع جنوب أفريقيا" },
+      { href: "/ar/journeys/the-falls-and-delta", label: "الشلالات والدلتا" },
+      { href: "/ar/journeys/the-coastal-escape", label: "الملاذ الساحلي" },
+    ],
+    discoverLinks: [
+      { href: "/ar/the-experience", label: "التجربة" },
+      { href: "/ar/about", label: "من نحن" },
+      { href: "/ar/journeys", label: "كل الرحلات" },
+      { href: "/ar/enquire", label: "استفسر بخصوصية" },
+    ],
+    offices: [
+      {
+        city: "دبي",
+        line1: "قرية جميرا الدائرية",
+        line2: "دبي · الإمارات العربية المتحدة",
+      },
+      {
+        city: "كيب تاون",
+        line1: "فورشور",
+        line2: "كيب تاون · جنوب أفريقيا",
+      },
+    ],
+    tagline: ["رحلات أفريقية خاصة.", "صيغت لأهل الخليج."],
+    whatsapp: "واتساب · الإمارات",
+    journeys: "الرحلات",
+    discover: "اكتشف",
+    officesLabel: "المكاتب",
+    rights: "جميع الحقوق محفوظة",
+    brand: "أمارا أفريقيا",
   },
-];
+} as const;
 
-export default function Footer() {
+export default function Footer({ locale = "en" }: { locale?: Locale }) {
+  const t = STRINGS[locale];
   return (
     <footer
       data-theme="dark"
@@ -49,16 +92,17 @@ export default function Footer() {
               className="mt-6 font-serif italic text-[20px] leading-snug"
               style={{ color: "rgba(240,235,224,0.72)", maxWidth: 340 }}
             >
-              Private African journeys.
+              {t.tagline[0]}
               <br />
-              Crafted for the Gulf.
+              {t.tagline[1]}
             </p>
             <div className="mt-6">
-              <p className="label mb-2">WhatsApp · UAE</p>
+              <p className="label mb-2">{t.whatsapp}</p>
               <a
                 href="https://wa.me/971588585960"
                 target="_blank"
                 rel="noopener noreferrer"
+                dir="ltr"
                 className="font-serif italic text-[18px] leading-snug transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
                 style={{ color: "var(--dd-linen)" }}
               >
@@ -69,9 +113,9 @@ export default function Footer() {
 
           {/* Journeys */}
           <div className="md:col-span-3">
-            <p className="label mb-5">Journeys</p>
+            <p className="label mb-5">{t.journeys}</p>
             <ul className="flex flex-col gap-[10px]">
-              {JOURNEY_LINKS.map((l) => (
+              {t.journeyLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
@@ -87,9 +131,9 @@ export default function Footer() {
 
           {/* Discover */}
           <div className="md:col-span-2">
-            <p className="label mb-5">Discover</p>
+            <p className="label mb-5">{t.discover}</p>
             <ul className="flex flex-col gap-[10px]">
-              {DISCOVER_LINKS.map((l) => (
+              {t.discoverLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
@@ -105,9 +149,9 @@ export default function Footer() {
 
           {/* Offices */}
           <div className="md:col-span-2">
-            <p className="label mb-5">Offices</p>
+            <p className="label mb-5">{t.officesLabel}</p>
             <ul className="flex flex-col gap-4">
-              {OFFICES.map((o) => (
+              {t.offices.map((o) => (
                 <li key={o.city}>
                   <p
                     className="font-serif italic text-[18px] leading-snug"
@@ -119,7 +163,7 @@ export default function Footer() {
                     className="text-[12px] leading-relaxed mt-1"
                     style={{
                       color: "var(--dd-stone)",
-                      letterSpacing: "0.04em",
+                      letterSpacing: locale === "ar" ? 0 : "0.04em",
                     }}
                   >
                     {o.line1}
@@ -135,30 +179,9 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-[84px] hairline pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <p className="label" style={{ color: "var(--dd-stone)" }}>
-            © {new Date().getFullYear()} Amara Africa · All rights reserved
+            © {new Date().getFullYear()} {t.brand} · {t.rights}
           </p>
-          <div className="flex items-center gap-5">
-            <button
-              className="text-[11px] uppercase tracking-[0.3em] transition-colors duration-300"
-              style={{ color: "var(--dd-gold)" }}
-              aria-pressed="true"
-            >
-              English
-            </button>
-            <span
-              className="block w-px h-[10px]"
-              style={{ background: "rgba(200,185,150,0.22)" }}
-              aria-hidden
-            />
-            <button
-              className="text-[11px] uppercase tracking-[0.3em] transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
-              style={{ color: "var(--dd-stone)" }}
-              lang="ar"
-              dir="rtl"
-            >
-              العربية
-            </button>
-          </div>
+          <LanguageToggle />
         </div>
       </div>
     </footer>

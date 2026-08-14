@@ -3,34 +3,113 @@
 import { useState } from "react";
 import { trackMeta } from "./MetaPixel";
 import { trackGA } from "./GoogleAnalytics";
+import type { Locale } from "@/lib/i18n";
+
+// Option VALUES stay English in both locales — they are what lands in the
+// enquiry email, and the desk reads one consistent format. Only the visible
+// labels are translated.
 
 const GCC_COUNTRIES = [
-  "United Arab Emirates",
-  "Saudi Arabia",
-  "Qatar",
-  "Kuwait",
-  "Bahrain",
-  "Oman",
+  { value: "United Arab Emirates", ar: "الإمارات العربية المتحدة" },
+  { value: "Saudi Arabia", ar: "المملكة العربية السعودية" },
+  { value: "Qatar", ar: "قطر" },
+  { value: "Kuwait", ar: "الكويت" },
+  { value: "Bahrain", ar: "البحرين" },
+  { value: "Oman", ar: "عُمان" },
 ];
 
 const OTHER_COUNTRIES = [
-  "United Kingdom",
-  "United States",
-  "France",
-  "Germany",
-  "Switzerland",
-  "Other",
+  { value: "United Kingdom", ar: "المملكة المتحدة" },
+  { value: "United States", ar: "الولايات المتحدة" },
+  { value: "France", ar: "فرنسا" },
+  { value: "Germany", ar: "ألمانيا" },
+  { value: "Switzerland", ar: "سويسرا" },
+  { value: "Other", ar: "أخرى" },
 ];
 
 const JOURNEY_ARCHETYPES = [
-  "The Migration",
-  "The Grand Circuit",
-  "The Family Legacy",
-  "The Cape & Kruger",
-  "The Falls & Delta",
-  "The Coastal Escape",
-  "I am not yet sure",
+  { value: "The Migration", ar: "الهجرة الكبرى" },
+  { value: "The Grand Circuit", ar: "الجولة الكبرى" },
+  { value: "The Family Legacy", ar: "إرث العائلة" },
+  { value: "The Cape & Kruger", ar: "توقيع جنوب أفريقيا" },
+  { value: "The Falls & Delta", ar: "الشلالات والدلتا" },
+  { value: "The Coastal Escape", ar: "الملاذ الساحلي" },
+  { value: "I am not yet sure", ar: "لست متأكداً بعد" },
 ];
+
+const STRINGS = {
+  en: {
+    name: "Your name",
+    email: "Email",
+    phone: "Phone (optional)",
+    country: "Country of residence",
+    journey: "Journey of interest",
+    dates: "Approximate travel dates",
+    party: "Party size",
+    message: "Anything we should know",
+    select: "Please select",
+    gcc: "GCC",
+    elsewhere: "Elsewhere",
+    phonePlaceholder: "+971 4 000 0000",
+    datesPlaceholder: "e.g. October — November 2026",
+    partyPlaceholder: "e.g. 2 adults, 2 children",
+    messagePlaceholder:
+      "Dietary considerations, special occasions, private aviation, Arabic-speaking hosts — anything at all.",
+    submit: "Request Private Access →",
+    sending: "Sending…",
+    privacyNote:
+      "Your details are not shared. You will hear from a person, by name.",
+    errName: "Please share your name.",
+    errEmail: "A valid email, please.",
+    errCountry: "Where are you travelling from?",
+    errJourney: "Please choose a starting point.",
+    sendError:
+      "We couldn't send your enquiry just now. Please email us directly at Lloyd@amarafrica.com.",
+    receivedLabel: "Your Enquiry",
+    receivedLead: "Received, with",
+    receivedItalic: "thanks",
+    received1:
+      "A senior member of our team will write to you personally within one working day. Your message will not be forwarded, and will not enter an automated system.",
+    received2:
+      "If your travel is imminent, our Dubai office can be reached directly on the number we will include in our reply.",
+    receivedFoot: "Amara Africa · Dubai · Cape Town",
+  },
+  ar: {
+    name: "الاسم",
+    email: "البريد الإلكتروني",
+    phone: "الهاتف (اختياري)",
+    country: "بلد الإقامة",
+    journey: "الرحلة التي تهمّك",
+    dates: "مواعيد السفر التقريبية",
+    party: "عدد المسافرين",
+    message: "أي شيء ينبغي أن نعرفه",
+    select: "يرجى الاختيار",
+    gcc: "دول الخليج",
+    elsewhere: "بلدان أخرى",
+    phonePlaceholder: "+971 4 000 0000",
+    datesPlaceholder: "مثلاً: أكتوبر — نوفمبر ٢٠٢٦",
+    partyPlaceholder: "مثلاً: بالغان وطفلان",
+    messagePlaceholder:
+      "اعتبارات الطعام، المناسبات الخاصة، الطيران الخاص، مضيفون يتحدثون العربية — أي شيء على الإطلاق.",
+    submit: "اطلب وصولاً خاصاً ←",
+    sending: "جارٍ الإرسال…",
+    privacyNote: "بياناتك لا تُشارك مع أحد. سيراسلك شخص، باسمه.",
+    errName: "يرجى مشاركتنا اسمك.",
+    errEmail: "بريد إلكتروني صحيح، من فضلك.",
+    errCountry: "من أين ستسافرون؟",
+    errJourney: "يرجى اختيار نقطة بداية.",
+    sendError:
+      "تعذّر إرسال استفسارك الآن. يرجى مراسلتنا مباشرة على Lloyd@amarafrica.com.",
+    receivedLabel: "استفسارك",
+    receivedLead: "وصل،",
+    receivedItalic: "مع خالص الشكر",
+    received1:
+      "سيكتب إليك أحد كبار أعضاء فريقنا شخصياً خلال يوم عمل واحد. رسالتك لن تُحوَّل إلى غيرنا، ولن تدخل أي نظام آلي.",
+    received2:
+      "إن كان سفرك وشيكاً، يمكن الوصول إلى مكتبنا في دبي مباشرة على الرقم الذي سنرفقه في ردّنا.",
+    receivedFoot: "أمارا أفريقيا · دبي · كيب تاون",
+  },
+} as const;
 
 type FormState = {
   name: string;
@@ -61,7 +140,11 @@ const WEB3FORMS_ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ??
   "99c172f6-b2c2-4520-ba4e-10ae96846519";
 
-export default function EnquireForm() {
+export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
+  const t = STRINGS[locale];
+  const optionLabel = (o: { value: string; ar: string }) =>
+    locale === "ar" ? o.ar : o.value;
+
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
     {}
@@ -78,11 +161,11 @@ export default function EnquireForm() {
 
   const validate = (): boolean => {
     const next: Partial<Record<keyof FormState, string>> = {};
-    if (!form.name.trim()) next.name = "Please share your name.";
+    if (!form.name.trim()) next.name = t.errName;
     if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email))
-      next.email = "A valid email, please.";
-    if (!form.country) next.country = "Where are you travelling from?";
-    if (!form.journey) next.journey = "Please choose a starting point.";
+      next.email = t.errEmail;
+    if (!form.country) next.country = t.errCountry;
+    if (!form.journey) next.journey = t.errJourney;
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -112,23 +195,24 @@ export default function EnquireForm() {
           "Approximate travel dates": form.dates || "—",
           "Party size": form.party || "—",
           Message: form.message || "—",
+          "Site language": locale === "ar" ? "Arabic" : "English",
         }),
       });
       const data = await res.json();
       if (data.success) {
         // Conversions — a completed enquiry is our primary lead event.
         trackMeta("Lead", { content_name: form.journey || "Amara Africa" });
-        trackGA("generate_lead", { form: "enquiry", journey: form.journey || "unspecified" });
+        trackGA("generate_lead", {
+          form: "enquiry",
+          journey: form.journey || "unspecified",
+          language: locale,
+        });
         setSubmitted(true);
       } else {
-        setSendError(
-          "We couldn't send your enquiry just now. Please email us directly at Lloyd@amarafrica.com."
-        );
+        setSendError(t.sendError);
       }
     } catch {
-      setSendError(
-        "We couldn't send your enquiry just now. Please email us directly at Lloyd@amarafrica.com."
-      );
+      setSendError(t.sendError);
     } finally {
       setSending(false);
     }
@@ -137,23 +221,17 @@ export default function EnquireForm() {
   if (submitted) {
     return (
       <div className="max-w-[700px]">
-        <p className="label mb-5">Your Enquiry</p>
+        <p className="label mb-5">{t.receivedLabel}</p>
         <h2 className="h2-section">
-          Received, with <span className="gold-italic">thanks</span>.
+          {t.receivedLead}{" "}
+          <span className="gold-italic">{t.receivedItalic}</span>.
         </h2>
         <div className="mt-8 flex flex-col gap-4 body-copy max-w-[560px]">
-          <p>
-            A senior member of our team will write to you personally within one
-            working day. Your message will not be forwarded, and will not enter
-            an automated system.
-          </p>
-          <p>
-            If your travel is imminent, our Dubai office can be reached
-            directly on the number we will include in our reply.
-          </p>
+          <p>{t.received1}</p>
+          <p>{t.received2}</p>
         </div>
         <div className="mt-9">
-          <p className="label">Amara Africa · Dubai · Cape Town</p>
+          <p className="label">{t.receivedFoot}</p>
         </div>
       </div>
     );
@@ -163,7 +241,7 @@ export default function EnquireForm() {
     <form onSubmit={submit} noValidate className="max-w-[780px]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-9 gap-y-7">
         <Field
-          label="Your name"
+          label={t.name}
           error={errors.name}
           field={
             <input
@@ -177,7 +255,7 @@ export default function EnquireForm() {
           }
         />
         <Field
-          label="Email"
+          label={t.email}
           error={errors.email}
           field={
             <input
@@ -186,12 +264,13 @@ export default function EnquireForm() {
               value={form.email}
               onChange={update("email")}
               autoComplete="email"
+              dir="ltr"
               required
             />
           }
         />
         <Field
-          label="Phone (optional)"
+          label={t.phone}
           field={
             <input
               type="tel"
@@ -199,12 +278,13 @@ export default function EnquireForm() {
               value={form.phone}
               onChange={update("phone")}
               autoComplete="tel"
-              placeholder="+971 4 000 0000"
+              dir="ltr"
+              placeholder={t.phonePlaceholder}
             />
           }
         />
         <Field
-          label="Country of residence"
+          label={t.country}
           error={errors.country}
           field={
             <select
@@ -213,18 +293,18 @@ export default function EnquireForm() {
               onChange={update("country")}
               required
             >
-              <option value="">Please select</option>
-              <optgroup label="GCC">
+              <option value="">{t.select}</option>
+              <optgroup label={t.gcc}>
                 {GCC_COUNTRIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
+                  <option key={c.value} value={c.value}>
+                    {optionLabel(c)}
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="Elsewhere">
+              <optgroup label={t.elsewhere}>
                 {OTHER_COUNTRIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
+                  <option key={c.value} value={c.value}>
+                    {optionLabel(c)}
                   </option>
                 ))}
               </optgroup>
@@ -232,7 +312,7 @@ export default function EnquireForm() {
           }
         />
         <Field
-          label="Journey of interest"
+          label={t.journey}
           error={errors.journey}
           field={
             <select
@@ -241,36 +321,36 @@ export default function EnquireForm() {
               onChange={update("journey")}
               required
             >
-              <option value="">Please select</option>
+              <option value="">{t.select}</option>
               {JOURNEY_ARCHETYPES.map((j) => (
-                <option key={j} value={j}>
-                  {j}
+                <option key={j.value} value={j.value}>
+                  {optionLabel(j)}
                 </option>
               ))}
             </select>
           }
         />
         <Field
-          label="Approximate travel dates"
+          label={t.dates}
           field={
             <input
               type="text"
               className="input-field"
               value={form.dates}
               onChange={update("dates")}
-              placeholder="e.g. October — November 2026"
+              placeholder={t.datesPlaceholder}
             />
           }
         />
         <Field
-          label="Party size"
+          label={t.party}
           field={
             <input
               type="text"
               className="input-field"
               value={form.party}
               onChange={update("party")}
-              placeholder="e.g. 2 adults, 2 children"
+              placeholder={t.partyPlaceholder}
             />
           }
         />
@@ -278,14 +358,14 @@ export default function EnquireForm() {
 
       <div className="mt-7">
         <Field
-          label="Anything we should know"
+          label={t.message}
           field={
             <textarea
               className="input-field"
               rows={4}
               value={form.message}
               onChange={update("message")}
-              placeholder="Dietary considerations, special occasions, private aviation, Arabic-speaking hosts — anything at all."
+              placeholder={t.messagePlaceholder}
             />
           }
         />
@@ -293,13 +373,13 @@ export default function EnquireForm() {
 
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
         <button type="submit" className="btn-gold" disabled={sending}>
-          {sending ? "Sending…" : "Request Private Access →"}
+          {sending ? t.sending : t.submit}
         </button>
         <p
           className="text-[12px]"
           style={{ color: "var(--dd-stone)" }}
         >
-          Your details are not shared. You will hear from a person, by name.
+          {t.privacyNote}
         </p>
       </div>
 

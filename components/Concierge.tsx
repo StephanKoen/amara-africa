@@ -13,17 +13,46 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 const STORAGE_KEY = "amara_concierge_v1";
 const WHATSAPP_URL = "https://wa.me/971588585960";
 
-const STARTERS = [
-  "Which journey suits a family with young children?",
-  "When should we travel to see the Migration?",
-  "هل الطعام حلال في السفاري؟",
-];
-
-const ERROR_REPLY =
-  "The desk seems briefly unreachable. Do write to us on WhatsApp at " +
-  "+971 58 858 5960 — a senior member of the house will reply personally.";
+const STRINGS = {
+  en: {
+    launch: "The Concierge",
+    title: "The Concierge",
+    subtitle: "English · العربية — with a person behind it",
+    intro:
+      "Ask about our journeys, timing, halal dining or travelling as a family — in English or Arabic. When you are ready, a senior member of the house takes over personally.",
+    starters: [
+      "Which journey suits a family with young children?",
+      "When should we travel to see the Migration?",
+      "هل الطعام حلال في السفاري؟",
+    ],
+    placeholder: "Write in English or Arabic…",
+    send: "Send",
+    whatsapp: "Prefer a person? WhatsApp the desk — +971 58 858 5960 →",
+    error:
+      "The desk seems briefly unreachable. Do write to us on WhatsApp at " +
+      "+971 58 858 5960 — a senior member of the house will reply personally.",
+  },
+  ar: {
+    launch: "الكونسيرج",
+    title: "الكونسيرج",
+    subtitle: "العربية · English — ووراءه إنسان",
+    intro:
+      "اسأل عن رحلاتنا، أو التوقيت، أو الطعام الحلال، أو السفر بالعائلة — بالعربية أو الإنجليزية. وحين تكون جاهزاً، يتولى أحد كبار أعضاء الدار الأمر شخصياً.",
+    starters: [
+      "أي رحلة تناسب عائلة مع أطفال صغار؟",
+      "متى نسافر لمشاهدة الهجرة الكبرى؟",
+      "هل الطعام حلال في السفاري؟",
+    ],
+    placeholder: "اكتب بالعربية أو الإنجليزية…",
+    send: "أرسل",
+    whatsapp: "تفضّل التحدث إلى شخص؟ واتساب — 5960 858 58 971+ ←",
+    error:
+      "يبدو أن المكتب بعيد المنال للحظة. راسلنا على واتساب ‎+971 58 858 5960 — وسيرد عليك أحد كبار أعضاء الدار شخصياً.",
+  },
+} as const;
 
 export default function Concierge() {
+  const [locale, setLocale] = useState<"en" | "ar">("en");
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -32,6 +61,8 @@ export default function Concierge() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // The Arabic pages set <html lang="ar">; mirror the page's language.
+    if (document.documentElement.lang === "ar") setLocale("ar");
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) setMessages(JSON.parse(saved));
@@ -39,6 +70,7 @@ export default function Concierge() {
       // Ignore a corrupt draft.
     }
   }, []);
+  const t = STRINGS[locale];
 
   useEffect(() => {
     try {
@@ -98,13 +130,13 @@ export default function Concierge() {
       setMessages((prev) => {
         if (prev[prev.length - 1]?.content.trim()) return prev;
         const next = [...prev];
-        next[next.length - 1] = { role: "assistant", content: ERROR_REPLY };
+        next[next.length - 1] = { role: "assistant", content: t.error };
         return next;
       });
     } catch {
       setMessages((prev) => {
         const next = [...prev];
-        next[next.length - 1] = { role: "assistant", content: ERROR_REPLY };
+        next[next.length - 1] = { role: "assistant", content: t.error };
         return next;
       });
     } finally {
@@ -149,7 +181,7 @@ export default function Concierge() {
             className="font-serif italic"
             style={{ color: "var(--dd-linen)", fontSize: 17, lineHeight: 1 }}
           >
-            The Concierge
+            {t.launch}
           </span>
         </button>
       )}
@@ -187,7 +219,7 @@ export default function Concierge() {
                 className="font-serif italic"
                 style={{ color: "var(--dd-linen)", fontSize: 21, lineHeight: 1.1 }}
               >
-                The Concierge
+                {t.title}
               </p>
               <p
                 style={{
@@ -199,7 +231,7 @@ export default function Concierge() {
                   opacity: 0.75,
                 }}
               >
-                English · العربية — with a person behind it
+                {t.subtitle}
               </p>
             </div>
             <button
@@ -231,12 +263,10 @@ export default function Concierge() {
                     marginBottom: 16,
                   }}
                 >
-                  Ask about our journeys, timing, halal dining or travelling as
-                  a family — in English or Arabic. When you are ready, a senior
-                  member of the house takes over personally.
+                  {t.intro}
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {STARTERS.map((s) => (
+                  {t.starters.map((s) => (
                     <button
                       key={s}
                       dir="auto"
@@ -312,7 +342,7 @@ export default function Concierge() {
                 dir="auto"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Write in English or Arabic…"
+                placeholder={t.placeholder}
                 aria-label="Your message to the concierge"
                 style={{
                   flex: 1,
@@ -338,7 +368,7 @@ export default function Concierge() {
                   opacity: busy || !input.trim() ? 0.5 : 1,
                 }}
               >
-                Send
+                {t.send}
               </button>
             </div>
             <a
@@ -353,7 +383,7 @@ export default function Concierge() {
                 color: "var(--dd-stone)",
               }}
             >
-              Prefer a person? WhatsApp the desk — +971 58 858 5960 →
+              {t.whatsapp}
             </a>
           </form>
         </div>

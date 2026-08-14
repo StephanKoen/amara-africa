@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "About — Amara Africa",
   description:
     "A small house, founded in 2025, with offices in Dubai and Cape Town. Our story, our team, and what we hold to.",
+  alternates: {
+    canonical: "/about",
+    languages: { en: "/about", ar: "/ar/about" },
+  },
 };
 
 export default function AboutPage() {

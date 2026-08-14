@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Enquire Privately — Amara Africa",
   description:
     "Write to us. A senior member of our Dubai office will reply in person, within one working day. No automated confirmations.",
+  alternates: {
+    canonical: "/enquire",
+    languages: { en: "/enquire", ar: "/ar/enquire" },
+  },
 };
 
 // High-intent FAQ — answers the questions Gulf travellers actually ask at the

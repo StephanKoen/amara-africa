@@ -68,7 +68,7 @@ export default function FeatureSplit({
         {link && (
           <div className="mt-8">
             <Link href={link.href} className="text-link">
-              {link.label} &rarr;
+              {link.label} <span className="ui-arrow">&rarr;</span>
             </Link>
           </div>
         )}

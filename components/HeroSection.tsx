@@ -11,6 +11,8 @@ type HeroSectionProps = {
   primaryLink?: { href: string; label: string };
   secondaryLink?: { href: string; label: string };
   showEstablishmentLine?: boolean;
+  scrollLabel?: string;
+  establishmentLine?: string;
 };
 
 export default function HeroSection({
@@ -23,6 +25,8 @@ export default function HeroSection({
   primaryLink,
   secondaryLink,
   showEstablishmentLine = true,
+  scrollLabel = "Scroll",
+  establishmentLine = "Amara Africa · Est. 2025 · Private journeys. Built for the Gulf.",
 }: HeroSectionProps) {
   return (
     <section
@@ -81,7 +85,7 @@ export default function HeroSection({
                 <div className="mt-9 flex flex-wrap gap-8">
                   {primaryLink && (
                     <Link href={primaryLink.href} className="text-link">
-                      {primaryLink.label} &rarr;
+                      {primaryLink.label} <span className="ui-arrow">&rarr;</span>
                     </Link>
                   )}
                   {secondaryLink && (
@@ -96,7 +100,7 @@ export default function HeroSection({
             {/* Right: scroll indicator */}
             <div className="hidden md:flex flex-col items-center gap-4 pb-2">
               <span className="label" style={{ writingMode: "vertical-rl" }}>
-                Scroll
+                {scrollLabel}
               </span>
               <span className="scroll-line" aria-hidden />
             </div>
@@ -107,7 +111,7 @@ export default function HeroSection({
               className="mt-12 pt-5 hairline label"
               style={{ maxWidth: 520 }}
             >
-              Amara Africa · Est. 2025 · Private journeys. Built for the Gulf.
+              {establishmentLine}
             </p>
           )}
         </div>

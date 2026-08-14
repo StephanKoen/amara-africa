@@ -2,23 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Journey } from "@/lib/journeys";
 import { splitTitle } from "@/lib/journeys";
+import type { Locale } from "@/lib/i18n";
 
 type JourneyCardProps = {
   journey: Journey;
   priority?: boolean;
   aspect?: "tall" | "square";
+  locale?: Locale;
 };
 
 export default function JourneyCard({
   journey,
   priority = false,
   aspect = "tall",
+  locale = "en",
 }: JourneyCardProps) {
   const parts = splitTitle(journey);
 
   return (
     <Link
-      href={`/journeys/${journey.slug}`}
+      href={`${locale === "ar" ? "/ar" : ""}/journeys/${journey.slug}`}
       className="journey-card group block"
       style={{
         background: "var(--dd-white)",
@@ -69,7 +72,8 @@ export default function JourneyCard({
             borderBottom: "0.5px solid var(--dd-border-mid)",
           }}
         >
-          Explore &rarr;
+          {locale === "ar" ? "استكشف" : "Explore"}{" "}
+          <span className="ui-arrow">&rarr;</span>
         </span>
       </div>
     </Link>

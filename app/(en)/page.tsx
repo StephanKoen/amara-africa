@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
 import FeatureSplit from "@/components/FeatureSplit";
@@ -7,6 +8,13 @@ import PrinciplesGrid from "@/components/PrinciplesGrid";
 import NewsletterSection from "@/components/NewsletterSection";
 import { images } from "@/lib/images";
 import { journeys } from "@/lib/journeys";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", ar: "/ar" },
+  },
+};
 
 const HOME_JOURNEYS = [
   "the-migration",

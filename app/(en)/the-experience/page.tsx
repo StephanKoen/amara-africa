@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "The Experience — The Amara Africa Way",
   description:
     "The quiet principles that hold every Amara Africa journey. Private, Halal-aware, Arabic on request, and written by one pair of hands.",
+  alternates: {
+    canonical: "/the-experience",
+    languages: { en: "/the-experience", ar: "/ar/the-experience" },
+  },
 };
 
 const PRINCIPLES = [

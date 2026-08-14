@@ -46,7 +46,7 @@ export default function PrinciplesGrid({
             {link && (
               <div className="mt-6">
                 <Link href={link.href} className="text-link">
-                  {link.label} &rarr;
+                  {link.label} <span className="ui-arrow">&rarr;</span>
                 </Link>
               </div>
             )}
@@ -60,10 +60,12 @@ export default function PrinciplesGrid({
               key={p.number}
               className="py-10 md:py-12 px-0 md:px-8 hairline"
               style={{
-                borderRightWidth:
+                // Logical property so the divider stays between the columns
+                // in both LTR and RTL layouts.
+                borderInlineEndWidth:
                   i % 2 === 0 && i < principles.length ? 1 : 0,
-                borderRightColor: "var(--dd-border)",
-                borderRightStyle: "solid",
+                borderInlineEndColor: "var(--dd-border)",
+                borderInlineEndStyle: "solid",
               }}
             >
               <div className="flex items-start gap-6">
