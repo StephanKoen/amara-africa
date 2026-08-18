@@ -95,6 +95,10 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
   if (!journey) notFound();
 
   const related = resolveRelated(journey);
+  const addOns = journeys
+    .filter((j) => j.addOn && j.slug !== journey.slug)
+    .map((j) => arabicJourney(j.slug))
+    .filter((j): j is Journey => Boolean(j));
   const heroParts = splitTitle(journey);
 
   return (
@@ -179,6 +183,9 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
                   <SidebarRow label="المدة" value={journey.duration} />
                   <SidebarRow label="الإقليم" value={journey.territory} />
                   <SidebarRow label="الطابع" value={journey.tag} />
+                  {journey.bestSeason && (
+                    <SidebarRow label="أفضل موسم" value={journey.bestSeason} />
+                  )}
                 </div>
 
                 <div className="mt-8 hairline pt-6">
@@ -191,6 +198,92 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* رحلات اختيارية مع الشريك — بطاقات محدّدة، منفصلة بوضوح عمّا تشمله الرحلة */}
+      {journey.excursions && (
+        <section
+          className="section-x section-y"
+          style={{ background: "var(--dd-white)" }}
+        >
+          <div className="max-w-container mx-auto">
+            <div className="mb-10 max-w-[640px]">
+              <p className="label mb-4">
+                رحلات اختيارية · {journey.excursions.partnerName}
+              </p>
+              <h2 className="h2-section">
+                على الماء، <span className="gold-italic">بخصوصية تامة</span>.
+              </h2>
+              {journey.excursions.note && (
+                <p className="body-copy mt-6">{journey.excursions.note}</p>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {journey.excursions.items.map((item) => (
+                <div
+                  key={item.name}
+                  className="p-7 md:p-8"
+                  style={{
+                    background: "var(--dd-warm-white)",
+                    border: item.highlight
+                      ? "1px solid var(--dd-gold)"
+                      : "0.5px solid var(--dd-border-mid)",
+                  }}
+                >
+                  {item.highlight && (
+                    <p
+                      className="label mb-3"
+                      style={{ color: "var(--dd-gold-antique)" }}
+                    >
+                      الخيار الأثير
+                    </p>
+                  )}
+                  <h3
+                    className="font-serif italic text-[24px] leading-[1.5]"
+                    style={{ color: "var(--dd-ink)" }}
+                  >
+                    {item.name}
+                  </h3>
+                  <p className="body-copy mt-4">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <p
+              className="mt-8 text-[13px] leading-relaxed"
+              style={{ color: "var(--dd-stone)" }}
+            >
+              تُشغَّل الرحلات بواسطة{" "}
+              <a
+                href={journey.excursions.partnerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors duration-300 hover:text-[color:var(--dd-gold-antique)]"
+                style={{ borderBottom: "0.5px solid var(--dd-border-mid)" }}
+              >
+                {journey.excursions.partnerName}
+              </a>
+              {journey.excursions.address && (
+                <>
+                  ، <span dir="ltr">{journey.excursions.address}</span>
+                </>
+              )}
+              {journey.excursions.bookingUrl && (
+                <>
+                  {" "}·{" "}
+                  <a
+                    href={journey.excursions.bookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors duration-300 hover:text-[color:var(--dd-gold-antique)]"
+                    style={{ borderBottom: "0.5px solid var(--dd-border-mid)" }}
+                  >
+                    التوفر والحجز ←
+                  </a>
+                </>
+              )}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Inclusions */}
       {journey.inclusions && journey.inclusions.length > 0 && (
@@ -314,6 +407,36 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
           </div>
         ))}
       </section>
+
+      {/* أكمل رحلتك — الامتدادات الساحلية تظهر على كل صفحة سفاري */}
+      {!journey.addOn && addOns.length > 0 && (
+        <section
+          className="section-x section-y"
+          style={{ background: "var(--dd-parchment)" }}
+        >
+          <div className="max-w-container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-[48px]">
+              <div className="md:col-span-5">
+                <p className="label mb-5">أكمل رحلتك</p>
+                <h2 className="h2-section">
+                  الساحل، <span className="gold-italic">بعد البراري</span>.
+                </h2>
+              </div>
+              <div className="md:col-span-6 md:col-start-7 flex flex-col justify-end">
+                <p className="body-copy max-w-[520px]">
+                  بضع ليالٍ هادئة على الماء، تتصل بسلاسة بنهاية هذه الرحلة —
+                  المستشار نفسه، والملف نفسه، وبرنامج واحد.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
+              {addOns.map((j) => (
+                <JourneyCard key={j.slug} journey={j} aspect="tall" locale="ar" />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* You may also consider */}
       <section

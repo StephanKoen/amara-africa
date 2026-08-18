@@ -34,6 +34,7 @@ const JOURNEY_ARCHETYPES = [
   { value: "The Cape & Kruger", ar: "توقيع جنوب أفريقيا" },
   { value: "The Falls & Delta", ar: "الشلالات والدلتا" },
   { value: "The Coastal Escape", ar: "الملاذ الساحلي" },
+  { value: "The Garden Route (coastal extension)", ar: "طريق الحدائق (امتداد ساحلي)" },
   { value: "I am not yet sure", ar: "لست متأكداً بعد" },
 ];
 

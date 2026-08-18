@@ -12,6 +12,7 @@ const STRINGS = {
       { href: "/journeys/the-cape-and-kruger", label: "The Cape & Kruger" },
       { href: "/journeys/the-falls-and-delta", label: "The Falls & Delta" },
       { href: "/journeys/the-coastal-escape", label: "The Coastal Escape" },
+      { href: "/journeys/garden-route", label: "The Garden Route" },
     ],
     discoverLinks: [
       { href: "/the-experience", label: "The Experience" },
@@ -43,6 +44,7 @@ const STRINGS = {
       { href: "/ar/journeys/the-cape-and-kruger", label: "توقيع جنوب أفريقيا" },
       { href: "/ar/journeys/the-falls-and-delta", label: "الشلالات والدلتا" },
       { href: "/ar/journeys/the-coastal-escape", label: "الملاذ الساحلي" },
+      { href: "/ar/journeys/garden-route", label: "طريق الحدائق" },
     ],
     discoverLinks: [
       { href: "/ar/the-experience", label: "التجربة" },

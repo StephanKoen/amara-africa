@@ -42,6 +42,32 @@ export type Journey = {
     images: string[];
     alts?: string[];
   }>;
+
+  /** Internal product code, e.g. "AA-GR-06". Never rendered to guests. */
+  code?: string;
+
+  /**
+   * Coastal/city extensions. Add-ons are sold standalone AND surfaced in the
+   * "Extend your journey" block on every non-add-on journey page.
+   */
+  addOn?: boolean;
+
+  /** Shown as an extra "At a glance" sidebar row when present. */
+  bestSeason?: string;
+
+  /**
+   * Optional partner excursions, rendered as a bordered card set (visually
+   * distinct from inclusions). Outbound links only — we never replicate a
+   * partner's booking flow.
+   */
+  excursions?: {
+    partnerName: string;
+    partnerUrl: string;
+    bookingUrl?: string;
+    address?: string;
+    note?: string;
+    items: Array<{ name: string; desc: string; highlight?: boolean }>;
+  };
 };
 
 export const journeys: Journey[] = [
@@ -591,6 +617,188 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
       "https://images.ctfassets.net/wds1hqrprqxb/6hPMB4ZhOIAzF3kh6szoN9/1c422e0e97b331515e29c73f582a4af1/Sabora_Activities_pool_slider3.jpg?w=1200&h=800&fl=progressive&q=90&fm=jpg",
       "https://images.ctfassets.net/wds1hqrprqxb/4baWLsS8IYP5i5QTrIfO1E/d2dc3455b310741389f9f2b1c06e963b/SocialMilele-05906.jpg?w=1200&h=800&fl=progressive&q=90&fm=jpg",
     ],
+  },
+  // ──────────────────────────────────────────────────────────────────────
+  // The Garden Route — six-night coastal extension (AA-GR-06). Sold as an
+  // add-on to any safari and as a standalone journey.
+  // TODO(photography): all images under /images/itineraries/garden-route/
+  // are placeholders — replace hero/card and fill the three section
+  // galleries once the shoot is delivered.
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    slug: "garden-route",
+    code: "AA-GR-06",
+    addOn: true,
+    tag: "Extension",
+    title: "The Garden Route",
+    titleItalic: "Garden Route",
+    oneliner: "Six nights along the Cape's southern shore.",
+    duration: "7 Days / 6 Nights",
+    territory: "Hermanus · Knysna · Plettenberg Bay",
+    bestSeason: "June to November",
+    heroImage: "/images/itineraries/garden-route/hero.jpg",
+    cardImage: "/images/itineraries/garden-route/card.jpg",
+    galleryImages: [
+      "/images/itineraries/garden-route/gallery-1.jpg",
+      "/images/itineraries/garden-route/gallery-2.jpg",
+      "/images/itineraries/garden-route/gallery-3.jpg",
+    ],
+    published: true,
+    durationNights: [6, 6],
+    region: "Western Cape",
+    highlights: [
+      "2 nights at The Marine, Hermanus — Liz McGrath Collection",
+      "2 nights at The Turbine Hotel & Spa, Thesen Island, Knysna",
+      "2 nights at The Plettenberg — Liz McGrath Collection",
+      "Clarence Drive, the coastal road between mountain and sea",
+      "Walker Bay whale watching in season (June to November)",
+      "The Hemel-en-Aarde Valley, with non-alcoholic tastings on request",
+      "The Knysna lagoon with The Water Club — private, sole-use charters",
+      "Robberg Nature Reserve or the Tsitsikamma forest with a private guide",
+      "Private vehicle and guide throughout, Cape Town to George Airport",
+    ],
+    inclusions: [
+      "6 nights in the accommodation shown",
+      "Private vehicle and guide throughout",
+      "Breakfast daily",
+      "All transfers, Cape Town to George Airport",
+    ],
+    exclusions: [
+      "International and domestic flights",
+      "Optional excursions unless specified",
+      "Meals other than breakfast",
+      "Gratuities",
+    ],
+    idealFor: [
+      "An extension to any Amara safari",
+      "Couples and honeymooners",
+      "Families and multi-generational groups",
+      "Whale season travellers, June to November",
+      "Guests who prefer the coast unhurried",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    relatedSlugs: ["the-cape-and-kruger", "the-singita-signature"],
+    seasonal: false,
+    order: 8,
+    seoTitle:
+      "The Garden Route — Six-Night Coastal Extension | Amara Africa",
+    seoDescription:
+      "Six nights along the Cape's southern shore — The Marine in Hermanus, The Turbine on Thesen Island and The Plettenberg above Formosa Bay. A private coastal extension to any Amara safari, or a journey in its own right.",
+    seoKeywords: [
+      "Garden Route luxury itinerary",
+      "Garden Route safari extension",
+      "Hermanus whale watching hotel",
+      "The Marine Hermanus",
+      "Turbine Hotel Knysna",
+      "The Plettenberg hotel",
+      "luxury South Africa coastal tour",
+    ],
+    excursions: {
+      partnerName: "The Water Club",
+      partnerUrl: "https://thewaterclub.co.za/",
+      bookingUrl: "https://thewaterclub.activitar.com/",
+      address: "TH36 Sawtooth Lane, Thesen Island, Knysna",
+      note: "Time on the lagoon is arranged with The Water Club of Thesen Island, whose marina berth sits a short walk from The Turbine. Every charter is private and sole-use — booked through your consultant, or directly with the partner.",
+      items: [
+        {
+          name: "Private lagoon cruise",
+          desc: "A sole-use sunset charter to the Heads — the lagoon at its best hour, held for your party alone.",
+          highlight: true,
+        },
+        {
+          name: "Fishing charter",
+          desc: "Skippered and sole-use, on the lagoon or beyond the Heads — it suits families and multi-generational groups particularly well.",
+        },
+        {
+          name: "Guided fly fishing",
+          desc: "The quieter waters nearby — Swartvlei at Sedgefield and the Touw River at Wilderness, with a local guide.",
+        },
+        {
+          name: "Kayak hire",
+          desc: "Self-guided, straight from the marina — the lagoon and the island channels at your own pace.",
+        },
+      ],
+    },
+    // TODO(photography): galleries render "Photography to follow" until the
+    // shoot is delivered — drop image paths into the arrays below.
+    sectionGalleries: [
+      { afterHeading: "Day 2 — Walker Bay & Hemel-en-Aarde", images: [] },
+      { afterHeading: "Day 4 — Thesen Island & the lagoon", images: [] },
+      { afterHeading: "Day 6 — Robberg & Tsitsikamma", images: [] },
+    ],
+    body: `Africa's great plains ask something of a traveller. The Garden Route asks nothing at all.
+
+Six nights along the southern Cape — cliff-top suites above a whale bay, a 1939 power station reimagined on a private island, a headland hotel above the Indian Ocean. Three houses, each with a view that justifies the stay on its own.
+
+Designed as an extension to any Amara safari, or as a journey in its own right.
+
+## Day 1 — Cape Town to Hermanus
+
+**Stay: The Marine, Hermanus**
+
+A private transfer along Clarence Drive, the coastal road between mountain and sea. Arrival at The Marine, and the afternoon at leisure.
+
+## Day 2 — Walker Bay & Hemel-en-Aarde
+
+**Stay: The Marine, Hermanus**
+
+Whale watching in season, or the Cliff Path at your own pace. The afternoon in the Hemel-en-Aarde Valley — private estate visits arranged, with non-alcoholic tastings on request.
+
+## Day 3 — The coastal road to Knysna
+
+**Stay: The Turbine Hotel & Spa, Thesen Island**
+
+Through Swellendam and over the Outeniqua Pass. Arrival at The Turbine in the late afternoon.
+
+## Day 4 — Thesen Island & the lagoon
+
+**Stay: The Turbine Hotel & Spa, Thesen Island**
+
+A morning on the water with The Water Club, whose marina berth sits a short walk from the hotel. The afternoon at the Amani Spa.
+
+## Day 5 — The Heads to Plettenberg Bay
+
+**Stay: The Plettenberg, Plettenberg Bay**
+
+The Knysna Heads in the morning — Featherbed's private reserve on the western head, or the eastern viewpoint. Thirty minutes on to The Plettenberg.
+
+## Day 6 — Robberg & Tsitsikamma
+
+**Stay: The Plettenberg, Plettenberg Bay**
+
+Robberg Nature Reserve with a private guide, or the Tsitsikamma forest and canopy. The afternoon at leisure.
+
+## Day 7 — Departure via George
+
+Ninety minutes to George Airport, connecting to Cape Town or Johannesburg.
+
+---
+
+## The houses
+
+### The Marine — Hermanus
+
+Liz McGrath Collection. Cliff-top above Walker Bay — the finest land-based whale watching on earth breaches below the terrace in season.
+
+### The Turbine Hotel & Spa — Thesen Island, Knysna
+
+A 1939 power station reimagined. Industrial bones, island quiet, and the lagoon on every side.
+
+### The Plettenberg — Plettenberg Bay
+
+Liz McGrath Collection. Headland position above Formosa Bay — ocean from every window, beaches on either side.
+
+---
+
+## Why this journey
+
+Two houses of the Liz McGrath Collection, one heritage landmark, and a coastline that has never needed embellishment.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences — and the whole route joins seamlessly onto the end of any Amara safari. Contact us to begin the planning conversation.`,
   },
 ];
 
