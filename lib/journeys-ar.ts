@@ -424,6 +424,7 @@ export const journeysAr: Record<string, JourneyAr> = {
     galleryHeadings: [
       "اليوم ٢ — خليج ووكر وهيمل إن آرده",
       "اليوم ٤ — جزيرة تيسِن والبحيرة",
+      "اليوم ٥ — من الرؤوس إلى خليج بليتنبرغ",
       "اليوم ٦ — روبيرغ وتسيتسيكاما",
     ],
     excursions: {

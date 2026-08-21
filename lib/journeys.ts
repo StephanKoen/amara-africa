@@ -621,9 +621,6 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
   // ──────────────────────────────────────────────────────────────────────
   // The Garden Route — six-night coastal extension (AA-GR-06). Sold as an
   // add-on to any safari and as a standalone journey.
-  // TODO(photography): all images under /images/itineraries/garden-route/
-  // are placeholders — replace hero/card and fill the three section
-  // galleries once the shoot is delivered.
   // ──────────────────────────────────────────────────────────────────────
   {
     slug: "garden-route",
@@ -721,12 +718,66 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
         },
       ],
     },
-    // TODO(photography): galleries render "Photography to follow" until the
-    // shoot is delivered — drop image paths into the arrays below.
+    // Photography: The Marine & The Plettenberg © Liz McGrath Collection
+    // (supplied for our use); The Turbine © The Turbine Hotel & Spa; lagoon
+    // and Heads shots supplied by The Water Club; hero/card via Unsplash.
     sectionGalleries: [
-      { afterHeading: "Day 2 — Walker Bay & Hemel-en-Aarde", images: [] },
-      { afterHeading: "Day 4 — Thesen Island & the lagoon", images: [] },
-      { afterHeading: "Day 6 — Robberg & Tsitsikamma", images: [] },
+      {
+        afterHeading: "Day 2 — Walker Bay & Hemel-en-Aarde",
+        images: [
+          "/images/itineraries/garden-route/marine-1.jpg",
+          "/images/itineraries/garden-route/marine-2.jpg",
+          "/images/itineraries/garden-route/marine-3.jpg",
+          "/images/itineraries/garden-route/marine-4.jpg",
+        ],
+        alts: [
+          "The Marine on the Hermanus cliffs above Walker Bay",
+          "Walker Bay from a sea-facing room at The Marine",
+          "Dining at The Marine",
+          "Southern right whales breaching below the cliffs",
+        ],
+      },
+      {
+        afterHeading: "Day 4 — Thesen Island & the lagoon",
+        images: [
+          "/images/itineraries/garden-route/turbine-1.jpg",
+          "/images/itineraries/garden-route/turbine-2.jpg",
+          "/images/itineraries/garden-route/water-club-2.jpg",
+          "/images/itineraries/garden-route/water-club-3.jpg",
+        ],
+        alts: [
+          "The Turbine — Knysna's 1939 power station, reimagined",
+          "A Luxury Room at The Turbine, canal side",
+          "A private Water Club charter on the Knysna lagoon",
+          "Oysters and champagne served on the water",
+        ],
+      },
+      {
+        afterHeading: "Day 5 — The Heads to Plettenberg Bay",
+        images: [
+          "/images/itineraries/garden-route/heads-1.jpg",
+          "/images/itineraries/garden-route/heads-2.jpg",
+          "/images/itineraries/garden-route/heads-3.jpg",
+        ],
+        alts: [
+          "A hidden cove at the Knysna Heads from above",
+          "The Heads from the eastern viewpoint, the lagoon meeting the sea",
+          "Surf breaking on the sandstone at the Heads",
+        ],
+      },
+      {
+        afterHeading: "Day 6 — Robberg & Tsitsikamma",
+        images: [
+          "/images/itineraries/garden-route/plettenberg-1.jpg",
+          "/images/itineraries/garden-route/plettenberg-2.jpg",
+          "/images/itineraries/garden-route/plettenberg-3.jpg",
+        ],
+        alts: [
+          "The Plettenberg on its headland above Formosa Bay",
+          "The pool deck over the ocean at The Plettenberg",
+          "Formosa Bay beneath the hotel",
+        ],
+      },
     ],
     body: `Africa's great plains ask something of a traveller. The Garden Route asks nothing at all.
 
