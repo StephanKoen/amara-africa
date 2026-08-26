@@ -66,7 +66,7 @@ export type Journey = {
     bookingUrl?: string;
     address?: string;
     note?: string;
-    items: Array<{ name: string; desc: string; highlight?: boolean }>;
+    items: Array<{ name: string; desc: string; img?: string; highlight?: boolean }>;
   };
 };
 
@@ -697,24 +697,28 @@ This itinerary is offered as a starting point, not a fixed product. Travel dates
       partnerUrl: "https://thewaterclub.co.za/",
       bookingUrl: "https://thewaterclub.activitar.com/",
       address: "TH36 Sawtooth Lane, Thesen Island, Knysna",
-      note: "Time on the lagoon is arranged with The Water Club of Thesen Island, whose marina berth sits a short walk from The Turbine. Every charter is private and sole-use — booked through your consultant, or directly with the partner.",
+      note: "Time on the water is arranged with The Water Club — the Garden Route's largest private charter fleet, working three waters: the Knysna lagoon, the Swartvlei estuary at Sedgefield and the Touw River at Wilderness. Their Knysna berth sits on the Thesen Island marina, a short walk from The Turbine's front door, so the water is part of the stay rather than an outing from it. Every charter is skippered, private and sole-use — your party and no one else — with Knysna oysters and champagne served on board on request. Booked through your consultant, or directly with the partner.",
       items: [
         {
           name: "Private lagoon cruise",
-          desc: "A sole-use sunset charter to the Heads — the lagoon at its best hour, held for your party alone.",
+          desc: "The classic — a sole-use sunset charter through the moorings and out toward the Heads, the lagoon at its best hour. Oysters and champagne on deck as the light goes; the skipper holds the boat where the view is.",
+          img: "/images/itineraries/garden-route/water-club-1.jpg",
           highlight: true,
         },
         {
           name: "Fishing charter",
-          desc: "Skippered and sole-use, on the lagoon or beyond the Heads — it suits families and multi-generational groups particularly well.",
+          desc: "A skippered sole-use boat on the lagoon or beyond the Heads — tackle aboard, patience optional. It suits families and multi-generational groups particularly well; children are welcomed, not tolerated.",
+          img: "/images/itineraries/garden-route/water-club-4.jpg",
         },
         {
           name: "Guided fly fishing",
-          desc: "The quieter waters nearby — Swartvlei at Sedgefield and the Touw River at Wilderness, with a local guide.",
+          desc: "The quieter waters — Swartvlei at Sedgefield and the Touw River at Wilderness, with a local guide who knows where the grunter feed. Catch-and-release, at first light or the last of it.",
+          img: "/images/itineraries/garden-route/water-club-5.jpg",
         },
         {
           name: "Kayak hire",
-          desc: "Self-guided, straight from the marina — the lagoon and the island channels at your own pace.",
+          desc: "Self-guided, straight from the marina — the island's quiet canals and the open lagoon at your own pace, no skipper and no schedule.",
+          img: "/images/itineraries/garden-route/water-club-6.jpg",
         },
       ],
     },
@@ -831,15 +835,15 @@ Ninety minutes to George Airport, connecting to Cape Town or Johannesburg.
 
 ### The Marine — Hermanus
 
-Liz McGrath Collection. Cliff-top above Walker Bay — the finest land-based whale watching on earth breaches below the terrace in season.
+A Hermanus landmark since 1902, when it opened as the village's grand seaside hotel — whalers' boats still worked the bay below its windows. The late hotelier Liz McGrath bought and restored it in 1998, and it remains the white flagship of her collection: cliff-top above Walker Bay, where the finest land-based whale watching on earth breaches below the terrace in season, and the Cliff Path begins at the door.
 
 ### The Turbine Hotel & Spa — Thesen Island, Knysna
 
-A 1939 power station reimagined. Industrial bones, island quiet, and the lagoon on every side.
+The Thesen family sailed from Norway and settled Knysna in 1870, building the timber business that gave the island its name. Their power station, raised in 1939, burned offcuts from the family sawmill and lit the town for decades — it fed Knysna until the national grid arrived in the mid-1970s, and ran its final shift on 26 June 2001. Rather than demolish it, the island's redevelopment kept the machine: the boilers, turbines and gantries were preserved where they stood, painted, and a 26-room hotel was built around them. You take breakfast among the workings that once powered the town.
 
 ### The Plettenberg — Plettenberg Bay
 
-Liz McGrath Collection. Headland position above Formosa Bay — ocean from every window, beaches on either side.
+The founding house of the Liz McGrath Collection — the first hotel she bought, in 1989, and the one she rebuilt into the Garden Route's grande dame. It stands on the headland the village once called the Lookout, above Formosa Bay: ocean from every window, beaches on either side, dolphins and southern right whales in the water below.
 
 ---
 

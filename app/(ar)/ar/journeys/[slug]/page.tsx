@@ -221,7 +221,6 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
               {journey.excursions.items.map((item) => (
                 <div
                   key={item.name}
-                  className="p-7 md:p-8"
                   style={{
                     background: "var(--dd-warm-white)",
                     border: item.highlight
@@ -229,6 +228,21 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
                       : "0.5px solid var(--dd-border-mid)",
                   }}
                 >
+                  {item.img && (
+                    <div
+                      className="relative w-full"
+                      style={{ aspectRatio: "16 / 9", background: "var(--dd-parchment)" }}
+                    >
+                      <Image
+                        src={item.img}
+                        alt={item.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                  )}
+                  <div className="p-7 md:p-8">
                   {item.highlight && (
                     <p
                       className="label mb-3"
@@ -244,6 +258,7 @@ export default function ArabicJourneyDetailPage({ params }: Props) {
                     {item.name}
                   </h3>
                   <p className="body-copy mt-4">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
