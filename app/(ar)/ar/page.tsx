@@ -116,13 +116,13 @@ export default function ArabicHomePage() {
             <div className="md:col-span-5">
               <p className="label mb-5">المجموعة</p>
               <h2 className="h2-section">
-                سبع <span className="gold-italic">طرائق للسفر</span>، كُتبت
+                اثنتا عشرة <span className="gold-italic">طريقة للسفر</span>، كُتبت
                 بهدوء.
               </h2>
             </div>
             <div className="md:col-span-6 md:col-start-7 flex flex-col justify-end">
               <p className="body-copy max-w-[520px]">
-                لدينا سبعة أنماط للرحلات. كل منها نقطة بداية، لا باقة جاهزة.
+                لدينا اثنا عشر نمطاً للرحلات. كل منها نقطة بداية، لا باقة جاهزة.
                 نعيد كتابة كل نمط لكل ضيف، لكن طابع كل رحلة يبقى. ابدأ بالنمط
                 الأقرب إلى الرحلة التي في خيالك.
               </p>
@@ -142,7 +142,7 @@ export default function ArabicHomePage() {
 
           <div className="mt-[60px] flex justify-center">
             <Link href="/ar/journeys" className="text-link">
-              اطّلع على الأنماط السبعة كلها ←
+              اطّلع على الأنماط الاثني عشر كلها ←
             </Link>
           </div>
         </div>

@@ -5,9 +5,9 @@ import NewsletterSection from "@/components/NewsletterSection";
 import { arabicJourneys } from "@/lib/journeys-ar";
 
 export const metadata: Metadata = {
-  title: "المجموعة — سبع رحلات أفريقية خاصة",
+  title: "المجموعة — اثنتا عشرة رحلة أفريقية خاصة",
   description:
-    "سبع رحلات أفريقية مدروسة — الهجرة الكبرى، الجولة الكبرى، إرث العائلة، توقيع جنوب أفريقيا، توقيع سينغيتا، الشلالات والدلتا، والملاذ الساحلي.",
+    "اثنتا عشرة رحلة أفريقية مدروسة — من الهجرة الكبرى والجولة الكبرى إلى الفخامة الكلاسيكية في جنوب أفريقيا، وجنوب أفريقيا للغولف، وكيب تاون والسفاري وشلالات فيكتوريا.",
   alternates: {
     canonical: "/ar/journeys",
     languages: { en: "/journeys", ar: "/ar/journeys" },
@@ -27,12 +27,12 @@ export default function ArabicJourneysIndexPage() {
             <div className="md:col-span-7">
               <p className="label mb-6">المجموعة</p>
               <h1 className="h1-display">
-                سبع رحلات <span className="gold-italic">كُتبت بهدوء</span>.
+                اثنتا عشرة رحلة <span className="gold-italic">كُتبت بهدوء</span>.
               </h1>
             </div>
             <div className="md:col-span-5 flex flex-col justify-end">
               <p className="body-copy max-w-[460px]">
-                هذه نقاط البداية السبع التي نعود إليها أكثر من سواها. كل منها
+                هذه نقاط البداية الاثنتا عشرة التي نعود إليها أكثر من سواها. كل منها
                 نمط، لا باقة جاهزة. وكل تكليف نقبله يُعاد كتابته من الصفحة
                 الأولى. الطابع يبقى؛ أما البرنامج فلكم وحدكم.
               </p>

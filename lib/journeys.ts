@@ -855,6 +855,623 @@ Two houses of the Liz McGrath Collection, one heritage landmark, and a coastline
 
 This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences — and the whole route joins seamlessly onto the end of any Amara safari. Contact us to begin the planning conversation.`,
   },
+  // ──────────────────────────────────────────────────────────────────────
+  // The five signature journeys — added from the "Amara Africa — Five
+  // Signature Journeys" itinerary set (Sept 2026). Hero photography comes
+  // from the itinerary documents themselves; galleries reuse only
+  // photography we already hold and have verified for the places shown.
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    slug: "classic-luxury-south-africa",
+    code: "AA-CL-07",
+    tag: "Essential",
+    title: "Classic Luxury South Africa",
+    titleItalic: "Classic Luxury",
+    oneliner:
+      "The Mother City, the Whale Coast and the Big Five — the essential South Africa, beautifully done.",
+    duration: "11 Days / 10 Nights",
+    territory: "Cape Town · Grootbos · Sabi Sand",
+    heroImage: "/images/itineraries/classic-luxury-south-africa/hero.jpg",
+    cardImage: "/images/itineraries/classic-luxury-south-africa/card.jpg",
+    galleryImages: [
+      "/images/journeys/the-cape-and-kruger/cape-town/01.jpg",
+      "/images/journeys/the-cape-and-kruger/grootbos/02.jpg",
+      "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+    ],
+    published: true,
+    durationNights: [10, 10],
+    region: "South Africa",
+    highlights: [
+      "4 nights at Cape Grace on the V&A Waterfront",
+      "3 nights at Grootbos Private Nature Reserve, Walker Bay",
+      "3 nights at Sabi Sabi Earth Lodge, Sabi Sand",
+      "Table Mountain, the Cape Peninsula and the Bo-Kaap, privately guided",
+      "Walker Bay whale watching in season and the marine Big Five",
+      "Big Five game drives at dawn and dusk with a private ranger",
+      "Connecting suites and halal-aware dining arranged throughout",
+      "One Amara journey designer from the Gulf to the ground",
+    ],
+    inclusions: [
+      "4 nights at Cape Grace, Cape Town",
+      "3 nights at Grootbos Private Nature Reserve",
+      "3 nights at Sabi Sabi Earth Lodge, Sabi Sand",
+      "Breakfast daily in Cape Town; fully inclusive stays at Grootbos and Sabi Sabi",
+      "Private touring in Cape Town — Table Mountain, the Peninsula, the Winelands",
+      "Private transfers throughout, including the coastal drive to Grootbos",
+      "Internal flight Cape Town–Skukuza and road transfer to the lodge",
+      "Safari activities at Sabi Sabi with a private ranger",
+      "Meet and greet on arrival; tailor-made planning and concierge service throughout",
+    ],
+    exclusions: [
+      "International flights",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+      "Premium beverages unless specifically included",
+      "Optional activities not specified in the itinerary",
+    ],
+    idealFor: [
+      "First-time visitors who want the essential South Africa, privately",
+      "GCC luxury travellers",
+      "Couples and honeymooners",
+      "Families — connecting suites arranged throughout",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    bestSeason: "Year-round · whales June to November",
+    relatedSlugs: ["ultimate-luxury-south-africa", "the-cape-and-kruger", "garden-route"],
+    seasonal: false,
+    seoTitle: "Classic Luxury South Africa — Cape Town, Grootbos & Sabi Sand | Amara Africa",
+    seoDescription:
+      "An 11-day private journey through the essential South Africa — Cape Grace on the V&A Waterfront, Grootbos above Walker Bay, and the Big Five at Sabi Sabi Earth Lodge. Crafted for the Gulf.",
+    seoKeywords: [
+      "luxury South Africa itinerary",
+      "Cape Town and safari holiday",
+      "Sabi Sabi Earth Lodge journey",
+      "Grootbos private nature reserve stay",
+      "GCC travel to South Africa",
+      "halal friendly South Africa tour",
+    ],
+    body: `The essential South Africa in one unhurried line — the city at its most gracious, the Whale Coast at its stillest, and the Big Five in the private reserve that defined the luxury safari. Three chapters, each given the nights it deserves.
+
+## The journey
+
+Eleven days, three stays, no wasted movement. Cape Town opens the journey with four nights at Cape Grace on the V&A Waterfront — the mountain, the Peninsula and the Winelands each taken privately and at your pace. A single scenic drive carries you to Grootbos, the eco-reserve above Walker Bay, for three nights of fynbos, forest and — in season — the southern right whales below. One internal flight then swaps ocean for bush: three nights at Sabi Sabi Earth Lodge in the Sabi Sand, where the day is measured in game drives and firelight.
+
+## Cape Town — 4 nights
+
+**Stay: Cape Grace, V&A Waterfront**
+
+A gracious address on the marina with the harbour on one side and Table Mountain filling the sky on the other. The city's finest shopping and dining sit at the front door, and your dedicated guide collects you from it each morning.
+
+The days here follow the classic Cape arc, privately: the cableway to the summit of Table Mountain and the painted streets of the Bo-Kaap; the full Peninsula day — Boulders Beach penguins, the Cape of Good Hope, and the theatre of the Chapman's Peak drive; and a day among the Constantia and Stellenbosch estates, or simply at leisure between the Waterfront and the spa. Dinner reservations are made ahead at the city's best tables, halal-aware throughout.
+
+---
+
+## Grootbos — 3 nights
+
+**Stay: Grootbos Private Nature Reserve, Walker Bay**
+
+A private transfer of about two and a half hours traces the coast to Grootbos — 2,500 hectares of ancient milkwood forest and flowering fynbos above Walker Bay, with suites and villas built to hold the view. This is the journey's exhale.
+
+In season (June to November) the bay below carries one of the world's great whale populations, watched from the cliffs or by boat; the marine Big Five — whale, shark, seal, penguin, dolphin — are all possible in a single sea outing. Ashore there are flower safaris through the reserve, horses on the dunes, forest walks and a spa in the fynbos. The kitchen is one of the coast's celebrated tables.
+
+---
+
+## Sabi Sand — 3 nights
+
+**Stay: Sabi Sabi Earth Lodge**
+
+A short flight from Cape Town to Skukuza and twenty minutes by road deliver you to the Sabi Sand — the private reserve that wrote the rules of the luxury safari — in time for the first evening drive. Earth Lodge is its most sculptural address: carved into a hillside, almost invisible from a distance, all raw texture and deep quiet.
+
+The rhythm here is the oldest one — out at first light with your private ranger, back for breakfast in the bush; out again as the day cools, home by lantern light. Between drives the lodge does what great lodges do: long lunches, an art-filled interior, a spa, and the theatre of the wild running past the deck.
+
+---
+
+## Good to know
+
+The Sabi Sand lies in a low-risk malaria area — your journey designer will advise on simple precautions. Cape Town and the Whale Coast are malaria-free. Flights: direct Gulf–Cape Town; one internal flight Cape Town–Skukuza. Daily touring shown is illustrative — final touring is tailored to your travellers.
+
+## Why this journey
+
+Because it is the distilled answer to the first question every traveller asks of South Africa: city, coast and Big Five, each done properly, in eleven days that never feel hurried. Connecting suites, halal-aware dining, prayer times and Qibla arranged, private guiding throughout, and one Amara journey designer carrying every detail from the Gulf to the ground.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
+  },
+  {
+    slug: "ultimate-luxury-south-africa",
+    code: "AA-UL-08",
+    tag: "Icons",
+    title: "Ultimate Luxury South Africa",
+    titleItalic: "Ultimate Luxury",
+    oneliner:
+      "The Cape's landmark addresses, Grootbos and the wild heart of the Timbavati.",
+    duration: "11 Days / 10 Nights",
+    territory: "Cape Town · Grootbos · Timbavati",
+    heroImage: "/images/itineraries/ultimate-luxury-south-africa/hero.jpg",
+    cardImage: "/images/itineraries/ultimate-luxury-south-africa/card.jpg",
+    galleryImages: [
+      "/images/journeys/the-cape-and-kruger/grootbos/05.jpg",
+      "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+      "/images/journeys/the-cape-and-kruger/grootbos/03.jpg",
+    ],
+    published: true,
+    durationNights: [10, 10],
+    region: "South Africa",
+    highlights: [
+      "4 nights at One&Only Cape Town, the marina resort beneath Table Mountain",
+      "3 nights at Grootbos Private Nature Reserve, Walker Bay",
+      "3 nights at Tanda Tula Safari Camp in the open Timbavati",
+      "The cableway, the Waterfront and the Peninsula, privately guided",
+      "Walker Bay whales in season; coastal and flower safaris",
+      "Walking safaris, bush dining and star-lit skies in Greater Kruger",
+      "Landmark suites with room for the family; halal-aware dining arranged",
+      "One Amara journey designer end to end",
+    ],
+    inclusions: [
+      "4 nights at One&Only Cape Town",
+      "3 nights at Grootbos Private Nature Reserve",
+      "3 nights at Tanda Tula Safari Camp, Timbavati",
+      "Breakfast daily in Cape Town; fully inclusive stays at Grootbos and Tanda Tula",
+      "Private touring in Cape Town — the mountain, the Peninsula, the Winelands",
+      "Private transfers throughout, including the coastal drive to Grootbos",
+      "Internal flight Cape Town–Hoedspruit and road transfer to camp",
+      "Safari activities at Tanda Tula with a private tracker",
+      "Meet and greet on arrival; tailor-made planning and concierge service throughout",
+    ],
+    exclusions: [
+      "International flights",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+      "Premium beverages unless specifically included",
+      "Optional activities not specified in the itinerary",
+    ],
+    idealFor: [
+      "Travellers who want the iconic addresses done privately",
+      "GCC families — spacious suites and connecting rooms",
+      "Couples marking an occasion",
+      "Returning guests ready for the tented wild",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    bestSeason: "Year-round · whales June to November",
+    relatedSlugs: ["classic-luxury-south-africa", "the-singita-signature", "garden-route"],
+    seasonal: false,
+    seoTitle: "Ultimate Luxury South Africa — One&Only, Grootbos & the Timbavati | Amara Africa",
+    seoDescription:
+      "Eleven days across South Africa's landmark addresses — One&Only Cape Town, Grootbos above Walker Bay, and Tanda Tula Safari Camp in the open Timbavati. Crafted for the Gulf.",
+    seoKeywords: [
+      "One&Only Cape Town itinerary",
+      "Timbavati luxury safari",
+      "Tanda Tula Safari Camp journey",
+      "ultimate luxury South Africa",
+      "GCC luxury travel Africa",
+      "halal friendly luxury safari",
+    ],
+    body: `The iconic route, taken at its highest register — a landmark marina resort beneath Table Mountain, the great eco-reserve of the Whale Coast, and a classic tented camp in the open Timbavati, where the safari still feels the way it was meant to.
+
+## The journey
+
+Four nights at One&Only Cape Town anchor the city chapter — spa island, celebrated dining, family suites, the mountain framed from the marina. The coast follows: three nights at Grootbos above Walker Bay, whales below in season. The finale is the Timbavati — three nights at Tanda Tula Safari Camp in the open Greater Kruger wilderness, canvas and lantern light, a private tracker in the vehicle and the bush unfenced in every direction.
+
+## Cape Town — 4 nights
+
+**Stay: One&Only Cape Town**
+
+A landmark resort set on its own marina island beneath Table Mountain — vast suites, a spa on its own island, and some of the city's most celebrated dining a lift-ride away. The Waterfront is at the door; the city is yours privately.
+
+Days follow your pace: the cableway to the summit and the harbour and oceans of the V&A; the full Peninsula — Boulders penguins, the Cape of Good Hope, Chapman's Peak; the Constantia and Stellenbosch estates, or a day of spa and shopping in the city. Evenings are reserved ahead at the Cape's best tables, halal-aware.
+
+---
+
+## Grootbos — 3 nights
+
+**Stay: Grootbos Private Nature Reserve, Walker Bay**
+
+The coastal drive south — about two and a half hours, and one of the world's lovelier transfers — ends amid 2,500 hectares of fynbos and ancient milkwood forest above Walker Bay. Suites and villas hold wide sea views; the kitchen is one of the coast's great tables.
+
+In season the bay fills with southern right whales, watched from the cliffs or by boat. There are flower safaris and coastal drives, riding and sea kayaking, forest walks and the spa deep in the reserve. After the city's pace, Grootbos is deliberately still.
+
+---
+
+## The Timbavati — 3 nights
+
+**Stay: Tanda Tula Safari Camp, Greater Kruger**
+
+A short flight to Hoedspruit and three-quarters of an hour by road bring you to camp in time for the evening drive. Tanda Tula is the classic luxury tented camp — canvas under old trees on a riverbank, open to the sounds of the night, impeccable in its comfort.
+
+The Timbavati is open Greater Kruger wilderness: Big Five country traversed with a private tracker, walking safaris at first light, bush dining under the marula trees and star-lit skies that the Gulf's cities have long forgotten. It is safari as it was meant to be — unhurried, close and quiet.
+
+---
+
+## Good to know
+
+The Timbavati (Greater Kruger) is a low-risk malaria area — precautions advised. Cape Town and the Whale Coast are malaria-free. Flights: direct Gulf–Cape Town; one internal flight Cape Town–Hoedspruit. Daily touring shown is illustrative — final touring is tailored to your travellers.
+
+## Why this journey
+
+For travellers who want the icons — the One&Only name, the Grootbos reserve, the true tented safari — threaded into one line with nothing ordinary in between. Landmark suites with room for the family, halal-aware dining arranged, prayer times and Qibla respected, private guiding and transfers, and one Amara journey designer end to end.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
+  },
+  {
+    slug: "cape-safari-and-victoria-falls",
+    code: "AA-VF-09",
+    tag: "Finale",
+    title: "Cape Town, Safari & Victoria Falls",
+    titleItalic: "Victoria Falls",
+    oneliner:
+      "The Mother City, the Sabi Sand wild and the thunder of the Falls — three of Africa's great chapters.",
+    duration: "11 Days / 10 Nights",
+    territory: "Cape Town · Sabi Sand · Victoria Falls",
+    heroImage: "/images/itineraries/cape-safari-and-victoria-falls/hero.jpg",
+    cardImage: "/images/itineraries/cape-safari-and-victoria-falls/card.jpg",
+    galleryImages: [
+      "/images/itineraries/cape-safari-and-victoria-falls/falls-crop-1.jpg",
+      "/images/journeys/the-cape-and-kruger/cape-town/04.jpg",
+      "/images/itineraries/cape-safari-and-victoria-falls/falls-crop-2.jpg",
+    ],
+    published: true,
+    durationNights: [10, 10],
+    region: "South Africa & Zimbabwe",
+    highlights: [
+      "4 nights at Twelve Apostles Hotel & Spa on the Atlantic coast",
+      "3 nights at Dulini Moya in the Sabi Sand",
+      "3 nights at Victoria Falls River Lodge on the Zambezi",
+      "Big Five drives at dawn and dusk with a private ranger and tracker",
+      "A guided tour of the Falls and a sunset cruise on the great river",
+      "River game viewing and island dining on the Zambezi",
+      "Every internal flight, transfer and border formality handled end to end",
+      "Halal-aware dining and prayer times arranged throughout",
+    ],
+    inclusions: [
+      "4 nights at Twelve Apostles Hotel & Spa, Cape Town",
+      "3 nights at Dulini Moya, Sabi Sand",
+      "3 nights at Victoria Falls River Lodge, Zambezi National Park",
+      "Breakfast daily in Cape Town; fully inclusive stays on safari and at the Falls",
+      "Private touring in Cape Town — Table Mountain, the Peninsula, the Winelands",
+      "Internal flight Cape Town–Skukuza; scheduled lodge-hop flight to Victoria Falls",
+      "Cross-border formalities and visa guidance for Zimbabwe",
+      "A guided Falls tour and a Zambezi sunset cruise",
+      "Meet and greet on arrival; tailor-made planning and concierge service throughout",
+    ],
+    exclusions: [
+      "International flights",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+      "Premium beverages unless specifically included",
+      "Optional activities not specified in the itinerary",
+    ],
+    idealFor: [
+      "Travellers who want Africa's three great chapters in one journey",
+      "GCC families and private groups",
+      "Honeymooners seeking a grand finale",
+      "Photographers — the Falls and the Sabi Sand in one line",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    bestSeason: "Falls fullest February to June",
+    relatedSlugs: ["the-falls-and-delta", "classic-luxury-south-africa", "the-cape-and-kruger"],
+    seasonal: false,
+    seoTitle: "Cape Town, Safari & Victoria Falls — a Private 11-Day Journey | Amara Africa",
+    seoDescription:
+      "Three of Africa's great chapters in one private journey — the Twelve Apostles coast, the Sabi Sand's Big Five at Dulini Moya, and the Zambezi at Victoria Falls River Lodge.",
+    seoKeywords: [
+      "Cape Town safari Victoria Falls itinerary",
+      "Victoria Falls luxury journey",
+      "Dulini Moya Sabi Sand",
+      "Zambezi river lodge holiday",
+      "South Africa Zimbabwe private tour",
+      "GCC travel Victoria Falls",
+    ],
+    body: `Three landmarks in one journey — the Atlantic drama of the Cape, the Sabi Sand's close and unhurried Big Five, and the oldest spectacle on the continent: a mile of the Zambezi falling into the gorge. The route runs city, wild, water — and every connection is carried for you.
+
+## The journey
+
+Four nights on the Atlantic coast at the Twelve Apostles open the journey — mountain behind, ocean ahead, the city ten minutes away. A flight to Skukuza brings the Sabi Sand and three nights at Dulini Moya, an intimate contemporary lodge celebrated for close, patient sightings. A scheduled lodge-hop flight then crosses to Zimbabwe: three nights at Victoria Falls River Lodge on the banks of the Zambezi, inside the national park, with the spray of the Falls on the horizon.
+
+## Cape Town — 4 nights
+
+**Stay: Twelve Apostles Hotel & Spa, Atlantic coast**
+
+Between mountain and sea on the Atlantic edge — a dramatic setting, a celebrated spa, and sunsets that need no arranging. The city sits just beyond Lion's Head; your private guide bridges the two.
+
+The days take the classic shape: the cableway and the V&A Waterfront with the Bo-Kaap's painted streets; the Peninsula in full — penguins at Boulders, the Cape of Good Hope, Chapman's Peak; then the Constantia and Stellenbosch estates, or a day given to the coast and the spa. Evening reservations are made ahead, halal-aware.
+
+---
+
+## Sabi Sand — 3 nights
+
+**Stay: Dulini Moya**
+
+The flight from Cape Town to Skukuza takes a morning; the road to the lodge, half an hour; the first game drive leaves that evening. Dulini Moya is an intimate, contemporary lodge in the western Sabi Sand — few suites, superb guiding, and a reputation for close, unhurried Big Five sightings, leopard above all.
+
+Two full safari days follow the bush's own clock: drives at dawn and dusk with a private ranger and tracker, bush breakfasts, walks and sundowners in between. The final morning ends with one last drive before the north calls.
+
+---
+
+## Victoria Falls — 3 nights
+
+**Stay: Victoria Falls River Lodge, Zambezi National Park**
+
+A scheduled lodge-hop flight via Kruger Mpumalanga carries you across the border to Victoria Falls, and a short river transfer delivers you to the lodge — on the banks of the Zambezi inside the national park, elephants on the floodplain and the Falls' spray standing on the horizon.
+
+A guided tour walks the rainforest opposite the mile-wide curtain of water; a sunset cruise takes the great river at its golden hour. The last full day belongs to the Zambezi — river game viewing, island dining, and the sound of the Falls carrying upstream.
+
+---
+
+## Good to know
+
+Victoria Falls lies in Zimbabwe — your journey designer arranges the border formalities and visas. The Sabi Sand and the Zambezi are low-risk malaria areas; precautions advised. Cape Town is malaria-free. The Falls run fullest from February to June. Daily touring shown is illustrative — final touring is tailored to your travellers.
+
+## Why this journey
+
+Because these are the three chapters travellers cross the world for, and this line joins them without a wasted day — connecting suites for privacy, halal-aware dining arranged, prayer times and Qibla respected, private guiding, and every internal flight, transfer and border crossing handled end to end.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, accommodation, pace and included experiences can all be adjusted to reflect your preferences. Contact us to begin the planning conversation.`,
+  },
+  {
+    slug: "the-golfers-south-africa",
+    code: "AA-GF-10",
+    tag: "Championship",
+    title: "The Golfer's South Africa",
+    titleItalic: "Golfer's",
+    oneliner:
+      "Three of the country's great courses — Steenberg, Fancourt and Pezula — closing on a malaria-free safari.",
+    duration: "14 Days / 13 Nights",
+    territory: "Cape Town · George · Knysna · Eastern Cape",
+    heroImage: "/images/itineraries/the-golfers-south-africa/hero.jpg",
+    cardImage: "/images/itineraries/the-golfers-south-africa/card.jpg",
+    galleryImages: [
+      "/images/itineraries/garden-route/heads-1.jpg",
+      "/images/itineraries/garden-route/gallery-2.jpg",
+      "/images/itineraries/garden-route/heads-3.jpg",
+    ],
+    published: true,
+    durationNights: [13, 13],
+    region: "South Africa",
+    highlights: [
+      "4 nights at Steenberg Hotel & Spa — a round on the historic estate course",
+      "3 nights at Fancourt — The Links, Montagu or Outeniqua",
+      "3 nights at Pezula Nature Retreat — the clifftop course above the Heads",
+      "3 nights at Shamwari Private Game Reserve — malaria-free Big Five",
+      "Pre-booked tee times carried end to end",
+      "Table Mountain, Cape Point and the Winelands between rounds",
+      "The Knysna lagoon and a Featherbed cruise",
+      "Halal-aware dining throughout; family welcome at every stop",
+    ],
+    inclusions: [
+      "4 nights at Steenberg Hotel & Spa, Constantia",
+      "3 nights at Fancourt, George",
+      "3 nights at Pezula Nature Retreat, Knysna",
+      "3 nights at Shamwari Private Game Reserve, Eastern Cape",
+      "Pre-booked tee times at Steenberg, Fancourt and Pezula",
+      "Breakfast daily; fully inclusive safari stay at Shamwari",
+      "Private touring in Cape Town — the mountain, the Peninsula, the Waterfront",
+      "Internal flight Cape Town–George; private transfers along the Garden Route",
+      "Private transfer to the Eastern Cape and departure via Gqeberha",
+      "Meet and greet on arrival; one journey designer carrying every booking end to end",
+    ],
+    exclusions: [
+      "International flights",
+      "Green fees beyond the rounds specified",
+      "Golf equipment hire unless arranged",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+    ],
+    idealFor: [
+      "Golfers pairing championship courses with the Cape",
+      "Mixed parties — spa, coast and safari for the non-golfers",
+      "GCC families — malaria-free safari safe for all ages",
+      "Golf societies and small private groups",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    bestSeason: "October to April for the fairways",
+    relatedSlugs: ["golf-coast-and-safari", "garden-route", "classic-luxury-south-africa"],
+    seasonal: false,
+    seoTitle: "The Golfer's South Africa — Steenberg, Fancourt, Pezula & Shamwari | Amara Africa",
+    seoDescription:
+      "Fourteen days across South Africa's great courses — Steenberg, Fancourt and Pezula — closing on a malaria-free Big Five safari at Shamwari. Tee times carried end to end.",
+    seoKeywords: [
+      "South Africa golf holiday",
+      "Fancourt golf itinerary",
+      "Steenberg golf estate stay",
+      "Pezula golf Knysna",
+      "golf and safari South Africa",
+      "malaria-free safari Shamwari",
+    ],
+    body: `A golfer's dream with the family in mind — three of South Africa's great golf estates strung along the Cape and the Garden Route, closing on a malaria-free Big Five safari. Tee times are pre-booked and carried end to end; the non-golfers are as well looked after as the scorecards.
+
+## The journey
+
+Fourteen days, four estates. Steenberg opens it — the historic Constantia wine estate with its own championship course, minutes from Cape Town's icons. A short flight reaches Fancourt at George, the country's premier golf estate, for The Links and its siblings. The Garden Route road then leads to Pezula's clifftop course above the Knysna Heads. The clubs are put away for the finale: Shamwari in the malaria-free Eastern Cape, where the Big Five replace the back nine.
+
+## Constantia — 4 nights
+
+**Stay: Steenberg Hotel & Spa**
+
+The Cape's oldest farm, now a graceful estate hotel with vineyards, a celebrated spa and its own championship course out the door. The first full day belongs to it — a round on the estate, then the cellar and the spa.
+
+Cape Town's essentials fill the middle days, privately: Table Mountain and the city, Cape Point and the Peninsula, the Waterfront — and for those who prefer, a second round or a day among the Constantia and Stellenbosch estates.
+
+---
+
+## George — 3 nights
+
+**Stay: Fancourt**
+
+A short flight to George and ten minutes by road bring you to Fancourt — South Africa's premier golf estate, with three championship courses on the property and a grand manor at its heart. The Links, ranked among the world's best, is the pilgrimage; Montagu and Outeniqua reward the following day.
+
+Between rounds: the leisure centre, the spa, and the Outeniqua mountains standing over every fairway.
+
+---
+
+## Knysna — 3 nights
+
+**Stay: Pezula Nature Retreat**
+
+An hour's private transfer along the Garden Route reaches Knysna and the clifftop world of Pezula — suites in the forest above the Indian Ocean, and one of the country's most dramatic courses running along the cliffs.
+
+The Pezula round is the one golfers describe for years: fairways above the sea, the Knysna Heads below. Off the course there is the lagoon and a Featherbed cruise, the forests and beaches of the wild coast, and a town made for unhurried afternoons.
+
+---
+
+## Eastern Cape — 3 nights
+
+**Stay: Shamwari Private Game Reserve**
+
+A private transfer of about three hours carries you to Shamwari, the celebrated malaria-free Big Five reserve of the Eastern Cape — safe for every age, luxurious in its lodges, serious in its conservation.
+
+The clubs rest. Game drives leave at dawn and dusk; between them are conservation experiences, long lunches and the great stillness. Departure is an easy morning drive to Gqeberha (Port Elizabeth) for the flight home.
+
+---
+
+## Good to know
+
+Shamwari is malaria-free — safe for the whole family. Flights: direct Gulf–Cape Town; internal Cape Town–George; depart from Gqeberha (PLZ). Tee times are pre-booked; handicap certificates may be requested at Fancourt. Daily touring shown is illustrative — final touring is tailored to your travellers.
+
+## Why this journey
+
+Because nowhere else strings three courses of this calibre along one coastline — with a Big Five reserve, malaria-free, waiting at the end. Pre-booked tee times, halal-aware dining throughout, prayer times and Qibla arranged, private transfers, and one Amara journey designer carrying every booking end to end.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, courses, pace and included experiences can all be adjusted to reflect your party — golfers and non-golfers alike. Contact us to begin the planning conversation.`,
+  },
+  {
+    slug: "golf-coast-and-safari",
+    code: "AA-GS-11",
+    tag: "Golf & Wild",
+    title: "Golf, Coast & Safari",
+    titleItalic: "Golf, Coast",
+    oneliner:
+      "Constantia fairways, the forests and lagoons of Knysna, and the Greater Kruger wild.",
+    duration: "11 Days / 10 Nights",
+    territory: "Cape Town · Knysna · Greater Kruger",
+    heroImage: "/images/itineraries/golf-coast-and-safari/hero.jpg",
+    cardImage: "/images/itineraries/golf-coast-and-safari/card.jpg",
+    galleryImages: [
+      "/images/itineraries/garden-route/heads-2.jpg",
+      "/images/itineraries/garden-route/gallery-2.jpg",
+      "/images/itineraries/garden-route/heads-1.jpg",
+    ],
+    published: true,
+    durationNights: [10, 10],
+    region: "South Africa",
+    highlights: [
+      "4 nights at Steenberg Hotel & Spa — golf and the vineyard",
+      "3 nights at Pezula Nature Retreat — the clifftop course and the Heads",
+      "3 nights at Thornybush Saseka Tented Camp, Greater Kruger",
+      "Championship rounds at Steenberg and Pezula, tee times pre-booked",
+      "Table Mountain, Cape Point and the Peninsula, privately guided",
+      "The Knysna lagoon and a Featherbed cruise",
+      "Big Five drives at dawn and dusk with a private ranger",
+      "Halal-aware dining and prayer times arranged throughout",
+    ],
+    inclusions: [
+      "4 nights at Steenberg Hotel & Spa, Constantia",
+      "3 nights at Pezula Nature Retreat, Knysna",
+      "3 nights at Thornybush Saseka Tented Camp, Greater Kruger",
+      "Pre-booked tee times at Steenberg and Pezula",
+      "Breakfast daily; fully inclusive safari stay at Thornybush",
+      "Private touring in Cape Town — the mountain, the Peninsula, the Bo-Kaap",
+      "Internal flights Cape Town–George and George–Hoedspruit",
+      "Private transfers throughout; road transfer to camp",
+      "Meet and greet on arrival; one journey designer end to end",
+    ],
+    exclusions: [
+      "International flights",
+      "Green fees beyond the rounds specified",
+      "Golf equipment hire unless arranged",
+      "Visa fees if applicable",
+      "Travel insurance",
+      "Personal expenses and gratuities",
+    ],
+    idealFor: [
+      "Golfers who want the wild as well as the fairways",
+      "Couples splitting the brief — golf for one, coast and safari for both",
+      "GCC travellers on a first golf-and-bush journey",
+      "Shorter stays that still want three distinct chapters",
+    ],
+    pricingFrom: 0,
+    pricingCurrency: "USD",
+    pricingUnit: "on request",
+    bestSeason: "October to April for the fairways",
+    relatedSlugs: ["the-golfers-south-africa", "garden-route", "ultimate-luxury-south-africa"],
+    seasonal: false,
+    seoTitle: "Golf, Coast & Safari — Steenberg, Pezula & Thornybush | Amara Africa",
+    seoDescription:
+      "Eleven days pairing championship golf with the coast and the wild — Steenberg in Constantia, Pezula above the Knysna Heads, and Thornybush Saseka in Big Five country.",
+    seoKeywords: [
+      "golf and safari itinerary South Africa",
+      "Steenberg golf holiday",
+      "Pezula Knysna golf",
+      "Thornybush Saseka Tented Camp",
+      "Greater Kruger safari and golf",
+      "GCC golf travel South Africa",
+    ],
+    body: `Championship golf paired with the coast and the wild — a vineyard round in Constantia, a clifftop round above the Knysna Heads, and a contemporary tented camp in Big Five country to close. Three chapters in eleven days, each a different register of the same country.
+
+## The journey
+
+Steenberg opens the journey: four nights on the historic Constantia wine estate, a round on its championship course, and Cape Town's icons taken privately between fairways. A short flight and a Garden Route transfer bring Pezula — three nights above the Knysna Heads, with the clifftop course and the lagoon below. The last flight turns inland: three nights at Thornybush Saseka Tented Camp in the Greater Kruger, where dawn belongs to the Big Five.
+
+## Constantia — 4 nights
+
+**Stay: Steenberg Hotel & Spa**
+
+The Cape's oldest wine farm, with its own championship course, a celebrated cellar and a spa among the vines — and the city's landmarks twenty minutes away. The first full day pairs golf and the vineyard: a round on the Steenberg course, then the estate's cellar and spa.
+
+The middle days belong to the Cape, privately guided — the cableway and Table Mountain, the V&A Waterfront and the Bo-Kaap; then Cape Point and the Peninsula: penguins at Boulders, the Cape of Good Hope, Chapman's Peak.
+
+---
+
+## Knysna — 3 nights
+
+**Stay: Pezula Nature Retreat**
+
+A short flight to George and an hour's private transfer along the Garden Route deliver Knysna and Pezula's clifftop world — suites above the Indian Ocean, forest at the door, and the dramatic Pezula course running along the cliffs.
+
+Golf takes one day: the round above the Heads, followed by the lagoon and a Featherbed cruise. Another day is left deliberately open — forests, beaches and the wild coast at your pace.
+
+---
+
+## Greater Kruger — 3 nights
+
+**Stay: Thornybush Saseka Tented Camp**
+
+A flight from George to Hoedspruit (via Johannesburg on selected days) and half an hour by road reach camp in time for the evening drive. Saseka is the contemporary face of the tented safari — style, space and wide wild horizons in proven Big Five country.
+
+Two full days follow the bush clock: game drives at dawn and dusk with a private ranger, bush walks, sundowners and the great stillness in between. Departure is a morning drive to Hoedspruit and onward home.
+
+---
+
+## Good to know
+
+Thornybush (Greater Kruger) is a low-risk malaria area — precautions advised; the Cape and the Garden Route are malaria-free. Flights: direct Gulf–Cape Town; internal Cape Town–George and George–Hoedspruit. Tee times are pre-booked. Daily touring shown is illustrative — final touring is tailored to your travellers.
+
+## Why this journey
+
+Because it answers the double brief — serious golf and a serious safari — inside eleven days, with the Garden Route's loveliest stretch in between. Pre-booked tee times, halal-aware dining throughout, prayer times and Qibla arranged, private transfers, and one Amara journey designer end to end.
+
+## Begin your journey
+
+This itinerary is offered as a starting point, not a fixed product. Travel dates, rounds, pace and included experiences can all be adjusted to reflect your party. Contact us to begin the planning conversation.`,
+  },
 ];
 
 export function getJourney(slug: string): Journey | undefined {

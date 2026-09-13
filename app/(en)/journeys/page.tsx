@@ -5,9 +5,9 @@ import { journeys } from "@/lib/journeys";
 import NewsletterSection from "@/components/NewsletterSection";
 
 export const metadata: Metadata = {
-  title: "The Collection — Seven Private African Journeys",
+  title: "The Collection — Twelve Private African Journeys",
   description:
-    "Seven considered African journeys — The Migration, The Grand Circuit, The Family Legacy, The Cape & Kruger, The Singita Signature, The Falls & Delta, and The Coastal Escape.",
+    "Twelve considered African journeys — from The Migration and The Grand Circuit to Classic Luxury South Africa, The Golfer\u2019s South Africa and Cape Town, Safari & Victoria Falls.",
   alternates: {
     canonical: "/journeys",
     languages: { en: "/journeys", ar: "/ar/journeys" },
@@ -27,14 +27,14 @@ export default function JourneysIndexPage() {
             <div className="md:col-span-7">
               <p className="label mb-6">The Collection</p>
               <h1 className="h1-display">
-                Seven{" "}
+                Twelve{" "}
                 <span className="gold-italic">quietly written</span>{" "}
                 journeys.
               </h1>
             </div>
             <div className="md:col-span-5 flex flex-col justify-end">
               <p className="body-copy max-w-[460px]">
-                These are the seven starting points we return to most often.
+                These are the twelve starting points we return to most often.
                 Each is an archetype, not a package. Every brief we accept is
                 re-written from the first page. The temperament remains; the
                 itinerary is yours alone.
