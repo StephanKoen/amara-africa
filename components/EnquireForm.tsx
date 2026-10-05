@@ -56,6 +56,8 @@ const STRINGS = {
     partyPlaceholder: "e.g. 2 adults, 2 children",
     messagePlaceholder:
       "Dietary considerations, special occasions, private aviation, Arabic-speaking hosts — anything at all.",
+    refCode: "Referral code (optional)",
+    refPlaceholder: "From a creator you follow",
     submit: "Request Private Access →",
     sending: "Sending…",
     privacyNote:
@@ -92,6 +94,8 @@ const STRINGS = {
     partyPlaceholder: "مثلاً: بالغان وطفلان",
     messagePlaceholder:
       "اعتبارات الطعام، المناسبات الخاصة، الطيران الخاص، مضيفون يتحدثون العربية — أي شيء على الإطلاق.",
+    refCode: "رمز الإحالة (اختياري)",
+    refPlaceholder: "من صانع محتوى تتابعه",
     submit: "اطلب وصولاً خاصاً ←",
     sending: "جارٍ الإرسال…",
     privacyNote: "بياناتك لا تُشارك مع أحد. سيراسلك شخص، باسمه.",
@@ -153,6 +157,18 @@ export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState("");
+  // Creator attribution: the /r/{code} link sets a cookie; in-app browsers
+  // (Instagram, TikTok) sometimes drop it, so a visible code field is the
+  // fallback. An entered code wins over the cookie.
+  const [refCode, setRefCode] = useState("");
+  const cookieRef = (() => {
+    try {
+      const m = typeof document !== "undefined" && document.cookie.match(/(?:^|;\s*)amara_ref=([^;]+)/);
+      return m ? (JSON.parse(decodeURIComponent(m[1])) as { c?: string; p?: string }) : {};
+    } catch {
+      return {};
+    }
+  })();
 
   const update = (k: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -197,8 +213,27 @@ export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
           "Party size": form.party || "—",
           Message: form.message || "—",
           "Site language": locale === "ar" ? "Arabic" : "English",
+          Referral: refCode.trim()
+            ? `code entered: ${refCode.trim()}`
+            : cookieRef.c
+            ? `creator link ${cookieRef.c} · ${cookieRef.p || "other"}`
+            : "none",
         }),
       });
+      // Feed the enquiry (with attribution) to the master portal — the email
+      // above is the primary channel, so this never blocks or fails the form.
+      fetch("/api/ref-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          enquiry: {
+            name: form.name, email: form.email, phone: form.phone,
+            country: form.country, journey: form.journey, dates: form.dates,
+            party: form.party, message: form.message, lang: locale,
+          },
+          refCode: refCode.trim(),
+        }),
+      }).catch(() => {});
       const data = await res.json();
       if (data.success) {
         // Conversions — a completed enquiry is our primary lead event.
@@ -371,6 +406,23 @@ export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
           }
         />
       </div>
+
+      {!cookieRef.c && (
+        <div className="mt-7 max-w-[280px]">
+          <Field
+            label={t.refCode}
+            field={
+              <input
+                type="text"
+                className="input-field"
+                value={refCode}
+                onChange={(e) => setRefCode(e.target.value)}
+                placeholder={t.refPlaceholder}
+              />
+            }
+          />
+        </div>
+      )}
 
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
         <button type="submit" className="btn-gold" disabled={sending}>
