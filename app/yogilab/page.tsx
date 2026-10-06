@@ -23,6 +23,48 @@ const PHOTOS: Array<[string, string]> = [
   ["/images/journeys/the-cape-and-kruger/cape-town/02.jpg", "The marina, Cape Town"],
 ];
 
+
+// Decorative lotus mandala — radial symmetry in burnt orange, drawn
+// generatively. Pure ornament: aria-hidden, no pointer events.
+function Mandala({ size = 760, className = "" }: { size?: number; className?: string }) {
+  const P = 16; // petals per ring
+  return (
+    <svg className={className} width={size} height={size} viewBox="-380 -380 760 760" fill="none" aria-hidden="true">
+      <circle r="352" stroke="#d97a2b" strokeOpacity=".22" strokeWidth="1" strokeDasharray="2 11" />
+      <circle r="318" stroke="#d97a2b" strokeOpacity=".3" strokeWidth="1" />
+      {Array.from({ length: 36 }).map((_, i) => (
+        <line key={`r${i}`} y1="-318" y2="-296" stroke="#d97a2b" strokeOpacity=".38" strokeWidth="1" transform={`rotate(${i * 10})`} />
+      ))}
+      {Array.from({ length: P }).map((_, i) => (
+        <path
+          key={`a${i}`}
+          d="M0 -286 C 44 -224, 44 -138, 0 -96 C -44 -138, -44 -224, 0 -286 Z"
+          stroke="#d97a2b"
+          strokeOpacity=".42"
+          strokeWidth="1.1"
+          transform={`rotate(${(360 / P) * i})`}
+        />
+      ))}
+      {Array.from({ length: P }).map((_, i) => (
+        <path
+          key={`b${i}`}
+          d="M0 -200 C 30 -158, 30 -100, 0 -68 C -30 -100, -30 -158, 0 -200 Z"
+          stroke="#e8a254"
+          strokeOpacity=".38"
+          strokeWidth="1"
+          transform={`rotate(${(360 / P) * i + 180 / P})`}
+        />
+      ))}
+      <circle r="64" stroke="#e8a254" strokeOpacity=".42" />
+      <circle r="46" stroke="#d97a2b" strokeOpacity=".34" />
+      {Array.from({ length: 6 }).map((_, i) => (
+        <circle key={`s${i}`} r="23" cy="-21" stroke="#e8a254" strokeOpacity=".3" transform={`rotate(${i * 60})`} />
+      ))}
+      <circle r="5" fill="#e8a254" fillOpacity=".55" />
+    </svg>
+  );
+}
+
 export default function YogiLabPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", country: "", dates: "", party: "", message: "" });
   const [needs, setNeeds] = useState<string[]>([]);
@@ -96,6 +138,9 @@ export default function YogiLabPage() {
 
   return (
     <div className="yl-root">
+      <div className="yl-orn yl-orn-hero"><Mandala /></div>
+      <div className="yl-orn yl-orn-form"><Mandala size={520} /></div>
+
       <header className="yl-head">
         <img className="yl-logo" src="/images/yogilab/yogilab-logo-white.png" alt="yogilab" />
         <span className="yl-x">×</span>
@@ -201,7 +246,16 @@ export default function YogiLabPage() {
       <style
         dangerouslySetInnerHTML={{
           __html: `
-        .yl-root { min-height: 100vh; background: #0b0a08; color: #f2ead8; font-family: "Jost", "Helvetica Neue", sans-serif; font-weight: 300; }
+        .yl-root { min-height: 100vh; background: #0b0a08; color: #f2ead8; font-family: "Jost", "Helvetica Neue", sans-serif; font-weight: 300; position: relative; overflow: hidden; }
+        .yl-root > section, .yl-root > header, .yl-root > footer { position: relative; z-index: 1; }
+        .yl-orn { position: absolute; z-index: 0; pointer-events: none; }
+        .yl-orn svg { display: block; animation: yl-spin 160s linear infinite; }
+        .yl-orn-hero { top: -180px; right: -200px; }
+        .yl-orn-hero svg { filter: drop-shadow(0 0 60px rgba(217,122,43,.18)); }
+        .yl-orn-form { bottom: -160px; left: -220px; opacity: .6; }
+        .yl-orn-form svg { animation-direction: reverse; animation-duration: 200s; }
+        @keyframes yl-spin { to { transform: rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce) { .yl-orn svg { animation: none; } }
         .yl-head { display: flex; align-items: center; gap: 16px; padding: 22px 6vw; border-bottom: 1px solid rgba(242,234,216,.14); }
         .yl-logo { height: 58px; width: auto; display: block; }
         .yl-x { color: #c9a24a; font-size: 18px; }
@@ -252,6 +306,8 @@ export default function YogiLabPage() {
         .yl-done p { font-size: 15px; line-height: 1.75; color: rgba(242,234,216,.75); max-width: 480px; }
         .yl-foot { border-top: 1px solid rgba(242,234,216,.14); padding: 22px 6vw; font-size: 11px; letter-spacing: .14em; color: rgba(242,234,216,.45); }
         @media (max-width: 820px) {
+          .yl-orn-hero { opacity: .45; right: -340px; top: -220px; }
+          .yl-orn-form { opacity: .35; }
           .yl-hero { grid-template-columns: 1fr; padding-top: 5vh; }
           .yl-photos { grid-auto-rows: 120px; }
           .yl-grid { grid-template-columns: 1fr; }
