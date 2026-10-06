@@ -19,7 +19,8 @@ const STRINGS = {
       { href: "/about", label: "About" },
       { href: "/journeys", label: "All Journeys" },
       { href: "/enquire", label: "Enquire Privately" },
-      { href: "https://amara-agents.vercel.app/login", label: "Trade & Creator Login" },
+      { href: "https://amara-agents.vercel.app/login", label: "Trade Portal" },
+      { href: "https://amara-agents.vercel.app/creators", label: "Creator Programme" },
     ],
     offices: [
       { city: "Dubai", line1: "Jumeirah Village Circle", line2: "Dubai · UAE" },
@@ -52,7 +53,8 @@ const STRINGS = {
       { href: "/ar/about", label: "من نحن" },
       { href: "/ar/journeys", label: "كل الرحلات" },
       { href: "/ar/enquire", label: "استفسر بخصوصية" },
-      { href: "https://amara-agents.vercel.app/login", label: "دخول الوكلاء وصنّاع المحتوى" },
+      { href: "https://amara-agents.vercel.app/login", label: "بوابة الوكلاء" },
+      { href: "https://amara-agents.vercel.app/creators", label: "برنامج صنّاع المحتوى" },
     ],
     offices: [
       {
