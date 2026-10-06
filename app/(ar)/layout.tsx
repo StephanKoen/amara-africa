@@ -7,6 +7,7 @@ import {
 import "../globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import SourceTracker from "@/components/SourceTracker";
 import JsonLd from "@/components/JsonLd";
 import MetaPixel from "@/components/MetaPixel";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -120,6 +121,7 @@ export default function ArabicRootLayout({
         />
       </head>
       <body>
+        <SourceTracker />
         <MetaPixel />
         <GoogleAnalytics />
         <JsonLd data={ORGANISATION_SCHEMA} />

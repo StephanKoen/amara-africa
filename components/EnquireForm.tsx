@@ -141,9 +141,14 @@ const initial: FormState = {
 // Web3Forms public access key — routes submissions to Lloyd@amarafrica.com.
 // Generate at https://web3forms.com (enter Lloyd@amarafrica.com), then paste
 // the key below. It is a public client key by design — safe to commit.
-const WEB3FORMS_ACCESS_KEY =
+// One key per recipient inbox (keys are public by design). Add keys for
+// reservations@ and stephan@ via NEXT_PUBLIC_WEB3FORMS_KEYS (comma-separated)
+// and every enquiry emails all of them.
+const WEB3FORMS_KEYS = (
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEYS ??
   process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ??
-  "99c172f6-b2c2-4520-ba4e-10ae96846519";
+  "99c172f6-b2c2-4520-ba4e-10ae96846519"
+).split(",").map((k) => k.trim()).filter(Boolean);
 
 export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
   const t = STRINGS[locale];
@@ -193,36 +198,8 @@ export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
     setSending(true);
     setSendError("");
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `New enquiry — ${form.journey || "Amara Africa"} — ${form.name}`,
-          from_name: "Amara Africa — Website Enquiry",
-          replyto: form.email,
-          Name: form.name,
-          Email: form.email,
-          Phone: form.phone || "—",
-          "Country of residence": form.country,
-          "Journey of interest": form.journey,
-          "Approximate travel dates": form.dates || "—",
-          "Party size": form.party || "—",
-          Message: form.message || "—",
-          "Site language": locale === "ar" ? "Arabic" : "English",
-          Referral: refCode.trim()
-            ? `code entered: ${refCode.trim()}`
-            : cookieRef.c
-            ? `creator link ${cookieRef.c} · ${cookieRef.p || "other"}`
-            : "none",
-        }),
-      });
-      // Feed the enquiry (with attribution) to the master portal — the email
-      // above is the primary channel, so this never blocks or fails the form.
-      fetch("/api/ref-enquiry", {
+      // 1) Our pipeline: master portal inbox + source capture.
+      const res = await fetch("/api/ref-enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -233,9 +210,39 @@ export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
           },
           refCode: refCode.trim(),
         }),
-      }).catch(() => {});
-      const data = await res.json();
-      if (data.success) {
+      });
+      const relay = await res.json().catch(() => ({ ok: false }));
+      // 2) Email the team — one Web3Forms submission per recipient key
+      // (their API is client-side only on the free plan).
+      const payload = {
+        subject: `New enquiry — ${form.journey || "Amara Africa"} — ${form.name}`,
+        from_name: "Amara Africa — Website Enquiry",
+        replyto: form.email,
+        Name: form.name,
+        Email: form.email,
+        Phone: form.phone || "—",
+        "Country of residence": form.country,
+        "Journey of interest": form.journey,
+        "Approximate travel dates": form.dates || "—",
+        "Party size": form.party || "—",
+        Message: form.message || "—",
+        "Site language": locale === "ar" ? "Arabic" : "English",
+        Source: relay.sourceLabel || "—",
+      };
+      const sends = await Promise.allSettled(
+        WEB3FORMS_KEYS.map((access_key) =>
+          fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ access_key, ...payload }),
+          }).then((r) => r.json())
+        )
+      );
+      const emailed = sends.some(
+        (r) => r.status === "fulfilled" && (r.value as { success?: boolean })?.success
+      );
+      const data = { ok: emailed || relay.ok === true };
+      if (data.ok) {
         // Conversions — a completed enquiry is our primary lead event.
         trackMeta("Lead", { content_name: form.journey || "Amara Africa" });
         trackGA("generate_lead", {
