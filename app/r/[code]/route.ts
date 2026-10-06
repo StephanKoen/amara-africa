@@ -17,19 +17,22 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
   const ua = req.headers.get("user-agent") || "";
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
 
-  // Fire-and-forget click log — a slow portal never delays the redirect.
+  // Click log + landing lookup — a slow portal never delays the redirect,
+  // it just falls back to the generic enquiry page.
+  let landing = "/enquire";
   try {
-    await Promise.race([
+    const hit = await Promise.race([
       fetch(`${PORTAL}/api/affiliate/track`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ secret: SECRET, code, s, p: post, referrer, ua, ip }),
-      }),
-      new Promise((resolve) => setTimeout(resolve, 1500)),
+      }).then((r) => r.json()),
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500)),
     ]);
+    if (hit && typeof hit.landing === "string" && hit.landing.startsWith("/")) landing = hit.landing;
   } catch {}
 
-  const res = NextResponse.redirect(new URL(`/enquire?utm_source=creator&utm_campaign=${code}`, req.url));
+  const res = NextResponse.redirect(new URL(`${landing}?utm_source=creator&utm_campaign=${code}`, req.url));
   // Readable by the enquiry form (not httpOnly by design); carries no
   // personal data — just the code, platform tag and click time.
   res.cookies.set("amara_ref", JSON.stringify({ c: code, p: s || "other", po: post || undefined, t: Date.now() }), {
