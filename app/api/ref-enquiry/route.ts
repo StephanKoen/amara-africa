@@ -13,14 +13,14 @@ export async function POST(req: NextRequest) {
   const e = (b.enquiry || {}) as Record<string, string>;
   if (!e.name || !e.email) return NextResponse.json({ error: "name and email required" }, { status: 400 });
 
-  let attribution: { code: string; platform: string; method: string } | null = null;
+  let attribution: { code: string; platform: string; method: string; post: string | null } | null = null;
   const entered = String(b.refCode || "").trim().toLowerCase();
-  let cookieRef: { c?: string; p?: string } = {};
+  let cookieRef: { c?: string; p?: string; po?: string } = {};
   try {
     cookieRef = JSON.parse(req.cookies.get("amara_ref")?.value || "{}");
   } catch {}
-  if (entered) attribution = { code: entered, platform: cookieRef.p || "other", method: "code" };
-  else if (cookieRef.c) attribution = { code: cookieRef.c, platform: cookieRef.p || "other", method: "cookie" };
+  if (entered) attribution = { code: entered, platform: cookieRef.p || "other", method: "code", post: cookieRef.po || null };
+  else if (cookieRef.c) attribution = { code: cookieRef.c, platform: cookieRef.p || "other", method: "cookie", post: cookieRef.po || null };
 
   try {
     const r = await fetch(`${PORTAL}/api/affiliate/enquiry`, {
