@@ -250,11 +250,10 @@ export default function YogiLabPage() {
         .yl-root > section, .yl-root > header, .yl-root > footer { position: relative; z-index: 1; }
         .yl-orn { position: absolute; z-index: 0; pointer-events: none; }
         .yl-orn svg { display: block; animation: yl-spin 160s linear infinite; }
-        /* Two mandalas on the right flank — the large one high, its 3/4
-           companion tucked below-left of it — both clear of the text column. */
+        /* Large mandala top-right, its 3/4 companion anchored bottom-left. */
         .yl-orn-a { top: -150px; right: -160px; opacity: .9; }
         .yl-orn-a svg { filter: drop-shadow(0 0 60px rgba(217,122,43,.18)); }
-        .yl-orn-b { top: 430px; right: -140px; opacity: .65; }
+        .yl-orn-b { bottom: -180px; left: -200px; opacity: .6; }
         .yl-orn-b svg { animation-direction: reverse; animation-duration: 200s; }
         @keyframes yl-spin { to { transform: rotate(360deg); } }
         @media (prefers-reduced-motion: reduce) { .yl-orn svg { animation: none; } }
@@ -313,7 +312,7 @@ export default function YogiLabPage() {
         .yl-foot { border-top: 1px solid rgba(242,234,216,.14); padding: 22px 6vw; font-size: 11px; letter-spacing: .14em; color: rgba(242,234,216,.45); }
         @media (max-width: 820px) {
           .yl-orn-a { opacity: .3; top: -200px; right: -320px; }
-          .yl-orn-b { display: none; }
+          .yl-orn-b { opacity: .3; left: -320px; }
           .yl-hero { grid-template-columns: 1fr; padding-top: 5vh; }
           .yl-photos { grid-auto-rows: 120px; }
           .yl-grid { grid-template-columns: 1fr; }
