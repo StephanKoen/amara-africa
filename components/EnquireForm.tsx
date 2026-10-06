@@ -147,7 +147,9 @@ const initial: FormState = {
 const WEB3FORMS_KEYS = (
   process.env.NEXT_PUBLIC_WEB3FORMS_KEYS ??
   process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ??
-  "99c172f6-b2c2-4520-ba4e-10ae96846519"
+  // Lloyd@, reservations@, stephan@ — one key per inbox, all public client
+  // keys by design (safe to commit).
+  "99c172f6-b2c2-4520-ba4e-10ae96846519,0c8ed8eb-bf9b-4ca4-8974-308c4a4298e8,7cd46ef5-0c82-467f-8969-9d54d6cf1e52"
 ).split(",").map((k) => k.trim()).filter(Boolean);
 
 export default function EnquireForm({ locale = "en" }: { locale?: Locale }) {
