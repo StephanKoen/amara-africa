@@ -20,6 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
   // Click log + landing lookup — a slow portal never delays the redirect,
   // it just falls back to the generic enquiry page.
   let landing = "/enquire";
+  let debug = "none";
   try {
     const hit = await Promise.race([
       fetch(`${PORTAL}/api/affiliate/track`, {
@@ -30,7 +31,10 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
       new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500)),
     ]);
     if (hit && typeof hit.landing === "string" && hit.landing.startsWith("/")) landing = hit.landing;
-  } catch {}
+    debug = hit === null ? "timeout" : JSON.stringify(hit).slice(0, 80);
+  } catch (err) {
+    debug = "err:" + String(err).slice(0, 60);
+  }
 
   const res = NextResponse.redirect(new URL(`${landing}?utm_source=creator&utm_campaign=${code}`, req.url));
   // Readable by the enquiry form (not httpOnly by design); carries no
@@ -40,5 +44,6 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
     path: "/",
     sameSite: "lax",
   });
+  res.headers.set("x-r-debug", debug);
   return res;
 }
