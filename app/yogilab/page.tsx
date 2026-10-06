@@ -138,8 +138,8 @@ export default function YogiLabPage() {
 
   return (
     <div className="yl-root">
-      <div className="yl-orn yl-orn-hero"><Mandala /></div>
-      <div className="yl-orn yl-orn-form"><Mandala size={520} /></div>
+      <div className="yl-orn yl-orn-a"><Mandala size={720} /></div>
+      <div className="yl-orn yl-orn-b"><Mandala size={540} /></div>
 
       <header className="yl-head">
         <img className="yl-logo" src="/images/yogilab/yogilab-logo-white.png" alt="yogilab" />
@@ -250,10 +250,12 @@ export default function YogiLabPage() {
         .yl-root > section, .yl-root > header, .yl-root > footer { position: relative; z-index: 1; }
         .yl-orn { position: absolute; z-index: 0; pointer-events: none; }
         .yl-orn svg { display: block; animation: yl-spin 160s linear infinite; }
-        .yl-orn-hero { top: -40px; left: 50%; margin-left: -380px; opacity: .85; }
-        .yl-orn-hero svg { filter: drop-shadow(0 0 60px rgba(217,122,43,.18)); }
-        .yl-orn-form { bottom: -160px; left: -220px; opacity: .6; }
-        .yl-orn-form svg { animation-direction: reverse; animation-duration: 200s; }
+        /* Two mandalas on the right flank — the large one high, its 3/4
+           companion tucked below-left of it — both clear of the text column. */
+        .yl-orn-a { top: -150px; right: -160px; opacity: .9; }
+        .yl-orn-a svg { filter: drop-shadow(0 0 60px rgba(217,122,43,.18)); }
+        .yl-orn-b { top: 430px; right: -140px; opacity: .65; }
+        .yl-orn-b svg { animation-direction: reverse; animation-duration: 200s; }
         @keyframes yl-spin { to { transform: rotate(360deg); } }
         @media (prefers-reduced-motion: reduce) { .yl-orn svg { animation: none; } }
         .yl-head { display: flex; align-items: center; gap: 16px; padding: 22px 6vw; border-bottom: 1px solid rgba(242,234,216,.14); }
@@ -310,8 +312,8 @@ export default function YogiLabPage() {
         .yl-done p { font-size: 15px; line-height: 1.75; color: rgba(242,234,216,.75); max-width: 480px; }
         .yl-foot { border-top: 1px solid rgba(242,234,216,.14); padding: 22px 6vw; font-size: 11px; letter-spacing: .14em; color: rgba(242,234,216,.45); }
         @media (max-width: 820px) {
-          .yl-orn-hero { opacity: .35; top: -140px; }
-          .yl-orn-form { opacity: .35; }
+          .yl-orn-a { opacity: .3; top: -200px; right: -320px; }
+          .yl-orn-b { display: none; }
           .yl-hero { grid-template-columns: 1fr; padding-top: 5vh; }
           .yl-photos { grid-auto-rows: 120px; }
           .yl-grid { grid-template-columns: 1fr; }
