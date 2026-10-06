@@ -5,7 +5,7 @@ import { useState } from "react";
 // The Cape Town Takeover × Amara — the event travel desk. Themed on
 // YogiLab's own identity (black ground, gold, condensed caps, the flask
 // mark) per the sponsorship deck: Mind Matters Summit 2026 · Mental Mastery
-// Week · 20–27 October · Cape Town. Requests run the standard pipeline —
+// Week · 15–30 October · Cape Town. Requests run the standard pipeline —
 // master portal (attributed to The Yogi Lab, code beats cookie) and the
 // three team inboxes.
 const YOGILAB_CODE = "8ves67";
@@ -110,7 +110,7 @@ export default function YogiLabPage() {
         Email: form.email,
         Phone: form.phone || "—",
         Country: form.country || "—",
-        Event: "Cape Town Takeover · Mind Matters Summit 2026 · 20–27 Oct",
+        Event: "Cape Town Takeover · Mind Matters Summit 2026 · 15–30 Oct",
         "Travel needs": needs.length ? needs.join(", ") : "—",
         "Travel dates": form.dates || "—",
         "Party size": form.party || "—",
@@ -154,7 +154,7 @@ export default function YogiLabPage() {
             CAPE TOWN
             <span className="yl-sub">MEDITATOR CITY TAKEOVER</span>
           </h1>
-          <p className="yl-dates">20 – 27 October · Cape Town</p>
+          <p className="yl-dates">15 – 30 October · Cape Town</p>
           <p className="yl-lead">
             A city-wide mass meditation and creator summit — and Amara Africa is
             carrying the journeys there. Flights, hotels, airport transfers and
@@ -206,7 +206,7 @@ export default function YogiLabPage() {
               </label>
               <label>
                 Travel dates
-                <input value={form.dates} onChange={set("dates")} placeholder="Around 20–27 Oct — e.g. arrive the 18th, leave the 30th" />
+                <input value={form.dates} onChange={set("dates")} placeholder="Around 15–30 Oct — e.g. arrive the 14th, leave the 31st" />
               </label>
               <label>
                 Party size

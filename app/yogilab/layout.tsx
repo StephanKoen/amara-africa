@@ -6,7 +6,7 @@ import "../globals.css";
 export const metadata: Metadata = {
   title: "Cape Town Takeover × Amara Africa",
   description:
-    "Travel for the Cape Town Takeover — Mind Matters Summit 2026, Mental Mastery Week, 20–27 October. Flights, hotels, transfers and excursions by Amara Africa.",
+    "Travel for the Cape Town Takeover — Mind Matters Summit 2026, Mental Mastery Week, 15–30 October. Flights, hotels, transfers and excursions by Amara Africa.",
   robots: { index: false }, // referral-only page
 };
 
