@@ -23,24 +23,6 @@ const PHOTOS: Array<[string, string]> = [
   ["/images/journeys/the-cape-and-kruger/cape-town/02.jpg", "The marina, Cape Town"],
 ];
 
-// YogiLab's flask-and-meditator mark, drawn inline.
-function YogiMark({ size = 44 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <path
-        d="M19 6 h10 M21 6 v9 c0 2 -0.5 3 -1.6 4.4 C14.5 23.5 11 28.6 11 33.2 11 40 16.8 44 24 44 s13 -4 13 -10.8 c0 -4.6 -3.5 -9.7 -8.4 -13.8 C27.5 18 27 17 27 15 V6"
-        stroke="#f2ead8"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="24" cy="26.5" r="2.6" fill="#f2ead8" />
-      <path d="M24 30 c-3.4 0 -6 2.4 -6.6 5.4 h13.2 C30 32.4 27.4 30 24 30 Z" fill="#f2ead8" />
-      <path d="M17.4 35.4 c1.4 -1.1 2.8 -1.4 2.8 -1.4 M30.6 35.4 c-1.4 -1.1 -2.8 -1.4 -2.8 -1.4" stroke="#f2ead8" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export default function YogiLabPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", country: "", dates: "", party: "", message: "" });
   const [needs, setNeeds] = useState<string[]>([]);
@@ -115,10 +97,7 @@ export default function YogiLabPage() {
   return (
     <div className="yl-root">
       <header className="yl-head">
-        <span className="yl-mark">
-          <YogiMark />
-          <span className="yl-word">yogilab</span>
-        </span>
+        <img className="yl-logo" src="/images/yogilab/yogilab-logo-white.png" alt="yogilab" />
         <span className="yl-x">×</span>
         <span className="yl-amara"><em>Amara</em> AFRICA</span>
       </header>
@@ -224,8 +203,7 @@ export default function YogiLabPage() {
           __html: `
         .yl-root { min-height: 100vh; background: #0b0a08; color: #f2ead8; font-family: "Jost", "Helvetica Neue", sans-serif; font-weight: 300; }
         .yl-head { display: flex; align-items: center; gap: 16px; padding: 22px 6vw; border-bottom: 1px solid rgba(242,234,216,.14); }
-        .yl-mark { display: flex; align-items: center; gap: 10px; }
-        .yl-word { font-size: 17px; letter-spacing: .06em; font-weight: 400; }
+        .yl-logo { height: 58px; width: auto; display: block; }
         .yl-x { color: #c9a24a; font-size: 18px; }
         .yl-amara { font-size: 12px; letter-spacing: .26em; }
         .yl-amara em { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: 17px; letter-spacing: .04em; color: #c9a24a; }
