@@ -144,7 +144,10 @@ export default function YogiLabPage() {
       <header className="yl-head">
         <img className="yl-logo" src="/images/yogilab/yogilab-logo-white.png" alt="yogilab" />
         <span className="yl-x">×</span>
-        <span className="yl-amara"><em>Amara</em> AFRICA</span>
+        <span className="yl-amara" aria-label="Amara Africa">
+          <span className="yl-amara-script">Amara</span>
+          <span className="yl-amara-africa">AFRICA</span>
+        </span>
       </header>
 
       <section className="yl-hero">
@@ -260,8 +263,9 @@ export default function YogiLabPage() {
         .yl-head { display: flex; align-items: center; gap: 16px; padding: 22px 6vw; border-bottom: 1px solid rgba(242,234,216,.14); }
         .yl-logo { height: 58px; width: auto; display: block; }
         .yl-x { color: #c9a24a; font-size: 18px; }
-        .yl-amara { font-size: 12px; letter-spacing: .26em; }
-        .yl-amara em { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: 17px; letter-spacing: .04em; color: #c9a24a; }
+        .yl-amara { display: inline-flex; flex-direction: column; align-items: center; }
+        .yl-amara-script { font-family: "Great Vibes", cursive; font-size: 34px; line-height: .9; color: #C8962E; letter-spacing: -0.01em; }
+        .yl-amara-africa { font-family: "Cormorant Garamond", Georgia, serif; font-size: 10px; letter-spacing: .52em; padding-left: .52em; color: #EDE8DC; margin-top: 3px; line-height: 1; }
         .yl-hero { display: grid; grid-template-columns: minmax(340px, 1.1fr) 1fr; gap: 44px; padding: 7vh 6vw 5vh; align-items: center; }
         .yl-kicker { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: #c9a24a; margin: 0 0 18px; }
         .yl-hero h1 { font-family: "Oswald", "Arial Narrow", sans-serif; font-weight: 600; font-size: clamp(44px, 6vw, 84px); line-height: .96; margin: 0; letter-spacing: .01em; }
