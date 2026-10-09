@@ -13,12 +13,14 @@ const CORE: Colour[] = [
   { n: "Amara Gold", hex: "#C8962E", role: "Logo, rules, accents" },
   { n: "Bush Olive", hex: "#3D4E28", role: "Buttons and accents" },
   { n: "Ink", hex: "#1A1610", role: "All text on linen" },
+  { n: "Amara Navy", hex: "#172439", role: "Partner materials and panels" },
 ];
 const SUPPORT: Colour[] = [
   { n: "Parchment", hex: "#E8DFC8", role: "Panels and captions" },
   { n: "Soft Gold", hex: "#D4AA68", role: "Gold text on night" },
   { n: "Antique Gold", hex: "#9A6018", role: "Gold text on linen, large" },
   { n: "Stone", hex: "#8A7A58", role: "Labels and details" },
+  { n: "Sky", hex: "#D2DFF2", role: "Highlights on navy layouts" },
 ];
 
 type Colour = { n: string; hex: string; role: string };
@@ -78,9 +80,9 @@ function Downloads({ base, withColour = false }: { base: string; withColour?: bo
 }
 
 const LOGO_TILES = [
-  { col: "Gold", bg: "on-night", title: "Amara Gold", text: "The primary logo. Use on night, linen and olive grounds.", alt: "Gold logo on night background" },
+  { col: "Gold", bg: "on-night", title: "Amara Gold", text: "The primary logo. Use on night, navy, linen and olive grounds.", alt: "Gold logo on night background" },
   { col: "Black", bg: "on-white", title: "Black", text: "For white paper, light photography and one-colour print.", alt: "Black logo on white background" },
-  { col: "White", bg: "on-olive", title: "White", text: "For dark photography, night and olive grounds.", alt: "White logo on olive background" },
+  { col: "White", bg: "on-navy", title: "White", text: "For navy, night, olive and dark photography.", alt: "White logo on olive background" },
 ];
 
 export default function BrandGuide() {
@@ -159,7 +161,7 @@ export default function BrandGuide() {
               <div className="wordmarks">
                 <div className="tile-art on-night"><img src={L("Amara-Africa-Wordmark-Gold.svg")} alt="Gold wordmark" /></div>
                 <div className="tile-art on-white"><img src={L("Amara-Africa-Wordmark-Black.svg")} alt="Black wordmark" /></div>
-                <div className="tile-art on-olive"><img src={L("Amara-Africa-Wordmark-White.svg")} alt="White wordmark" /></div>
+                <div className="tile-art on-navy"><img src={L("Amara-Africa-Wordmark-White.svg")} alt="White wordmark" /></div>
                 <div className="tile-info wm-info">
                   <h3>Wordmark</h3>
                   <p>
@@ -214,7 +216,7 @@ export default function BrandGuide() {
               <p className="label">Colour</p>
               <h2>The bush at <em>golden hour</em></h2>
               <p className="lede">
-                Linen and night carry most of every layout. Gold is the light within it, used for the logo, fine rules
+                Linen and night carry most of every layout, with navy for partner materials and calm panels. Gold is the light within it, used for the logo, fine rules
                 and accents, never as body text on linen. Tap a colour to copy its hex code.
               </p>
             </div>
@@ -224,12 +226,13 @@ export default function BrandGuide() {
               <p className="label">Balance</p>
               <div className="ratio-bar" aria-hidden="true">
                 <span style={{ flex: 58, background: "var(--linen)" }} />
-                <span style={{ flex: 12, background: "var(--night)" }} />
+                <span style={{ flex: 8, background: "var(--night)" }} />
+                <span style={{ flex: 4, background: "var(--navy)" }} />
                 <span style={{ flex: 20, background: "var(--ink)", opacity: 0.9 }} />
                 <span style={{ flex: 6, background: "var(--gold)" }} />
                 <span style={{ flex: 4, background: "var(--olive)" }} />
               </div>
-              <div className="ratio-keys"><span>Grounds 70%</span><span>Ink &amp; imagery 20%</span><span>Gold &amp; olive 10%</span></div>
+              <div className="ratio-keys"><span>Grounds 70%</span><span>Ink &amp; imagery 20%</span><span>Gold, olive &amp; navy accents 10%</span></div>
             </div>
           </div>
         </section>

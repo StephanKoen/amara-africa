@@ -12,6 +12,8 @@
   --gold-soft: #D4AA68;
   --gold-text: #9A6018;
   --olive: #3D4E28;
+  --navy: #172439;
+  --sky: #D2DFF2;
   --stone: #8A7A58;
   --cream: #EDE8DC;
   --white: #FFFFFF;
@@ -81,6 +83,7 @@
 .amb .on-night { background: var(--night); }
 .amb .on-white { background: var(--white); }
 .amb .on-olive { background: var(--olive); }
+.amb .on-navy { background: var(--navy); }
 .amb .on-linen { background: var(--linen-warm); }
 .amb .tile-info { padding: 16px 18px 18px; display: grid; gap: 10px; background: var(--linen-warm); border-top: 1px solid var(--rule); }
 .amb .tile-info h3 { font-size: 19px; }
@@ -123,7 +126,7 @@
 @media (max-width: 700px) {
 .amb .rules { grid-template-columns: minmax(0, 1fr); gap: 28px; }
  }
-.amb .palette { display: grid; grid-template-columns: 2fr 2fr 1.4fr 1.4fr 1.4fr; gap: 12px; }
+.amb .palette { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .amb .swatch { display: grid; grid-template-rows: 1fr auto; min-height: 280px; border: 1px solid var(--rule); background: var(--linen-warm); text-align: left; padding: 0; cursor: pointer; font: inherit; color: var(--ink); border-radius: 0; }
 .amb .swatch .fill { min-height: 170px; }
 .amb .swatch .meta { padding: 14px 16px 16px; display: grid; gap: 2px; }
@@ -131,7 +134,7 @@
 .amb .swatch .role { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 8px; }
 .amb .swatch code { font: 12px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; color: var(--ink); }
 .amb .swatch .copied { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--olive); min-height: 1.6em; }
-.amb .palette.support { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 12px; }
+.amb .palette.support { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 12px; }
 .amb .palette.support .swatch { min-height: 0; }
 .amb .palette.support .fill { min-height: 72px; }
 @media (max-width: 960px) {
@@ -183,12 +186,12 @@
 .amb .points { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--rule); }
 .amb .points li { padding-block: 12px; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--ink-soft); }
 .amb .points b { color: var(--ink); font-weight: 600; }
-.amb .cobrand { margin-top: 18px; background: var(--night); padding: 36px 28px; display: flex; align-items: center; justify-content: center; gap: 28px; }
+.amb .cobrand { margin-top: 18px; background: var(--navy); padding: 36px 28px; display: flex; align-items: center; justify-content: center; gap: 28px; }
 .amb .cobrand img.am { width: 46%; max-width: 230px; }
 .amb .cobrand .div { width: 1px; align-self: stretch; background: rgba(200,150,46,0.45); }
 .amb .cobrand img.yl { width: 24%; max-width: 120px; }
 .amb .caption { margin-top: 10px; font-size: 12px; color: var(--stone); }
-.amb .downloads { background: var(--night); color: var(--cream); padding-block: 80px; }
+.amb .downloads { border-top: 3px solid var(--gold); background: var(--navy); color: var(--cream); padding-block: 80px; }
 .amb .downloads .label { color: var(--gold-soft); }
 .amb .downloads h2 { color: var(--cream); }
 .amb .downloads h2 em { color: var(--gold-soft); }
