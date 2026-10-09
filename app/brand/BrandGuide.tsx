@@ -316,7 +316,7 @@ export default function BrandGuide() {
               <div className="cobrand">
                 <img className="am" src={L("Amara-Africa-Logo-Gold.svg")} alt="Amara Africa logo" />
                 <span className="div" aria-hidden="true" />
-                <img className="yl" src={L("partner-yogilab-white.png")} alt="YogiLab logo" />
+                <span className="yl-ph">Your logo</span>
               </div>
               <p className="caption">
                 Example lockup. Separate logos with a thin vertical rule and give each its own clear space. Use our

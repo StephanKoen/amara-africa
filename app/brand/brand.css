@@ -211,3 +211,4 @@
 
 }
 
+.amb .cobrand .yl-ph { width: 30%; max-width: 150px; aspect-ratio: 1 / 1; display: grid; place-items: center; border: 1px dashed rgba(237,232,220,0.55); color: rgba(237,232,220,0.8); font: 500 10px/1.4 var(--f-sans); letter-spacing: .26em; text-transform: uppercase; text-align: center; padding: 8px; }
