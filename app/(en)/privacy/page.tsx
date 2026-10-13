@@ -21,13 +21,14 @@ const sections: Section[] = [
       <>
         <p>
           Amara Africa is a private travel company that designs and arranges
-          African journeys for guests from the Gulf and elsewhere. The company
-          is registered in South Africa and works from offices in Dubai, United
-          Arab Emirates, and Cape Town, South Africa.
+          African journeys for guests from the Gulf and elsewhere. Amara Africa
+          is a trading name of Amara Travel Group, a company registered in
+          South Africa, with offices in Dubai, United Arab Emirates, and Cape
+          Town, South Africa.
         </p>
         <p>
           In this policy, &ldquo;Amara Africa&rdquo;, &ldquo;we&rdquo;,
-          &ldquo;us&rdquo; and &ldquo;our&rdquo; refer to the company. We are
+          &ldquo;us&rdquo; and &ldquo;our&rdquo; refer to Amara Travel Group. We are
           the party responsible for your personal information under the
           Protection of Personal Information Act, 2013 (POPIA) of South Africa,
           the UAE Federal Decree-Law No. 45 of 2021 on the Protection of
@@ -273,7 +274,7 @@ const sections: Section[] = [
         Questions about this policy or your personal information can be sent
         to our Information Officer at{" "}
         <a href={`mailto:${CONTACT}`}>{CONTACT}</a>, or by post to Amara
-        Africa, Foreshore, Cape Town, South Africa.
+        Travel Group, Foreshore, Cape Town, South Africa.
       </p>
     ),
   },
