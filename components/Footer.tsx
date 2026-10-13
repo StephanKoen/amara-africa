@@ -36,6 +36,7 @@ const STRINGS = {
     discover: "Discover",
     officesLabel: "Offices",
     rights: "All rights reserved",
+    privacy: "Privacy policy",
     brand: "Amara Africa",
   },
   ar: {
@@ -74,6 +75,7 @@ const STRINGS = {
     discover: "اكتشف",
     officesLabel: "المكاتب",
     rights: "جميع الحقوق محفوظة",
+    privacy: "سياسة الخصوصية",
     brand: "أمارا أفريقيا",
   },
 } as const;
@@ -185,7 +187,13 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
         {/* Bottom bar */}
         <div className="mt-[84px] hairline pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <p className="label" style={{ color: "var(--dd-stone)" }}>
-            © {new Date().getFullYear()} {t.brand} · {t.rights}
+            © {new Date().getFullYear()} {t.brand} · {t.rights} ·{" "}
+            <Link
+              href="/privacy"
+              className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+            >
+              {t.privacy}
+            </Link>
           </p>
           <LanguageToggle />
         </div>

@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/enquire`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/guide`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/trip-design`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/privacy`, changeFrequency: "yearly", priority: 0.3 },
   ];
 
   const journeyRoutes: MetadataRoute.Sitemap = journeys.map((j) => ({

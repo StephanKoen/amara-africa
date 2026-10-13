@@ -493,3 +493,9 @@ html[dir="rtl"] .ui-arrow {
   display: inline-block;
   transform: scaleX(-1);
 }
+
+/* Privacy / legal pages — list and link styling inside long-form copy */
+.privacy-body ul { list-style: disc; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.privacy-body a { text-decoration: underline; text-underline-offset: 3px; }
+.privacy-body a:hover { color: var(--dd-gold); }
+.privacy-body strong { font-weight: 500; }
