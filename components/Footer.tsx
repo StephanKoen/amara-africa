@@ -38,6 +38,9 @@ const STRINGS = {
     rights: "All rights reserved",
     privacy: "Privacy policy",
     terms: "Terms & conditions",
+    refunds: "Refund policy",
+    delivery: "Delivery policy",
+    shipping: "Shipping policy",
     brand: "Amara Africa",
   },
   ar: {
@@ -78,6 +81,9 @@ const STRINGS = {
     rights: "جميع الحقوق محفوظة",
     privacy: "سياسة الخصوصية",
     terms: "الشروط والأحكام",
+    refunds: "سياسة الاسترداد",
+    delivery: "سياسة التسليم",
+    shipping: "سياسة الشحن",
     brand: "أمارا أفريقيا",
   },
 } as const;
@@ -202,6 +208,27 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
             >
               {t.terms}
+            </Link>{" "}
+            ·{" "}
+            <Link
+              href="/refund-policy"
+              className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+            >
+              {t.refunds}
+            </Link>{" "}
+            ·{" "}
+            <Link
+              href="/delivery-policy"
+              className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+            >
+              {t.delivery}
+            </Link>{" "}
+            ·{" "}
+            <Link
+              href="/shipping-policy"
+              className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+            >
+              {t.shipping}
             </Link>
           </p>
           <LanguageToggle />

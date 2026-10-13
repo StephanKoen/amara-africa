@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions — Amara Africa",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 const UPDATED = "13 October 2026";
 const CONTACT = "reservations@amarafrica.com";
 
-type Section = { id: string; title: string; body: React.ReactNode };
+type Section = LegalSection;
 
 const sections: Section[] = [
   {
@@ -330,65 +331,11 @@ const sections: Section[] = [
 
 export default function TermsPage() {
   return (
-    <>
-      <section
-        className="section-x pt-[144px] md:pt-[184px] pb-[48px] md:pb-[64px]"
-        style={{ background: "var(--dd-white)" }}
-      >
-        <div className="max-w-container mx-auto">
-          <p className="label mb-6">Legal</p>
-          <h1 className="h1-display">
-            Terms <span className="gold-italic">&amp; conditions</span>
-          </h1>
-          <p className="body-copy mt-6 max-w-[620px]">
-            The terms on which we arrange your journey and provide this website.
-            Last updated {UPDATED}.
-          </p>
-        </div>
-      </section>
-
-      <section
-        className="section-x pb-[96px] md:pb-[140px]"
-        style={{ background: "var(--dd-white)" }}
-      >
-        <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
-          <nav className="md:col-span-3 hidden md:block" aria-label="Contents">
-            <ul className="sticky top-[120px] flex flex-col gap-3">
-              {sections.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    className="body-copy-sm transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
-                  >
-                    {s.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="md:col-span-8 md:col-start-5 privacy-body">
-            {sections.map((s, i) => (
-              <article
-                key={s.id}
-                id={s.id}
-                className={`scroll-mt-[120px] ${i > 0 ? "hairline pt-10 mt-10" : ""}`}
-              >
-                <h2 className="font-serif text-[28px] md:text-[32px] leading-tight mb-5">
-                  {s.title}
-                </h2>
-                <div className="body-copy flex flex-col gap-4">{s.body}</div>
-              </article>
-            ))}
-
-            <p className="body-copy-sm mt-14">
-              <Link href="/" className="hover:text-[color:var(--dd-gold)]">
-                ← Return to Amara Africa
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-    </>
+    <LegalPage
+      title="Terms"
+      accent="& conditions"
+      intro={<>The terms on which we arrange your journey and provide this website. Last updated {UPDATED}.</>}
+      sections={sections}
+    />
   );
 }
