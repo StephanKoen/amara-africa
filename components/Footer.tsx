@@ -37,6 +37,7 @@ const STRINGS = {
     officesLabel: "Offices",
     rights: "All rights reserved",
     privacy: "Privacy policy",
+    terms: "Terms & conditions",
     brand: "Amara Africa",
   },
   ar: {
@@ -76,6 +77,7 @@ const STRINGS = {
     officesLabel: "المكاتب",
     rights: "جميع الحقوق محفوظة",
     privacy: "سياسة الخصوصية",
+    terms: "الشروط والأحكام",
     brand: "أمارا أفريقيا",
   },
 } as const;
@@ -193,6 +195,13 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
             >
               {t.privacy}
+            </Link>{" "}
+            ·{" "}
+            <Link
+              href="/terms"
+              className="underline underline-offset-2 transition-colors duration-300 hover:text-[color:var(--dd-gold)]"
+            >
+              {t.terms}
             </Link>
           </p>
           <LanguageToggle />
